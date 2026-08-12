@@ -22,13 +22,14 @@ printed to the console.
 ```bash
 npm test              # 52 tests: engine, geometry, API, authorisation, transport
 npm run check:links   # crawls the site, fails on any dead reference
+npm run check:a11y    # landmarks, headings, labels, names, decorative graphics
 npm run verify        # drives a real browser: renders, hydration, engine, admin
 npm run build         # regenerate inventory.js, seed.json, and the page patches
 npm run reset         # delete the database and start over
 ```
 
-Current state: **52/52 tests, 0 broken references across 22 pages, 43/43 browser
-checks.** `npm run verify` needs Playwright (`npm i -D playwright`); it finds an
+Current state: **52/52 tests, 0 broken references across 22 pages, 0
+accessibility issues across 13 pages, and a clean browser pass.** `npm run verify` needs Playwright (`npm i -D playwright`); it finds an
 already-installed Chromium rather than downloading one.
 
 ---
@@ -212,6 +213,27 @@ the cache headers and the script ordering directly.
 Fixing this also surfaced a bug: `HEAD` requests were routed separately from
 `GET`, so every API route answered 404 to a `HEAD` while returning 200 to a
 `GET`. `HEAD` now mirrors `GET` exactly, minus the body.
+
+### Accessibility
+
+Audited across all thirteen pages. The archive's markup was sound on the
+fundamentals — no missing `alt`, no unnamed control, one unlabelled field in
+total. What the audit found, and what was done:
+
+| | |
+|---|---|
+| 149 decorative `<svg>` announced as unlabelled graphics | `aria-hidden`, at source — including the ones `cart.js` and the hydration templates inject at runtime, which patching HTML could not reach |
+| 5 pages with no main landmark | `role="main"` on the existing container, so no layout changes |
+| 9 pages whose heading outline skipped a level | `aria-level`, which corrects what a screen reader announces without changing the tag that carries the styling |
+| `studio.html` had no `<h1>` and an unlabelled memory field | a visually-hidden heading and an `aria-label` |
+
+`npm run check:a11y` keeps it at zero and exits non-zero on a regression —
+verified by reintroducing one.
+
+Worth knowing if you extend it: three of that checker's own early findings were
+faults in the checker, not the pages. It looked for a literal `<main>` and missed
+`role="main"`, counted a hidden success-state `<h1>` as a duplicate, and read
+heading tags while ignoring `aria-level`.
 
 ### Configuration
 

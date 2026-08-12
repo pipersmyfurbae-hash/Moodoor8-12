@@ -42,12 +42,12 @@
   /* ---------- thumbnail by type ---------- */
   function thumb(type) {
     if (type === 'blueprint') {
-      return '<svg width="34" height="34" viewBox="0 0 40 40" fill="none"><rect x="5" y="5" width="30" height="30" rx="4" fill="#fff" stroke="#E8E8E8"/><circle cx="20" cy="20" r="11" stroke="#4A6741" stroke-width="1" stroke-dasharray="3 3"/><circle cx="15" cy="15" r="3.5" fill="#EEF2ED" stroke="#4A6741" stroke-width=".8"/></svg>';
+      return '<svg aria-hidden="true" width="34" height="34" viewBox="0 0 40 40" fill="none"><rect x="5" y="5" width="30" height="30" rx="4" fill="#fff" stroke="#E8E8E8"/><circle cx="20" cy="20" r="11" stroke="#4A6741" stroke-width="1" stroke-dasharray="3 3"/><circle cx="15" cy="15" r="3.5" fill="#EEF2ED" stroke="#4A6741" stroke-width=".8"/></svg>';
     }
     if (type === 'bundle') {
-      return '<svg width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="20" r="9" fill="#F2EFE9" stroke="#C4922A" stroke-width="1"/><circle cx="26" cy="20" r="9" fill="#EEF2ED" stroke="#4A6741" stroke-width="1"/></svg>';
+      return '<svg aria-hidden="true" width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="20" r="9" fill="#F2EFE9" stroke="#C4922A" stroke-width="1"/><circle cx="26" cy="20" r="9" fill="#EEF2ED" stroke="#4A6741" stroke-width="1"/></svg>';
     }
-    return '<svg width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="#8A7458" stroke-width="1.4" opacity=".6" stroke-dasharray="8 3 5 2"/><circle cx="13" cy="13" r="4.5" fill="#EEF2ED" stroke="#4A6741"/><circle cx="27" cy="27" r="3" fill="#F9F7F4" stroke="#6B8F67"/><circle cx="28" cy="14" r="1.8" fill="#C4922A"/></svg>';
+    return '<svg aria-hidden="true" width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="#8A7458" stroke-width="1.4" opacity=".6" stroke-dasharray="8 3 5 2"/><circle cx="13" cy="13" r="4.5" fill="#EEF2ED" stroke="#4A6741"/><circle cx="27" cy="27" r="3" fill="#F9F7F4" stroke="#6B8F67"/><circle cx="28" cy="14" r="1.8" fill="#C4922A"/></svg>';
   }
 
   /* ---------- DOM ---------- */
@@ -111,7 +111,7 @@
   function injectButton() {
     var navLinks = document.querySelector('.nav-links');
     if (!navLinks) return; // pages without a nav menu (e.g. checkout) skip the cart button
-    var bagSvg = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
+    var bagSvg = '<svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
     btnEl = document.createElement('button');
     btnEl.className = 'mc-btn';
     btnEl.setAttribute('aria-label', 'Open cart');
@@ -149,12 +149,12 @@
     if (!drawerEl) return;
     var items = read();
     var html = ''
-      + '<div class="mc-head"><div><div class="mc-sub">Your cart</div><h3>' + (count() ? count() + (count() === 1 ? ' item' : ' items') : 'Empty') + '</h3></div>'
-      + '<button class="mc-x" aria-label="Close cart"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
+      + '<div class="mc-head"><div><div class="mc-sub">Your cart</div><h3 role="heading" aria-level="2">' + (count() ? count() + (count() === 1 ? ' item' : ' items') : 'Empty') + '</h3></div>'
+      + '<button class="mc-x" aria-label="Close cart"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
 
     if (!items.length) {
       html += '<div class="mc-body"><div class="mc-empty">'
-        + '<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#6B8F67" stroke-width="1.2"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>'
+        + '<svg aria-hidden="true" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#6B8F67" stroke-width="1.2"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>'
         + '<p>Nothing here yet.</p><small>Every wreath starts with a memory.</small>'
         + '<a href="index.html#memory">Begin a memory &rarr;</a>'
         + '</div></div>';
@@ -174,7 +174,7 @@
         + '<div class="mc-rowline"><span>Subtotal</span><span>' + money(total()) + '</span></div>'
         + '<div class="mc-rowline"><span>Shipping</span><span>' + (hasWreath ? 'Free' : '—') + '</span></div>'
         + '<div class="mc-total"><span class="l">Total</span><span class="v">' + money(total()) + '</span></div>'
-        + '<a class="mc-checkout" href="checkout.html">Checkout <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>'
+        + '<a class="mc-checkout" href="checkout.html">Checkout <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>'
         + '<div class="mc-fine">' + (hasWreath ? 'Finished wreaths ship in small numbered runs.' : 'Blueprints deliver instantly after checkout.') + '</div>'
         + '</div>';
     }
@@ -204,7 +204,7 @@
   var flashTimer;
   function flash(name) {
     if (!flashEl) return;
-    flashEl.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> Added ' + name + ' to cart';
+    flashEl.innerHTML = '<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> Added ' + name + ' to cart';
     flashEl.classList.add('show');
     clearTimeout(flashTimer);
     flashTimer = setTimeout(function () { flashEl.classList.remove('show'); }, 2200);
@@ -243,7 +243,7 @@
       btn.className = 'mc-quick';
       btn.type = 'button';
       btn.setAttribute('aria-label', 'Add ' + name + ' to cart');
-      btn.innerHTML = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>';
+      btn.innerHTML = '<svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>';
       btn.addEventListener('click', function (e) {
         e.preventDefault(); e.stopPropagation();
         add({ id: slug(name) + (isBp ? '-blueprint' : '-finished'), name: name, variant: isBp ? 'Digital blueprint' : 'Finished wreath', price: price, type: isBp ? 'blueprint' : 'wreath' });

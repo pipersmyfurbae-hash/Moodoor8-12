@@ -270,7 +270,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb-bar">
-  <div class="wrap">
+  <div class="wrap" role="main">
     <div class="bc-inner">
       <a href="index.html">Moodoor</a>
       <span class="bc-sep">&rsaquo;</span>
@@ -324,7 +324,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
         <div class="cta-row">
           <a class="btn-primary" href="#" id="ctaFinished">
             Order this wreath
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a class="btn-text-link" href="#" id="ctaBlueprintTop">
             Get the blueprint &middot; $39 <span>&rarr;</span>
@@ -360,7 +360,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
         </ul>
         <a class="btn-path" href="#" id="ctaFinishedCard">
           Order this wreath
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
 
@@ -378,7 +378,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
         </ul>
         <a class="btn-path" href="#" id="ctaBlueprintCard">
           Download the blueprint
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
     </div>
@@ -393,7 +393,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
         <h4 id="anatomyName">September Porch</h4>
         <span id="anatomyBp">BP-EC-0417 &middot; v2 &middot; SVG + PDF</span>
       </div>
-      <svg viewBox="0 0 380 290" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+      <svg aria-hidden="true" viewBox="0 0 380 290" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
         <rect x="4" y="4" width="372" height="282" rx="10" fill="#FDFCFA" stroke="#E8E8E8"/>
         <circle cx="148" cy="142" r="98" stroke="#4A6741" stroke-width="1.1" stroke-dasharray="5 4"/>
         <circle cx="148" cy="142" r="98" stroke="#D0D0D0" stroke-width=".5"/>
@@ -494,7 +494,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
 <div class="sticky-bar" id="stickyBar">
   <div class="wrap sticky-inner">
     <div class="sticky-info">
-      <h4 id="stickyName">September Porch</h4>
+      <h4 role="heading" aria-level="3" id="stickyName">September Porch</h4>
       <span id="stickyRun">2 of 5 remaining in this run</span>
     </div>
     <div class="sticky-actions">
@@ -510,7 +510,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
   <div class="wrap foot-base">
     <span>&copy; 2026 Evercrafted, Inc. &middot; <a href="stories.html">Stories</a> &middot; <a href="signature-wreaths.html">Browse all signature wreaths &rarr;</a></span>
     <span class="powered">
-      <svg width="16" height="16" viewBox="0 0 32 32" fill="none" style="color:var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 32 32" fill="none" style="color:var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>
       Powered by <b>Evercrafted</b>
     </span>
   </div>
@@ -591,7 +591,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
     var _svgEl = $('heroSvg').querySelector('svg');
     if (_svgEl) { _svgEl.removeAttribute('width'); _svgEl.removeAttribute('height'); _svgEl.style.width = '100%'; _svgEl.style.height = 'auto'; _svgEl.style.display = 'block'; }
   } else {
-    $('heroSvg').innerHTML = '<svg viewBox="' + w.vb + '" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;filter:drop-shadow(0 24px 48px rgba(74,103,65,.12))">' + w.motif + '</svg>';
+    $('heroSvg').innerHTML = '<svg aria-hidden="true" viewBox="' + w.vb + '" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;filter:drop-shadow(0 24px 48px rgba(74,103,65,.12))">' + w.motif + '</svg>';
   }
 
   /* orbit tags = top 3 profile dims */
@@ -686,7 +686,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
     var r = DB[rs];
     if (!r) return '';
     return '<a class="rel-card reveal reveal-d' + (idx + 1) + '" href="moodoor-product-page.html?w=' + rs + '">'
-      + '<div class="rel-visual ' + relVis[idx] + '"><svg width="110" height="110" viewBox="' + r.vb + '" fill="none">' + r.motif + '</svg></div>'
+      + '<div class="rel-visual ' + relVis[idx] + '"><svg aria-hidden="true" width="110" height="110" viewBox="' + r.vb + '" fill="none">' + r.motif + '</svg></div>'
       + '<div class="rel-body"><span class="rel-terr">' + esc(r.territory) + '</span><h3>' + esc(r.name) + '</h3>'
       + '<p>' + esc(r.lede) + '</p>'
       + '<div class="rel-foot"><span class="rel-price">$' + r.price + '</span><span class="rel-go">View &rarr;</span></div></div></a>';

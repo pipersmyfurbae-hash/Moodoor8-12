@@ -13,6 +13,7 @@
     "test": "node --test test/*.test.mjs",
     "check:links": "node tools/link-check.mjs",
     "verify": "node tools/verify.mjs",
+    "check:a11y": "node tools/a11y-check.mjs",
     "reset": "node -e \"require('node:fs').rmSync('data/moodoor.sqlite',{force:true});require('node:fs').rmSync('data/moodoor.sqlite-wal',{force:true});require('node:fs').rmSync('data/moodoor.sqlite-shm',{force:true});console.log('database reset')\""
   },
   "dependencies": {},

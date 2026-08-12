@@ -74,6 +74,20 @@ function innerDiv(html, cls) {
   return html.slice(from, scan.lastIndex - '</div>'.length);
 }
 
+/**
+ * Mark extracted illustrations as decorative.
+ *
+ * These fragments are re-inserted into the page by moodoor-runtime.js, so they
+ * never pass through tools/patch-pages.mjs and would otherwise reach a screen
+ * reader as a list of unlabelled graphics. Every one is a wreath motif or a
+ * trio of design cards whose names are in adjacent text, so none carries
+ * information that is lost by hiding it.
+ */
+function hideDecorativeSvg(html) {
+  if (!html) return html;
+  return html.replace(/<svg\b(?![^>]*\b(?:aria-hidden|role)=)/g, '<svg aria-hidden="true"');
+}
+
 /** Every tag in `html` closes. Cheap, and it catches truncated extractions. */
 function isBalanced(html, tag = 'div') {
   if (!html) return true;
@@ -109,7 +123,7 @@ const products = Object.entries(WREATHS).map(([slug, w], i) => ({
   anatomyJson: JSON.stringify(w.anatomy),
   storyJson: JSON.stringify(w.story),
   relatedJson: JSON.stringify(w.related || []),
-  motifSvg: w.motif,
+  motifSvg: hideDecorativeSvg(w.motif),
   motifViewBox: w.vb,
   blueprintJson: w.blueprint ? JSON.stringify(w.blueprint) : null,
 }));
@@ -136,7 +150,7 @@ const bundles = articles(bundlesHtml, 'bundle').map((b, i) => {
       }))
     ),
     visualClass: grab(b, /class="b-visual (v\d)"/) || 'v1',
-    trioHtml: innerDiv(b, 'trio'),
+    trioHtml: hideDecorativeSvg(innerDiv(b, 'trio')),
     ctaHref: grab(b, /class="b-cta" href="([^"]+)"/) || 'signature-wreaths.html',
     tone: 'olive',
     isPublished: 1,
@@ -159,7 +173,7 @@ const territories = articles(terrHtml, 'terr').map((b, i) => {
     lede: text(grab(b, /class="t-lede">([\s\S]*?)<\/p>/)),
     description: text(grab(b, /class="desc">([\s\S]*?)<\/p>/)),
     visualClass: grab(b, /class="t-visual (v-[a-z]+)"/) || 'v-comfort',
-    visualSvg: grab(b, /(<svg[\s\S]*?<\/svg>)/),
+    visualSvg: hideDecorativeSvg(grab(b, /(<svg[\s\S]*?<\/svg>)/)),
     signatureJson: JSON.stringify(
       [...b.matchAll(/<div class="sig-row"><span>([^<]+)<\/span>[\s\S]*?data-v="(\d+)"/g)]
         .map((m) => ({ label: m[1], value: Number(m[2]) }))

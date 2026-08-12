@@ -390,6 +390,43 @@ floating labels in a 326px box is a layout with no slack; guessing at a position
 was always going to take two tries, and measuring the whole set first would have
 taken one.
 
+## 6i. Ninth pass — accessibility
+
+Never examined until now, so audited from scratch across all thirteen pages: 32
+findings.
+
+The archive's markup turned out sound on the fundamentals — **no missing `alt`,
+no unnamed button or link, one unlabelled form field in total**. The problems
+were structural:
+
+| finding | fix |
+|---|---|
+| 149 decorative `<svg>` announced as unlabelled graphics | `aria-hidden` at source |
+| 5 pages with no main landmark | `role="main"` on the existing container |
+| 9 pages whose heading outline skipped a level | `aria-level` |
+| `studio.html`: no `<h1>`, unlabelled memory field | hidden heading + `aria-label` |
+
+32 -> 0.
+
+Two things this pass is worth remembering for:
+
+**The runtime is a second surface.** Patching the HTML files fixed 125 of the
+149 graphics. The remaining 24 are injected at runtime — nine by `cart.js`, and
+fifteen from markup stored in the database and re-inserted by the hydration
+templates. Anything that generates markup has to be fixed where it generates it,
+not where it lands.
+
+**The checker was less reliable than the code.** Three of its findings were its
+own faults: it looked for a literal `<main>` and missed `role="main"`, counted a
+hidden success-state `<h1>` as a duplicate, and read heading tags while ignoring
+`aria-level`. Each looked like a real defect until checked. Where a measurement
+and the code disagree, the measurement is not automatically right — that has now
+happened four times across these passes (this three, plus the single-axis
+overlap probe).
+
+`npm run check:a11y` is now a gate, and it was verified to fail by reintroducing
+a regression rather than assumed to work.
+
 ## 7. Open items
 
 The extrapolated formula angles are no longer open — see 6d. What remains is

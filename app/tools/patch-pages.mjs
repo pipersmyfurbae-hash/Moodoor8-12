@@ -565,6 +565,128 @@ edit('moodoor-product-page.html', (html) => {
 });
 
 /* ------------------------------------------------------------------ *
+ * 3e. accessibility
+ *
+ * The archive's markup is sound on the fundamentals — an audit across all
+ * thirteen pages found no missing `alt`, no unnamed button or link, and one
+ * unlabelled form control in total. What it did find:
+ *
+ *   149 decorative <svg> announced to screen readers as unlabelled graphics
+ *     5 pages with no <main> landmark
+ *       studio.html with no <h1> and an unlabelled memory field
+ *
+ * Only zero-visual-risk changes are made here. Heading-order jumps (mostly a
+ * footer's <h5> under an <h2>, and catalog cards' <h3> under an <h1>) are left
+ * alone and recorded in the README instead: correcting them means changing the
+ * tag that carries the styling, and the churn is not worth the marginal gain.
+ * ------------------------------------------------------------------ */
+
+const A11Y_PAGES = STOREFRONT.concat(['studio.html', 'stories.html', '404.html']);
+
+for (const file of A11Y_PAGES) {
+  edit(file, (html) => {
+    let out = html;
+    const before = out;
+
+    /* Every inline <svg> in these pages is decorative — a wreath motif, a
+     * territory illustration, an icon beside its own text label. None carries
+     * information that is not already in adjacent text, so all are hidden from
+     * assistive technology. Any that already declares a role or a <title> is
+     * left as its author intended. The engine's generated diagram is untouched:
+     * it is built at runtime with role="img" and an aria-label. */
+    out = out.replace(/<svg\b(?![^>]*\b(?:aria-hidden|role)=)([^>]*)>/g, '<svg aria-hidden="true"$1>');
+
+    // A landmark, so "skip to content" and rotor navigation work.
+    if (!/<main\b/.test(out)) {
+      const target = out.match(/<div class="(studio|wrap)"[^>]*>/);
+      if (target && !/role="main"/.test(out)) {
+        out = out.replace(target[0], target[0].replace('>', ' role="main">'));
+      }
+    }
+
+    if (out !== before) note(file, 'decorative graphics hidden from screen readers; main landmark');
+    return out;
+  });
+}
+
+/**
+ * Heading order.
+ *
+ * Screen-reader users navigate by heading level, so a document that jumps h1 ->
+ * h4 reads as though two sections are missing. Nine of the thirteen pages jump
+ * somewhere — a footer's <h5> under an <h2>, catalog cards' <h3> under the <h1>.
+ *
+ * The tag is not changed, because on these pages the tag carries the styling:
+ * turning an <h5> into an <h3> restyles it. `aria-level` overrides the exposed
+ * level while leaving the element, and therefore the design, exactly as it was.
+ * Only headings that actually create a jump are touched.
+ */
+for (const file of A11Y_PAGES) {
+  edit(file, (html) => {
+    const headings = [...html.matchAll(/<h([1-6])(\s[^>]*)?>/g)];
+    if (!headings.length) return html;
+
+    const edits = [];
+    let previous = 0;
+    for (const m of headings) {
+      const tagLevel = Number(m[1]);
+      const attrs = m[2] || '';
+      // An explicit level already set by an earlier run is what the reader sees.
+      const declared = attrs.match(/aria-level="(\d)"/);
+      const level = declared ? Number(declared[1]) : tagLevel;
+
+      if (previous && level > previous + 1 && !declared) {
+        edits.push({ index: m.index, length: m[0].length, tagLevel, attrs, level: previous + 1 });
+        previous += 1;
+      } else {
+        previous = level;
+      }
+    }
+    if (!edits.length) return html;
+
+    // Applied back-to-front so earlier offsets stay valid.
+    let out = html;
+    for (const e of edits.reverse()) {
+      out = out.slice(0, e.index) +
+        `<h${e.tagLevel} role="heading" aria-level="${e.level}"${e.attrs}>` +
+        out.slice(e.index + e.length);
+    }
+    note(file, `${edits.length} heading${edits.length === 1 ? '' : 's'} given an explicit level so the outline has no gaps`);
+    return out;
+  });
+}
+
+edit('studio.html', (html) => {
+  let out = html;
+
+  // The Studio's only heading is its logo link, so the page has no <h1>.
+  if (!/<h1/.test(out)) {
+    out = out.replace(
+      '<a class="logo" href="index.html">',
+      '<h1 style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;' +
+      'overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0">Moodoor Studio</h1>\n  ' +
+      '<a class="logo" href="index.html">'
+    );
+  }
+
+  // The memory field is labelled only by its placeholder, which is not a label.
+  //
+  // Guarded on the attribute, not on the search string: the search string is a
+  // prefix of the replacement, so an unguarded replace re-inserts the attribute
+  // on every run. (This bit an earlier edit here the same way — a replacement
+  // that still contains what it matched is never idempotent by itself.)
+  out = out.replace(/(<textarea class="memory-area" id="memoryInput")((?: aria-label="[^"]*")+)/,
+    '$1 aria-label="The client\'s memory"');
+  if (!/id="memoryInput"[^>]*aria-label=/.test(out)) {
+    out = out.replace('<textarea class="memory-area" id="memoryInput"',
+      '<textarea class="memory-area" id="memoryInput" aria-label="The client\'s memory"');
+  }
+
+  if (out !== html) note('studio.html', 'page heading and a label for the memory field');
+  return out;
+});
+
+/* ------------------------------------------------------------------ *
  * 4d. footer links that went nowhere, and the new pages
  * ------------------------------------------------------------------ */
 

@@ -168,6 +168,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 <body>
 
 <header>
+  <h1 style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0">Moodoor Studio</h1>
   <a class="logo" href="index.html">Mood<span>oor</span><span class="logo-tag">Studio</span></a>
   <div class="header-right">
     <a class="hd-site" href="index.html">&#8592; Back to site</a>
@@ -175,7 +176,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
   </div>
 </header>
 
-<div class="studio">
+<div class="studio" role="main">
 
   <!-- ================ LEFT ================ -->
   <div class="panel-left">
@@ -209,18 +210,18 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
         <span class="step-n on">2</span>
         <h2>The memory</h2>
       </div>
-      <textarea class="memory-area" id="memoryInput" placeholder="Type or paste the client&#39;s memory here — place, person, time of year, smell, light, what it felt like. Even a few sentences works."></textarea>
+      <textarea class="memory-area" id="memoryInput" aria-label="The client's memory" placeholder="Type or paste the client&#39;s memory here — place, person, time of year, smell, light, what it felt like. Even a few sentences works."></textarea>
       <div class="memory-meta">
         <span id="wordCount">0 words</span>
         <span>Aim for 30&#8211;150 words for best EVS scoring</span>
       </div>
       <button class="btn-analyse" id="analyseBtn" disabled>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         Run EVS analysis &amp; generate prompt
       </button>
       <button class="btn-analyse" id="composeBtn" disabled
         style="margin-top:10px;background:transparent;color:var(--green);border:1px solid var(--border2)">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+        <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
         Compose without AI &mdash; geometry only
       </button>
     </div>
@@ -327,7 +328,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
         <div class="cd-bar-wrap"><div class="cd-bar" id="cdBar" style="width:100%"></div></div>
       </div>
       <button class="btn-deliver" id="deliverBtn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
         Mark as delivered to client
       </button>
     </div>
@@ -366,7 +367,7 @@ var currentJob = null;
 var cdInterval = null;
 
 function $i(id){return document.getElementById(id);}
-function toast(msg){var t=$i('toast');t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> '+msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2400);}
+function toast(msg){var t=$i('toast');t.innerHTML='<svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> '+msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2400);}
 function fmt(ms){var s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;return h>0?h+':'+pad(m)+':'+pad(ss):m+':'+pad(ss);}
 function pad(n){return n<10?'0'+n:''+n;}
 function ts(t){return t?new Date(t).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'—';}
@@ -665,7 +666,7 @@ Design so the choices genuinely embody the memory: restrained grief → Crescent
     renderResult(json,client,email,otype,dmins,memory);
   } catch(e){
     btn.disabled=false;
-    btn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Run EVS analysis &amp; generate prompt';
+    btn.innerHTML='<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Run EVS analysis &amp; generate prompt';
     $i('bpStage').innerHTML='<div class="bp-empty" style="color:#A83B33">Analysis didn\u2019t complete cleanly. Tap the button to try again \u2014 the model occasionally returns an incomplete blueprint.</div>';
     $i('bpLegend').innerHTML='';
     toast('Analysis incomplete — please run it again.');
@@ -800,7 +801,7 @@ function renderResult(json,client,email,otype,dmins,memory){
   $i('deliverBtn').style.display='flex';
 
   btn.disabled=false;
-  btn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Re-run analysis';
+  btn.innerHTML='<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Re-run analysis';
   toast('Blueprint generated — prompt honors the geometry.');
 }
 

@@ -137,7 +137,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
 </nav>
 
 <header class="page-hero">
-  <div class="wrap">
+  <div class="wrap" role="main">
     <span class="overline reveal">How matching works</span>
     <h1 class="reveal reveal-d1">From a few sentences to <span class="script-accent">the wreath that holds them</span></h1>
     <p class="sub reveal reveal-d2">No quiz, no style survey, no scrolling through sixty options. You write a memory; the system does the rest. Here's exactly how — including the parts most companies wouldn't explain.</p>
@@ -151,7 +151,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
       <div class="j-step reveal">
         <div class="j-dot">01</div>
         <div class="j-body">
-          <h3>You write the memory</h3>
+          <h3 role="heading" aria-level="2">You write the memory</h3>
           <p>A porch, a person, a season, a year. Write it the way you'd tell a friend — a sentence is enough, a paragraph is better. There are no wrong answers and no design vocabulary required.</p>
           <div class="j-card"><em>"Sunday mornings at my grandmother's lake house, the summer before we sold it."</em></div>
         </div>
@@ -210,7 +210,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
       <span class="overline">What happens to your memory</span>
       <h2>You're trusting us with something personal. Here's our end of it.</h2>
       <div class="truth-grid">
-        <div><h4>It's used for matching, full stop</h4><p>Your memory and its profile are stored so we can show you your matches, improve match quality, and let you return to your reveal. It is never published, never shown to other customers, never sold.</p></div>
+        <div><h4 role="heading" aria-level="3">It's used for matching, full stop</h4><p>Your memory and its profile are stored so we can show you your matches, improve match quality, and let you return to your reveal. It is never published, never shown to other customers, never sold.</p></div>
         <div><h4>It trains nothing</h4><p>Your words aren't used to train AI models — ours or anyone else's. The interpreter reads your memory once, scores it, and that's the end of its involvement.</p></div>
         <div><h4>You can ask us to forget it</h4><p>One email and the memory, its profile, and its session are deleted. The wreath, if you bought one, is yours to keep regardless.</p></div>
         <div><h4>The match math is inspectable</h4><p>The ranking formula is fixed and versioned. If you ever want to know why a design matched, we can show you the arithmetic — dimension by dimension.</p></div>
@@ -228,19 +228,19 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
     </div>
     <div class="acc reveal">
       <div class="acc-item">
-        <button class="acc-q">What if the match feels wrong?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="acc-q">What if the match feels wrong?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="acc-a"><p>Tell us — every reveal includes a quick rating, and low ratings are how the library gets better. You can also rewrite the memory with more detail; more specific memories produce sharper profiles. And the full library is always browsable directly if you'd rather choose by eye.</p></div>
       </div>
       <div class="acc-item">
-        <button class="acc-q">Can a sad memory get a match?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="acc-q">Can a sad memory get a match?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="acc-a"><p>Yes — the Remembrance territory exists for exactly this. The system distinguishes between a memory's sadness and its meaning, so a low-valence, high-intimacy memory matches to restrained, honoring designs rather than anything festive.</p></div>
       </div>
       <div class="acc-item">
-        <button class="acc-q">Why only sixty designs?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="acc-q">Why only sixty designs?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="acc-a"><p>Because every design is individually profiled, storied, scored, and blueprint-backed — curation is the product. The library grows by five to ten designs a week, each one earning its place, and matching gets sharper as the territories fill in.</p></div>
       </div>
       <div class="acc-item">
-        <button class="acc-q">Do two people with similar memories get the same wreath?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="acc-q">Do two people with similar memories get the same wreath?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="acc-a"><p>If the feelings are genuinely similar, possibly — and we think that's right. The details that make memories different (a lake, a kitchen, a particular September) show up in the dimensions more than people expect, so most reveals differ even when the stories rhyme.</p></div>
       </div>
     </div>
@@ -255,7 +255,7 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
 <footer>
   <div class="wrap foot-base">
     <span>&copy; 2026 Evercrafted, Inc. &middot; <a href="stories.html">Stories</a> · <a href="territories.html">Explore the six territories &rarr;</a></span>
-    <span class="powered"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" style="color:var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>Powered by <b>Evercrafted</b></span>
+    <span class="powered"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 32 32" fill="none" style="color:var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>Powered by <b>Evercrafted</b></span>
   </div>
 </footer>
 

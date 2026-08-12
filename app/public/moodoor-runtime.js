@@ -113,7 +113,9 @@
           '<h2>' + esc(t.name) + '</h2>' +
           '<p class="t-lede">' + esc(t.lede) + '</p>' +
           '<p class="desc">' + esc(t.desc) + '</p>' +
-          '<div class="sig"><h5>Territory signature</h5>' + sig + '</div>' +
+          // aria-level keeps the outline gapless without restyling the <h5>,
+          // matching what tools/patch-pages.mjs does to the static markup.
+          '<div class="sig"><h5 role="heading" aria-level="3">Territory signature</h5>' + sig + '</div>' +
           '<div class="t-foot"><span class="samples">' + esc(t.samples) + '</span>' +
           '<a href="' + esc(t.browseHref || 'signature-wreaths.html') + '">Browse ' + esc(t.name) + ' &rarr;</a></div>' +
         '</div>' +
