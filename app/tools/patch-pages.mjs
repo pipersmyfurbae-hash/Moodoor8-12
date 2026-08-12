@@ -429,6 +429,62 @@ for (const [file, anchor] of [
 }
 
 /* ------------------------------------------------------------------ *
+ * 3b. the storefront had no navigation on a phone
+ *
+ * Every page carries:
+ *
+ *   @media (max-width: 768px) { .nav-links li:not(:last-child) { display: none } }
+ *
+ * The intent is to collapse to just the call-to-action on a narrow screen. It
+ * does not work, because `cart.js` builds its cart button at runtime and
+ * appends it to the same <ul> — so the cart becomes the last child and the rule
+ * hides everything else *including* the CTA. Measured at 390px: all seven items
+ * `display: none`, leaving a wordmark and a bag icon and no way to reach
+ * Wreaths, Blueprints, Bundles, Territories, Drops or How it works.
+ *
+ * This predates the merge — it needs both the archive's CSS and the archive's
+ * cart script to happen, and neither was touched here.
+ *
+ * Rather than restore "CTA only", the links become a horizontally scrollable
+ * row, which is what the pages added in this build already do
+ * (moodoor-chrome.css) and leaves the site navigable on the device most people
+ * will open it on. Appended after the page's own styles so it wins on
+ * specificity without editing rules inline.
+ * ------------------------------------------------------------------ */
+
+const MOBILE_NAV_CSS = `<style id="moodoor-mobile-nav">
+/* See tools/patch-pages.mjs — the page's own rule hides the whole menu on a
+   phone because cart.js appends the cart button as the last child. */
+@media (max-width: 768px) {
+  .nav-links li:not(:last-child) { display: block; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 12px;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links li { flex: 0 0 auto; }
+  .nav-links a { white-space: nowrap; font-size: 12.5px; }
+  .nav-links .nav-cta { padding: 7px 13px; }
+}
+</style>`;
+
+for (const file of STOREFRONT) {
+  edit(file, (html) => {
+    if (html.includes('id="moodoor-mobile-nav"')) return html;
+    if (!/\.nav-links li:not\(:last-child\)/.test(html)) return html;
+    note(file, 'navigation is reachable on a phone again (it was entirely hidden)');
+    return html.replace('</head>', `${MOBILE_NAV_CSS}\n</head>`);
+  });
+}
+
+/* ------------------------------------------------------------------ *
  * 4d. footer links that went nowhere, and the new pages
  * ------------------------------------------------------------------ */
 

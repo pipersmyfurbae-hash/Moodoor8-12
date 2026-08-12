@@ -80,6 +80,28 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
 /* preview-host override: keep reveal content visible (host hijacks opacity:0 transitions) */
 .reveal{opacity:1 !important;transform:none !important;transition:none !important}
 </style>
+<style id="moodoor-mobile-nav">
+/* See tools/patch-pages.mjs — the page's own rule hides the whole menu on a
+   phone because cart.js appends the cart button as the last child. */
+@media (max-width: 768px) {
+  .nav-links li:not(:last-child) { display: block; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 12px;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links li { flex: 0 0 auto; }
+  .nav-links a { white-space: nowrap; font-size: 12.5px; }
+  .nav-links .nav-cta { padding: 7px 13px; }
+}
+</style>
 </head>
 <body>
 

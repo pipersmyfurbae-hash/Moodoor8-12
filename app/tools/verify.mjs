@@ -612,6 +612,8 @@ for (const [url, kind, expect] of [
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   await blockExternal(mobile);
   for (const [url, label] of [['index.html', 'Homepage'], ['signature-wreaths.html', 'Catalog'],
+                              ['collection-bundles.html', 'Bundles'], ['territories.html', 'Territories'],
+                              ['upcoming-drops.html', 'Drops'], ['moodoor-product-page.html?w=september-porch', 'Product'],
                               ['stories.html', 'Stories'], ['admin', 'Admin console']]) {
     const page = await mobile.newPage();
     await page.goto(BASE + '/' + url, { waitUntil: 'load', timeout: 20000 });
@@ -624,6 +626,35 @@ for (const [url, kind, expect] of [
     });
     if (sideways > 2) fail(`${label} (mobile)`, `scrolls horizontally by ${sideways}px at 390px wide`);
     else ok(`${label} fits a 390px viewport`);
+
+    /* The storefront must still be navigable on a phone.
+     *
+     * Every page carries `.nav-links li:not(:last-child){display:none}` for
+     * narrow screens, which is meant to collapse to just the call-to-action.
+     * It does not, because cart.js appends the cart button to the same <ul> at
+     * runtime and takes the last-child slot — so the rule hid every link *and*
+     * the CTA, leaving a wordmark and a bag icon. Assert the menu is actually
+     * there, and that restoring it did not push the page sideways (checked
+     * above). */
+    const nav = await page.evaluate(() => {
+      const ul = document.querySelector('.nav-links');
+      if (!ul) return null;
+      const items = [...ul.querySelectorAll('li')];
+      return {
+        total: items.length,
+        visible: items.filter((li) => getComputedStyle(li).display !== 'none').length,
+        reachable: ul.scrollWidth <= ul.clientWidth + 2 || getComputedStyle(ul).overflowX === 'auto',
+      };
+    });
+    if (nav) {
+      if (nav.visible < nav.total) {
+        fail(`${label} (mobile)`, `${nav.total - nav.visible} of ${nav.total} navigation items are hidden`);
+      } else if (!nav.reachable) {
+        fail(`${label} (mobile)`, 'the navigation overflows with no way to scroll to the rest');
+      } else {
+        ok(`${label}: all ${nav.total} navigation items reachable on a phone`);
+      }
+    }
     await page.screenshot({ path: path.join(SHOTS, 'mobile-' + label.toLowerCase().replace(/\s+/g, '-') + '.png'), fullPage: true });
     await page.close();
   }

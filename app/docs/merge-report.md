@@ -275,6 +275,41 @@ Three passes, three defects that a green test suite reported as fine, all three
 found by looking at a screenshot. Worth stating plainly: on this codebase the
 visual pass is load-bearing, not decorative.
 
+## 6g. Seventh pass — the storefront had no navigation on a phone
+
+The mobile screenshots were the one set never actually examined. Measuring the
+nav at 390px:
+
+```
+index.html  hidden: [Wreaths, Blueprints, Bundles, Territories,
+                     Drops, How it works, Begin a memory]
+```
+
+**All seven items `display: none`.** On a phone the storefront was a wordmark
+and a bag icon, with no way to reach any section — and no way to begin a memory,
+which is the site's single call to action.
+
+Cause, and it takes two archive files to produce it. Every page carries:
+
+```css
+@media (max-width: 768px) { .nav-links li:not(:last-child) { display: none } }
+```
+
+The intent is to collapse to just the call-to-action. It cannot work, because
+`cart.js` builds the cart button at runtime and appends it to the same `<ul>`,
+taking the last-child slot — so the rule hides every link *and* the CTA. This
+predates the merge: it needs the archive's CSS and the archive's cart script,
+and neither was modified here. It is invisible in the source of either file
+alone, which is presumably why it shipped.
+
+The links are now a horizontally scrollable row on narrow screens, matching what
+the pages added in this build already do. Verified across all ten storefront
+pages: every item visible and reachable, and the page itself still does not
+scroll sideways (the two are easy to trade against each other, so both are
+asserted).
+
+`verify.mjs` now checks the mobile menu on eight pages rather than three.
+
 ## 7. Open items
 
 The extrapolated formula angles are no longer open — see 6d. What remains is
