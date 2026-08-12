@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodoor — Tell us the memory. We'll show you the wreath that holds it.</title>
+<meta name="description" content="Moodoor matches your memory to a curated collection of blueprint-backed luxury faux botanical wreaths. Sixty designs. Six emotional territories. One that's yours.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Dancing+Script:wght@600&family=Inter:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   MOODOOR — consumer brand of Evercrafted, Inc.
+   Layout plan:
+   00  Nav (minimal, dissolves into hero)
+   01  Hero — memory intake IS the hero (textarea + match CTA)
+       └ simulated EVS match reveal (TODO: wire to real backend)
+   02  Trust strip — stats bar
+   03  How it works — 3 editorial steps, diagonal flow
+   04  Six emotional territories — asymmetric collection grid
+   05  Products — Signature Wreaths / Blueprints / Bundles
+   06  Craft story — editorial overlap section
+   07  Pull-quote testimonial
+   08  Collection drop waitlist — email capture
+   09  Footer — Powered by Evercrafted
+   ============================================================ */
+
+:root {
+  --ec-white:        #FFFFFF;
+  --ec-off-white:    #F9F7F4;
+  --ec-paper:        #F2EFE9;
+  --ec-black:        #1A1A1A;
+  --ec-charcoal:     #2E2E2E;
+  --ec-ink:          #4A4A4A;
+
+  --ec-green:        #4A6741;
+  --ec-green-light:  #6B8F67;
+  --ec-green-pale:   #EEF2ED;
+  --ec-green-dim:    rgba(74, 103, 65, 0.12);
+
+  --ec-gray-100:     #F5F5F5;
+  --ec-gray-200:     #E8E8E8;
+  --ec-gray-300:     #D0D0D0;
+  --ec-gray-400:     #A8A8A8;
+  --ec-gray-500:     #787878;
+
+  --ec-warning:      #C4922A;
+  --ec-error:        #B94040;
+  --ec-info:         #4A6785;
+
+  --ec-surface:      var(--ec-white);
+  --ec-surface-alt:  var(--ec-off-white);
+  --ec-surface-warm: var(--ec-paper);
+  --ec-border:       var(--ec-gray-200);
+  --ec-border-dark:  var(--ec-gray-300);
+  --ec-text:         var(--ec-black);
+  --ec-text-muted:   var(--ec-ink);
+  --ec-text-faint:   var(--ec-gray-500);
+
+  --ec-font-serif:  'Cormorant Garamond', Georgia, serif;
+  --ec-font-sans:   'Inter', system-ui, sans-serif;
+  --ec-font-script: 'Dancing Script', cursive;
+  --ec-font-mono:   'DM Mono', monospace;
+
+  --ec-shadow-sm:   0 1px 3px rgba(0,0,0,0.06);
+  --ec-shadow-md:   0 4px 16px rgba(0,0,0,0.08);
+  --ec-shadow-lg:   0 8px 32px rgba(0,0,0,0.10);
+  --ec-shadow-hero: 0 24px 64px rgba(0,0,0,0.10);
+
+  --ec-radius-sm:   4px;
+  --ec-radius-md:   8px;
+  --ec-radius-lg:   14px;
+  --ec-radius-xl:   20px;
+  --ec-radius-full: 9999px;
+
+  --ec-transition:  200ms ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ec-font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ec-text);
+  background: var(--ec-off-white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* layered atmosphere: base + grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1;
+  transform: translateZ(0);
+}
+
+::selection { background: var(--ec-green-dim); color: var(--ec-green); }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+
+.overline {
+  font-family: var(--ec-font-sans);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ec-green);
+}
+
+h1, h2, h3 { font-family: var(--ec-font-serif); font-weight: 400; }
+
+.script-accent {
+  font-family: var(--ec-font-script);
+  color: var(--ec-green);
+}
+
+/* ---------- entrance + scroll reveal choreography ---------- */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 600ms ease-out, transform 600ms ease-out; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 120ms; }
+.reveal-d2 { transition-delay: 240ms; }
+.reveal-d3 { transition-delay: 360ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ============================================================
+   00 · NAV
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 22px 0;
+  transition: background var(--ec-transition), box-shadow var(--ec-transition), padding var(--ec-transition);
+}
+nav.scrolled {
+  background: rgba(249, 247, 244, 0.92);
+  box-shadow: var(--ec-shadow-sm);
+  padding: 14px 0;
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; }
+.wordmark {
+  font-family: var(--ec-font-serif);
+  font-size: 26px; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--ec-text); text-decoration: none;
+  display: flex; align-items: baseline; gap: 2px;
+}
+.wordmark span { color: var(--ec-green); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 13.5px; font-weight: 500; color: var(--ec-text-muted);
+  text-decoration: none; letter-spacing: 0.02em;
+  transition: color var(--ec-transition);
+}
+.nav-links a:hover { color: var(--ec-green); }
+.nav-cta {
+  font-size: 13.5px; font-weight: 600; color: var(--ec-off-white) !important;
+  background: var(--ec-green);
+  padding: 10px 22px; border-radius: var(--ec-radius-full);
+  transition: transform var(--ec-transition), box-shadow var(--ec-transition);
+}
+.nav-cta:hover { transform: scale(1.02); box-shadow: 0 0 0 5px var(--ec-green-dim); }
+@media (max-width: 768px) { .nav-links li:not(:last-child) { display: none; } }
+
+/* ============================================================
+   01 · HERO — the memory intake is the product
+   ============================================================ */
+.hero {
+  min-height: 96vh;
+  display: flex; align-items: center;
+  position: relative;
+  padding: 140px 0 80px;
+  background:
+    radial-gradient(ellipse 900px 600px at 85% 10%, var(--ec-green-pale) 0%, transparent 60%),
+    radial-gradient(ellipse 700px 500px at 5% 95%, var(--ec-paper) 0%, transparent 55%),
+    var(--ec-off-white);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 64px; align-items: center;
+}
+.hero h1 {
+  font-size: clamp(48px, 7.2vw, 88px);
+  line-height: 1.08; letter-spacing: -0.03em;
+  margin: 20px 0 8px;
+}
+.hero h1 em {
+  font-style: italic; font-weight: 300; color: var(--ec-green);
+}
+.hero-sub {
+  font-size: 18px; color: var(--ec-text-muted);
+  max-width: 480px; margin: 18px 0 40px;
+}
+
+/* memory intake card */
+.intake {
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-radius-xl);
+  box-shadow: var(--ec-shadow-hero);
+  padding: 28px;
+  max-width: 560px;
+  transition: box-shadow var(--ec-transition), border-color var(--ec-transition);
+}
+.intake:focus-within { border-color: var(--ec-green-light); box-shadow: var(--ec-shadow-hero), 0 0 0 5px var(--ec-green-dim); }
+.intake label {
+  display: block;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ec-text-faint);
+  margin-bottom: 12px;
+}
+.intake textarea {
+  width: 100%; min-height: 110px; resize: vertical;
+  border: none; outline: none; background: transparent;
+  font-family: var(--ec-font-serif); font-size: 21px; font-style: italic;
+  line-height: 1.5; color: var(--ec-text);
+}
+.intake textarea::placeholder { color: var(--ec-gray-400); }
+.intake-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-top: 18px; padding-top: 18px;
+  border-top: 1px solid var(--ec-gray-100);
+}
+.intake-hint { font-size: 12.5px; color: var(--ec-text-faint); }
+.btn-match {
+  font-family: var(--ec-font-sans); font-size: 14px; font-weight: 600;
+  color: var(--ec-off-white); background: var(--ec-green);
+  border: none; cursor: pointer;
+  padding: 14px 28px; border-radius: var(--ec-radius-full);
+  display: inline-flex; align-items: center; gap: 10px;
+  transition: transform var(--ec-transition), box-shadow var(--ec-transition), background var(--ec-transition);
+  white-space: nowrap;
+}
+.btn-match:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(74,103,65,0.28); }
+.btn-match:disabled { background: var(--ec-gray-300); cursor: wait; transform: none; box-shadow: none; }
+.btn-match svg { transition: transform var(--ec-transition); }
+.btn-match:hover svg { transform: translateX(3px); }
+
+/* memory chips — one-tap example memories */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; max-width: 560px; }
+.chip {
+  font-size: 12.5px; color: var(--ec-text-muted);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-border); border-radius: var(--ec-radius-full);
+  padding: 7px 14px; cursor: pointer;
+  transition: all var(--ec-transition);
+}
+.chip:hover { border-color: var(--ec-green-light); color: var(--ec-green); background: var(--ec-green-pale); }
+
+/* hero visual — drawn wreath, no stock photography */
+.hero-visual { position: relative; display: flex; justify-content: center; }
+.hero-visual svg { width: min(100%, 460px); height: auto; filter: drop-shadow(0 24px 48px rgba(74,103,65,0.14)); }
+.hero-visual .orbit-tag {
+  position: absolute;
+  font-family: var(--ec-font-mono); font-size: 11px;
+  color: var(--ec-green); background: var(--ec-surface);
+  border: 1px solid var(--ec-green-pale);
+  padding: 6px 12px; border-radius: var(--ec-radius-full);
+  box-shadow: var(--ec-shadow-md);
+  animation: drift 7s ease-in-out infinite;
+}
+.orbit-tag.t1 { top: 12%; left: 2%; animation-delay: 0s; }
+.orbit-tag.t2 { bottom: 22%; right: 0%; animation-delay: 2.3s; }
+.orbit-tag.t3 { bottom: 4%; left: 14%; animation-delay: 4.1s; }
+@keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { order: -1; }
+  .hero-visual svg { width: min(70%, 320px); }
+  .orbit-tag { display: none; }
+}
+
+/* ---------- match reveal (simulated EVS) ---------- */
+.reveal-zone { margin-top: 28px; max-width: 560px; }
+.interpreting {
+  display: none; align-items: center; gap: 12px;
+  font-family: var(--ec-font-serif); font-style: italic; font-size: 17px;
+  color: var(--ec-text-muted);
+}
+.interpreting.active { display: flex; }
+.interpret-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ec-green-light);
+  animation: pulse 1.1s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: .35; transform: scale(.85);} 50% { opacity: 1; transform: scale(1);} }
+
+.matches { display: none; flex-direction: column; gap: 12px; }
+.matches.active { display: flex; }
+.matches-head {
+  font-family: var(--ec-font-serif); font-size: 22px; font-style: italic;
+  color: var(--ec-text); margin-bottom: 4px;
+}
+.match-card {
+  display: grid; grid-template-columns: 56px 1fr auto;
+  gap: 16px; align-items: center;
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-border); border-radius: var(--ec-radius-lg);
+  padding: 14px 18px;
+  opacity: 0; transform: translateY(14px);
+  animation: cardIn 500ms ease-out forwards;
+  transition: transform var(--ec-transition), box-shadow var(--ec-transition), border-color var(--ec-transition);
+  cursor: pointer;
+}
+.match-card:nth-child(2) { animation-delay: 140ms; }
+.match-card:nth-child(3) { animation-delay: 280ms; }
+.match-card:nth-child(4) { animation-delay: 420ms; }
+.match-card:hover { transform: translateY(-4px); box-shadow: var(--ec-shadow-md); border-color: var(--ec-green-light); }
+@keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+.match-thumb {
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 1.5px solid var(--ec-green-pale);
+  display: flex; align-items: center; justify-content: center;
+}
+.match-name { font-family: var(--ec-font-serif); font-size: 19px; line-height: 1.2; }
+.match-meta { font-size: 12px; color: var(--ec-text-faint); margin-top: 3px; }
+.match-meta b { color: var(--ec-green); font-weight: 600; }
+.match-pct {
+  font-family: var(--ec-font-mono); font-size: 13px; color: var(--ec-green);
+  background: var(--ec-green-pale); padding: 5px 11px;
+  border-radius: var(--ec-radius-full);
+}
+.matches-note { font-size: 12px; color: var(--ec-text-faint); margin-top: 6px; }
+
+/* ============================================================
+   02 · TRUST STRIP
+   ============================================================ */
+.strip {
+  border-top: 1px solid var(--ec-border);
+  border-bottom: 1px solid var(--ec-border);
+  background: var(--ec-surface);
+  padding: 44px 0;
+}
+.strip-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  text-align: center;
+}
+.strip-num {
+  font-family: var(--ec-font-serif); font-size: 44px; font-weight: 300;
+  color: var(--ec-green); line-height: 1;
+}
+.strip-label { font-size: 13px; color: var(--ec-text-muted); margin-top: 8px; letter-spacing: 0.02em; }
+@media (max-width: 768px) { .strip-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+/* ============================================================
+   shared section scaffolding
+   ============================================================ */
+section.block { padding: 120px 0; }
+@media (max-width: 768px) { section.block { padding: 64px 0; } }
+.section-head { max-width: 640px; margin-bottom: 64px; }
+.section-head h2 {
+  font-size: clamp(34px, 4.4vw, 48px);
+  line-height: 1.15; letter-spacing: -0.02em;
+  margin-top: 16px;
+}
+.section-head p { color: var(--ec-text-muted); margin-top: 16px; font-size: 17px; }
+
+/* botanical divider */
+.bot-divider { display: flex; justify-content: center; padding: 0 0 8px; }
+.bot-divider svg { color: var(--ec-green); opacity: 0.6; }
+
+/* ============================================================
+   03 · HOW IT WORKS — diagonal editorial steps
+   ============================================================ */
+.steps { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+.step {
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-radius-xl);
+  padding: 40px 36px;
+  position: relative;
+  transition: transform var(--ec-transition), box-shadow var(--ec-transition);
+}
+.step:hover { transform: translateY(-4px); box-shadow: var(--ec-shadow-lg); }
+/* deliberate diagonal: each step starts lower and further right */
+.step:nth-child(1) { grid-column: 1 / 6; }
+.step:nth-child(2) { grid-column: 5 / 10; margin-top: 72px; }
+.step:nth-child(3) { grid-column: 8 / 13; margin-top: 144px; }
+.step-num {
+  font-family: var(--ec-font-serif); font-size: 60px; font-weight: 300;
+  font-style: italic; color: var(--ec-green-pale);
+  -webkit-text-stroke: 1px var(--ec-green-light);
+  line-height: 1;
+}
+.step h3 { font-size: 27px; margin: 18px 0 10px; }
+.step p { font-size: 15.5px; color: var(--ec-text-muted); }
+.evs-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+.evs-tag {
+  font-family: var(--ec-font-mono); font-size: 10.5px;
+  color: var(--ec-green); background: var(--ec-green-pale);
+  padding: 4px 10px; border-radius: var(--ec-radius-full);
+}
+@media (max-width: 900px) {
+  .step:nth-child(1), .step:nth-child(2), .step:nth-child(3) { grid-column: 1 / -1; margin-top: 0; }
+}
+
+.craft-principle {
+  margin-top: 96px;
+  display: flex; align-items: center; gap: 20px; justify-content: center;
+  text-align: center;
+}
+.craft-principle p {
+  font-family: var(--ec-font-serif); font-size: 24px; font-style: italic;
+  color: var(--ec-text-muted); max-width: 560px;
+}
+.craft-principle p b { color: var(--ec-green); font-weight: 600; font-style: normal; }
+
+/* ============================================================
+   04 · SIX TERRITORIES — asymmetric collection mosaic
+   ============================================================ */
+.territories { background: var(--ec-surface-warm); position: relative; }
+.terr-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 150px;
+  gap: 20px;
+}
+.terr {
+  border-radius: var(--ec-radius-xl);
+  border: 1px solid var(--ec-border);
+  padding: 30px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden;
+  text-decoration: none;
+  transition: transform var(--ec-transition), box-shadow var(--ec-transition);
+}
+.terr:hover { transform: translateY(-4px); box-shadow: var(--ec-shadow-lg); }
+.terr h3 { font-size: 28px; color: var(--ec-text); position: relative; z-index: 2; }
+.terr p { font-size: 13.5px; color: var(--ec-text-muted); margin-top: 6px; position: relative; z-index: 2; max-width: 300px; }
+.terr .terr-count {
+  position: absolute; top: 22px; right: 24px; z-index: 2;
+  font-family: var(--ec-font-mono); font-size: 11px; color: var(--ec-text-faint);
+}
+.terr svg.terr-art {
+  position: absolute; right: -30px; bottom: -34px;
+  width: 170px; height: 170px; opacity: 0.5;
+  transition: transform 400ms ease, opacity 400ms ease;
+}
+.terr:hover svg.terr-art { transform: rotate(8deg) scale(1.06); opacity: 0.8; }
+/* mosaic spans — intentionally unequal */
+.terr.t-comfort      { grid-column: span 3; grid-row: span 2; background: linear-gradient(135deg, var(--ec-off-white), var(--ec-green-pale)); }
+.terr.t-celebration  { grid-column: span 3; grid-row: span 1; background: linear-gradient(135deg, var(--ec-off-white), rgba(196,146,42,0.10)); }
+.terr.t-remembrance  { grid-column: span 3; grid-row: span 2; background: linear-gradient(160deg, var(--ec-white), var(--ec-paper)); }
+.terr.t-renewal      { grid-column: span 2; grid-row: span 2; background: linear-gradient(150deg, var(--ec-green-pale), var(--ec-off-white)); }
+.terr.t-connection   { grid-column: span 2; grid-row: span 2; background: linear-gradient(145deg, var(--ec-white), rgba(74,103,133,0.08)); }
+.terr.t-nostalgia    { grid-column: span 2; grid-row: span 2; background: linear-gradient(155deg, var(--ec-paper), rgba(196,146,42,0.12)); }
+@media (max-width: 900px) {
+  .terr-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+  .terr { grid-column: span 2 !important; grid-row: span 1 !important; min-height: 170px; }
+}
+
+/* ============================================================
+   05 · PRODUCTS — three ways to bring it home
+   ============================================================ */
+.products .prod-row {
+  display: grid; grid-template-columns: 0.9fr 1.1fr;
+  gap: 64px; align-items: center;
+  padding: 72px 0;
+}
+.products .prod-row + .prod-row { border-top: 1px solid var(--ec-border); }
+.products .prod-row:nth-child(even) .prod-visual { order: 2; }
+.prod-visual {
+  border-radius: var(--ec-radius-xl);
+  min-height: 320px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  border: 1px solid var(--ec-border);
+}
+.prod-visual.v1 { background: linear-gradient(140deg, var(--ec-green-pale), var(--ec-off-white) 70%); }
+.prod-visual.v2 { background: linear-gradient(140deg, var(--ec-paper), var(--ec-white) 70%); }
+.prod-visual.v3 { background: linear-gradient(140deg, rgba(196,146,42,0.10), var(--ec-off-white) 70%); }
+.prod-price {
+  position: absolute; top: 20px; left: 20px;
+  font-family: var(--ec-font-mono); font-size: 12px;
+  color: var(--ec-green); background: var(--ec-surface);
+  border: 1px solid var(--ec-green-pale);
+  padding: 6px 14px; border-radius: var(--ec-radius-full);
+  box-shadow: var(--ec-shadow-sm);
+}
+.prod-copy .overline { color: var(--ec-warning); }
+.prod-copy h3 { font-size: clamp(28px, 3.4vw, 38px); margin: 14px 0 14px; letter-spacing: -0.02em; }
+.prod-copy p { color: var(--ec-text-muted); font-size: 16px; max-width: 460px; }
+.prod-list { list-style: none; margin-top: 22px; display: grid; gap: 10px; }
+.prod-list li {
+  display: flex; gap: 12px; align-items: baseline;
+  font-size: 14.5px; color: var(--ec-text-muted);
+}
+.prod-list li::before {
+  content: ''; flex-shrink: 0;
+  width: 14px; height: 1.5px; background: var(--ec-green-light);
+  transform: translateY(-4px);
+}
+.prod-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 28px;
+  font-size: 14px; font-weight: 600; color: var(--ec-green);
+  text-decoration: none; letter-spacing: 0.02em;
+  border-bottom: 1.5px solid var(--ec-green-light);
+  padding-bottom: 3px;
+  transition: gap var(--ec-transition), color var(--ec-transition);
+}
+.prod-cta:hover { gap: 16px; color: var(--ec-text); }
+@media (max-width: 900px) {
+  .products .prod-row { grid-template-columns: 1fr; gap: 32px; padding: 56px 0; }
+  .products .prod-row:nth-child(even) .prod-visual { order: 0; }
+}
+
+/* ============================================================
+   06 · CRAFT STORY — editorial overlap
+   ============================================================ */
+.craft { background: var(--ec-charcoal); color: var(--ec-paper); position: relative; overflow: hidden; }
+.craft::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 800px 500px at 90% 110%, rgba(107,143,103,0.18), transparent 60%);
+}
+.craft .wrap { position: relative; z-index: 2; }
+.craft-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 72px; align-items: center; }
+.craft .overline { color: var(--ec-green-light); }
+.craft h2 {
+  font-size: clamp(34px, 4.4vw, 50px); line-height: 1.15;
+  letter-spacing: -0.02em; margin-top: 16px; color: var(--ec-off-white);
+}
+.craft p.lede { color: var(--ec-gray-300); margin-top: 20px; font-size: 17px; max-width: 480px; }
+.craft-points { margin-top: 36px; display: grid; gap: 22px; }
+.craft-point { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
+.craft-point .cp-ico {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(107,143,103,0.45);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ec-green-light);
+}
+.craft-point h4 { font-family: var(--ec-font-serif); font-size: 20px; font-weight: 600; color: var(--ec-off-white); }
+.craft-point p { font-size: 14.5px; color: var(--ec-gray-400); margin-top: 4px; }
+/* blueprint card overlapping the dark panel edge */
+.blueprint-card {
+  background: var(--ec-off-white); color: var(--ec-text);
+  border-radius: var(--ec-radius-xl);
+  box-shadow: var(--ec-shadow-hero);
+  padding: 34px;
+  transform: rotate(1.5deg) translateY(28px);
+  transition: transform 400ms ease;
+}
+.blueprint-card:hover { transform: rotate(0deg) translateY(20px); }
+.blueprint-card .bp-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--ec-border); padding-bottom: 14px; margin-bottom: 18px;
+}
+.blueprint-card .bp-head h4 { font-family: var(--ec-font-serif); font-size: 22px; }
+.blueprint-card .bp-head span { font-family: var(--ec-font-mono); font-size: 11px; color: var(--ec-text-faint); }
+.bp-rows { display: grid; gap: 10px; font-family: var(--ec-font-mono); font-size: 12px; color: var(--ec-text-muted); }
+.bp-rows div { display: flex; justify-content: space-between; gap: 16px; }
+.bp-rows b { color: var(--ec-green); font-weight: 500; }
+@media (max-width: 900px) {
+  .craft-grid { grid-template-columns: 1fr; gap: 48px; }
+  .blueprint-card { transform: none; }
+}
+
+/* ============================================================
+   07 · PULL QUOTE
+   ============================================================ */
+.quote { text-align: center; }
+.quote blockquote {
+  font-family: var(--ec-font-serif); font-style: italic; font-weight: 300;
+  font-size: clamp(26px, 3.6vw, 40px); line-height: 1.35;
+  max-width: 820px; margin: 28px auto 0;
+  color: var(--ec-text);
+}
+.quote cite {
+  display: block; margin-top: 26px;
+  font-family: var(--ec-font-sans); font-style: normal;
+  font-size: 13px; font-weight: 500; color: var(--ec-text-faint);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* ============================================================
+   08 · DROP WAITLIST
+   ============================================================ */
+.waitlist { background: var(--ec-green-pale); }
+.waitlist-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+.waitlist h2 { font-size: clamp(32px, 4vw, 44px); letter-spacing: -0.02em; margin-top: 16px; }
+.waitlist p { color: var(--ec-text-muted); margin-top: 14px; }
+.waitlist-form {
+  display: flex; gap: 10px; margin-top: 36px;
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-radius-full);
+  padding: 6px;
+  box-shadow: var(--ec-shadow-md);
+  transition: box-shadow var(--ec-transition);
+}
+.waitlist-form:focus-within { box-shadow: var(--ec-shadow-md), 0 0 0 5px var(--ec-green-dim); }
+.waitlist-form input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--ec-font-sans); font-size: 15px;
+  padding: 12px 20px; color: var(--ec-text); min-width: 0;
+}
+.waitlist-form button {
+  font-family: var(--ec-font-sans); font-size: 14px; font-weight: 600;
+  color: var(--ec-off-white); background: var(--ec-green);
+  border: none; cursor: pointer;
+  padding: 13px 28px; border-radius: var(--ec-radius-full);
+  transition: transform var(--ec-transition), box-shadow var(--ec-transition);
+  white-space: nowrap;
+}
+.waitlist-form button:hover { transform: scale(1.02); box-shadow: 0 6px 18px rgba(74,103,65,0.3); }
+.waitlist-fine { font-size: 12px; color: var(--ec-text-faint); margin-top: 16px; }
+.waitlist-thanks {
+  display: none; margin-top: 36px;
+  font-family: var(--ec-font-serif); font-style: italic; font-size: 22px;
+  color: var(--ec-green);
+}
+@media (max-width: 520px) {
+  .waitlist-form { flex-direction: column; border-radius: var(--ec-radius-xl); }
+  .waitlist-form button { width: 100%; }
+}
+
+/* ============================================================
+   09 · FOOTER
+   ============================================================ */
+footer { background: var(--ec-surface); border-top: 1px solid var(--ec-border); padding: 64px 0 36px; }
+.foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+.foot-brand p { font-size: 13.5px; color: var(--ec-text-faint); margin-top: 14px; max-width: 280px; }
+.foot-col h5 {
+  font-family: var(--ec-font-sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ec-text-faint); margin-bottom: 16px;
+}
+.foot-col ul { list-style: none; display: grid; gap: 10px; }
+.foot-col a { font-size: 14px; color: var(--ec-text-muted); text-decoration: none; transition: color var(--ec-transition); }
+.foot-col a:hover { color: var(--ec-green); }
+.foot-base {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--ec-gray-100);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12.5px; color: var(--ec-text-faint);
+  flex-wrap: wrap; gap: 12px;
+}
+.powered { display: inline-flex; align-items: center; gap: 8px; }
+.powered b { color: var(--ec-green); font-weight: 600; }
+@media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+
+/* preview-host override: keep reveal content visible (host hijacks opacity:0 transitions) */
+.reveal{opacity:1 !important;transform:none !important;transition:none !important}
+</style>
+</head>
+<body>
+
+<!-- ============ 00 · NAV ============ -->
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="index.html">Mood<span>oor</span></a>
+    <ul class="nav-links">
+      <li><a href="signature-wreaths.html">Wreaths</a></li>
+      <li><a href="digital-blueprints.html">Blueprints</a></li>
+      <li><a href="collection-bundles.html">Bundles</a></li>
+      <li><a href="territories.html">Territories</a></li>
+      <li><a href="upcoming-drops.html">Drops</a></li>
+      <li><a href="how-matching-works.html">How it works</a></li>
+      <li><a class="nav-cta" href="index.html#memory">Begin a memory</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ 01 · HERO ============ -->
+<header class="hero" id="memory">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="overline reveal">A new way to choose a wreath</span>
+      <h1 class="reveal reveal-d1">Tell us the <em>memory.</em><br>We'll show you the wreath that holds it.</h1>
+      <p class="hero-sub reveal reveal-d2">Moodoor reads the feeling inside your memory and matches it to a curated collection of sixty blueprint-backed faux botanical wreaths — each designed, scored, and built to carry a specific emotion.</p>
+
+      <div class="intake reveal reveal-d3">
+        <label for="memoryInput">Your memory</label>
+        <textarea id="memoryInput" placeholder="My grandmother's porch in late September — cedar, cold coffee, and the screen door that never quite closed…"></textarea>
+        <div class="intake-foot">
+          <span class="intake-hint">A sentence is enough. A paragraph is better.</span>
+          <button class="btn-match" id="matchBtn">
+            Find my wreath
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="chips reveal reveal-d3">
+        <button class="chip">Sunday mornings at the lake house</button>
+        <button class="chip">The year we finally came home</button>
+        <button class="chip">Mom's garden after the rain</button>
+      </div>
+
+      <!-- simulated EVS reveal — TODO: replace with POST /api/match (FastAPI + Supabase) -->
+      <div class="reveal-zone">
+        <div class="interpreting" id="interpreting">
+          <span class="interpret-dot"></span>
+          Reading your memory&hellip; translating warmth, nostalgia, restraint&hellip;
+        </div>
+        <div class="matches" id="matches"></div>
+      </div>
+    </div>
+
+    <!-- hero visual: drawn wreath on exposed grapevine, asymmetric clusters, negative space -->
+    <div class="hero-visual reveal reveal-d2" aria-hidden="true">
+      <svg viewBox="0 0 460 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- grapevine substrate: three offset irregular rings -->
+        <circle cx="230" cy="230" r="158" stroke="#A8916F" stroke-width="2.5" opacity="0.55" stroke-dasharray="22 7 14 5"/>
+        <circle cx="226" cy="234" r="152" stroke="#8A7458" stroke-width="2" opacity="0.5" stroke-dasharray="30 6 10 8"/>
+        <circle cx="234" cy="227" r="163" stroke="#B89F7E" stroke-width="1.5" opacity="0.45" stroke-dasharray="18 9 26 4"/>
+        <!-- primary cluster: 10–11 o'clock, dimensional and dense -->
+        <g transform="translate(108,118)">
+          <circle r="34" fill="#F2EFE9" stroke="#4A6741" stroke-width="1.5"/>
+          <g stroke="#4A6741" stroke-width="1.2" opacity="0.7">
+            <path d="M0,-22 C8,-12 8,12 0,22 C-8,12 -8,-12 0,-22Z"/>
+            <path d="M-19,-11 C-7,-7 7,7 19,11" />
+            <path d="M-19,11 C-7,7 7,-7 19,-11" />
+          </g>
+          <circle cx="44" cy="22" r="22" fill="#EEF2ED" stroke="#6B8F67" stroke-width="1.4"/>
+          <circle cx="-26" cy="38" r="17" fill="#F9F7F4" stroke="#4A6741" stroke-width="1.3"/>
+          <circle cx="18" cy="-40" r="13" fill="#EEF2ED" stroke="#6B8F67" stroke-width="1.2"/>
+        </g>
+        <!-- counterweight cluster: 4–5 o'clock, smaller -->
+        <g transform="translate(330,330)">
+          <circle r="24" fill="#EEF2ED" stroke="#4A6741" stroke-width="1.4"/>
+          <circle cx="-32" cy="14" r="14" fill="#F9F7F4" stroke="#6B8F67" stroke-width="1.2"/>
+          <circle cx="22" cy="-26" r="11" fill="#F2EFE9" stroke="#4A6741" stroke-width="1.1"/>
+        </g>
+        <!-- directional greenery sweeping outward from primary cluster -->
+        <g stroke="#6B8F67" stroke-width="1.6" fill="none" opacity="0.85">
+          <path d="M86,96 C52,70 34,48 30,22"/>
+          <path d="M86,96 C60,84 44,66 40,44" stroke-width="1.2"/>
+          <path d="M150,176 C190,206 222,218 262,216" stroke-width="1.2" opacity="0.55"/>
+          <path d="M356,352 C386,376 402,398 406,424"/>
+          <path d="M356,352 C378,362 392,378 398,398" stroke-width="1.2"/>
+        </g>
+        <!-- leaves on the sweeps -->
+        <g fill="#6B8F67" opacity="0.7">
+          <ellipse cx="44" cy="50" rx="9" ry="4" transform="rotate(-52 44 50)"/>
+          <ellipse cx="58" cy="72" rx="8" ry="3.6" transform="rotate(-40 58 72)"/>
+          <ellipse cx="388" cy="392" rx="9" ry="4" transform="rotate(48 388 392)"/>
+          <ellipse cx="374" cy="372" rx="8" ry="3.6" transform="rotate(38 374 372)"/>
+        </g>
+        <!-- berries / texture pips -->
+        <g fill="#C4922A" opacity="0.8">
+          <circle cx="178" cy="92" r="4"/><circle cx="190" cy="102" r="3"/><circle cx="170" cy="106" r="3"/>
+          <circle cx="296" cy="364" r="3.5"/><circle cx="306" cy="354" r="2.6"/>
+        </g>
+      </svg>
+      <span class="orbit-tag t1">warmth&nbsp;0.82</span>
+      <span class="orbit-tag t2">nostalgia&nbsp;0.91</span>
+      <span class="orbit-tag t3">restraint&nbsp;0.64</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 02 · TRUST STRIP ============ -->
+<div class="strip">
+  <div class="wrap strip-grid">
+    <div class="reveal"><div class="strip-num">60</div><div class="strip-label">Curated designs, each scored before it earns a place in the library</div></div>
+    <div class="reveal reveal-d1"><div class="strip-num">6</div><div class="strip-label">Emotional territories — from Comfort to Seasonal Nostalgia</div></div>
+    <div class="reveal reveal-d2"><div class="strip-num">1:1</div><div class="strip-label">Every finished wreath traces to an exact, buildable blueprint</div></div>
+  </div>
+</div>
+
+<!-- ============ 03 · HOW IT WORKS ============ -->
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="overline">How it works</span>
+      <h2>Three steps between a feeling <span class="script-accent">and a front door</span></h2>
+    </div>
+    <div class="steps">
+      <article class="step reveal">
+        <div class="step-num">01</div>
+        <h3>Share a memory</h3>
+        <p>A porch, a season, a person, a year. Write it the way you'd tell it to a friend — no design language required. The memory is the brief.</p>
+      </article>
+      <article class="step reveal reveal-d1">
+        <div class="step-num">02</div>
+        <h3>We translate the feeling</h3>
+        <p>Our Emotional Vector System reads your words across seven dimensions and maps them against every design in the library.</p>
+        <div class="evs-tags">
+          <span class="evs-tag">warmth</span><span class="evs-tag">energy</span><span class="evs-tag">nostalgia</span><span class="evs-tag">valence</span><span class="evs-tag">intimacy</span><span class="evs-tag">restraint</span><span class="evs-tag">seasonal&nbsp;affinity</span>
+        </div>
+      </article>
+      <article class="step reveal reveal-d2">
+        <div class="step-num">03</div>
+        <h3>The reveal</h3>
+        <p>You see your top matches — each with its story, its emotional profile, and the choice to order it finished or build it yourself from the blueprint.</p>
+      </article>
+    </div>
+    <div class="craft-principle reveal">
+      <p>AI interprets the emotion. <b>The design itself is deterministic</b> — every stem placed by geometry, not guesswork.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 · SIX TERRITORIES ============ -->
+<section class="block territories" id="territories">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="overline">The library</span>
+      <h2>Six territories of feeling, <span class="script-accent">sixty designs</span></h2>
+      <p>Every wreath in the library lives in one of six emotional territories. Your memory decides which one you'll meet first.</p>
+    </div>
+    <div class="terr-grid">
+      <a class="terr t-comfort reveal" href="#memory">
+        <span class="terr-count">14 designs</span>
+        <svg class="terr-art" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="36" stroke="#4A6741" stroke-width="1.5" stroke-dasharray="20 6 12 4"/><circle cx="34" cy="32" r="10" stroke="#4A6741" stroke-width="1.2"/><circle cx="70" cy="66" r="7" stroke="#6B8F67" stroke-width="1.2"/></svg>
+        <h3>Comfort</h3>
+        <p>Soft texture, warm neutrals, low contrast. The wreath equivalent of a familiar room.</p>
+      </a>
+      <a class="terr t-celebration reveal reveal-d1" href="#memory">
+        <span class="terr-count">9 designs</span>
+        <svg class="terr-art" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="34" stroke="#C4922A" stroke-width="1.4" stroke-dasharray="14 5"/><circle cx="62" cy="30" r="4" fill="#C4922A" opacity=".7"/><circle cx="72" cy="42" r="3" fill="#C4922A" opacity=".6"/></svg>
+        <h3>Celebration</h3>
+        <p>Lifted energy and bright focal hierarchy for arrivals, milestones, and good news.</p>
+      </a>
+      <a class="terr t-remembrance reveal" href="#memory">
+        <span class="terr-count">11 designs</span>
+        <svg class="terr-art" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="35" stroke="#4A4A4A" stroke-width="1.3" stroke-dasharray="26 8"/><path d="M50 24 C56 36 56 50 50 60 C44 50 44 36 50 24Z" stroke="#4A6741" stroke-width="1.2"/></svg>
+        <h3>Remembrance</h3>
+        <p>Quiet, restrained compositions with deliberate negative space — designed to honor, not decorate.</p>
+      </a>
+      <a class="terr t-renewal reveal reveal-d1" href="#memory">
+        <span class="terr-count">8 designs</span>
+        <svg class="terr-art" viewBox="0 0 100 100" fill="none"><path d="M30 72 C30 46 48 28 74 28" stroke="#6B8F67" stroke-width="1.6"/><ellipse cx="46" cy="48" rx="8" ry="3.4" transform="rotate(-44 46 48)" fill="#6B8F67" opacity=".7"/></svg>
+        <h3>Renewal</h3>
+        <p>Fresh greens, upward movement, beginnings.</p>
+      </a>
+      <a class="terr t-connection reveal reveal-d2" href="#memory">
+        <span class="terr-count">7 designs</span>
+        <svg class="terr-art" viewBox="0 0 100 100" fill="none"><circle cx="40" cy="50" r="22" stroke="#4A6785" stroke-width="1.3"/><circle cx="62" cy="50" r="22" stroke="#4A6741" stroke-width="1.3"/></svg>
+        <h3>Connection</h3>
+        <p>Interwoven materials, paired clusters, shared weight.</p>
+      </a>
+      <a class="terr t-nostalgia reveal reveal-d3" href="#memory">
+        <span class="terr-count">11 designs</span>
+        <svg class="terr-art" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="34" stroke="#C4922A" stroke-width="1.2" stroke-dasharray="10 4 22 6"/><circle cx="64" cy="68" r="3.4" fill="#C4922A" opacity=".7"/><circle cx="56" cy="76" r="2.4" fill="#C4922A" opacity=".6"/></svg>
+        <h3>Seasonal Nostalgia</h3>
+        <p>Octobers and Decembers you can almost smell.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 · PRODUCTS ============ -->
+<section class="block products" id="products">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="overline">Three ways to bring it home</span>
+      <h2>Order it finished. Build it yourself. <span class="script-accent">Or collect the story.</span></h2>
+    </div>
+
+    <div class="prod-row reveal">
+      <div class="prod-visual v1">
+        <span class="prod-price">$225 – $495</span>
+        <svg width="190" height="190" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="72" stroke="#8A7458" stroke-width="2.2" opacity=".55" stroke-dasharray="24 7 14 5"/>
+          <circle cx="100" cy="100" r="67" stroke="#A8916F" stroke-width="1.6" opacity=".5" stroke-dasharray="16 6 28 5"/>
+          <g transform="translate(56,56)"><circle r="17" fill="#fff" stroke="#4A6741" stroke-width="1.4"/><circle cx="22" cy="11" r="11" fill="#EEF2ED" stroke="#6B8F67" stroke-width="1.2"/><circle cx="-13" cy="19" r="8" fill="#F9F7F4" stroke="#4A6741" stroke-width="1.1"/></g>
+          <g transform="translate(146,148)"><circle r="11" fill="#EEF2ED" stroke="#4A6741" stroke-width="1.2"/><circle cx="-15" cy="7" r="6.5" fill="#fff" stroke="#6B8F67" stroke-width="1"/></g>
+          <path d="M46 48 C30 36 22 26 20 14" stroke="#6B8F67" stroke-width="1.4"/>
+          <path d="M158 156 C172 168 180 178 182 188" stroke="#6B8F67" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div class="prod-copy">
+        <span class="overline">Signature wreaths</span>
+        <h3>Finished by hand, in small numbers</h3>
+        <p>Ten designs at a time, built exactly to their blueprints — exposed grapevine, premium silk botanicals, asymmetric weight, and the negative space the design was scored on. When a design sells through, it rests until the next run.</p>
+        <ul class="prod-list">
+          <li>Built 1:1 from the scored blueprint — no improvisation</li>
+          <li>Premium silk and faux botanicals, never fresh-florist styling</li>
+          <li>Arrives with its story card and emotional profile</li>
+        </ul>
+        <a class="prod-cta" href="#memory">Match a memory to a wreath <span>&rarr;</span></a>
+      </div>
+    </div>
+
+    <div class="prod-row reveal">
+      <div class="prod-visual v2">
+        <span class="prod-price">$29 – $59</span>
+        <svg width="200" height="180" viewBox="0 0 220 200" fill="none">
+          <rect x="26" y="18" width="168" height="164" rx="10" fill="#fff" stroke="#E8E8E8"/>
+          <circle cx="110" cy="92" r="52" stroke="#4A6741" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <circle cx="110" cy="92" r="52" stroke="#D0D0D0" stroke-width="0.6"/>
+          <line x1="110" y1="34" x2="110" y2="150" stroke="#E8E8E8" stroke-width="0.8"/>
+          <line x1="52" y1="92" x2="168" y2="92" stroke="#E8E8E8" stroke-width="0.8"/>
+          <circle cx="80" cy="62" r="12" fill="#EEF2ED" stroke="#4A6741" stroke-width="1.1"/>
+          <circle cx="142" cy="124" r="8" fill="#EEF2ED" stroke="#6B8F67" stroke-width="1"/>
+          <text x="60" y="170" font-family="DM Mono, monospace" font-size="9" fill="#787878">10:30 — focal · r 0.78 · 0°</text>
+        </svg>
+      </div>
+      <div class="prod-copy">
+        <span class="overline">Digital blueprints</span>
+        <h3>The exact recipe, ready to build</h3>
+        <p>Every design in the library is also a downloadable blueprint — the same document our own builds follow. Clock-position placement, stem counts, and a shopping list that maps to real, findable materials.</p>
+        <ul class="prod-list">
+          <li>SVG layout with clock-position placement guide</li>
+          <li>Step-by-step build guide and exact stem counts</li>
+          <li>Shopping list plus the design's story card</li>
+        </ul>
+        <a class="prod-cta" href="#memory">Browse buildable designs <span>&rarr;</span></a>
+      </div>
+    </div>
+
+    <div class="prod-row reveal">
+      <div class="prod-visual v3">
+        <span class="prod-price">$89 – $149</span>
+        <svg width="210" height="170" viewBox="0 0 230 180" fill="none">
+          <rect x="14" y="34" width="120" height="120" rx="10" fill="#fff" stroke="#E8E8E8" transform="rotate(-4 74 94)"/>
+          <rect x="56" y="26" width="120" height="120" rx="10" fill="#F9F7F4" stroke="#E8E8E8" transform="rotate(2 116 86)"/>
+          <rect x="96" y="32" width="120" height="120" rx="10" fill="#fff" stroke="#E8E8E8" transform="rotate(7 156 92)"/>
+          <circle cx="74" cy="90" r="32" stroke="#C4922A" stroke-width="1.1" stroke-dasharray="14 5" transform="rotate(-4 74 94)"/>
+          <circle cx="116" cy="84" r="32" stroke="#4A6741" stroke-width="1.1" stroke-dasharray="18 6" transform="rotate(2 116 86)"/>
+          <circle cx="156" cy="90" r="32" stroke="#6B8F67" stroke-width="1.1" stroke-dasharray="22 7" transform="rotate(7 156 92)"/>
+        </svg>
+      </div>
+      <div class="prod-copy">
+        <span class="overline">Collection bundles</span>
+        <h3>Three designs that belong together</h3>
+        <p>Curated blueprint sets built around a single emotional thread — Autumn Memories, Gathered Grace, Legacy Garden. Designed as a family: shared palette, shared movement, three distinct silhouettes.</p>
+        <ul class="prod-list">
+          <li>Three coordinated blueprints per collection</li>
+          <li>A unifying palette and styling guide</li>
+          <li>One shared story, told three ways</li>
+        </ul>
+        <a class="prod-cta" href="#waitlist">Be first to the next drop <span>&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 · CRAFT STORY ============ -->
+<section class="block craft">
+  <div class="wrap craft-grid">
+    <div class="reveal">
+      <span class="overline">Why it holds up</span>
+      <h2>Every wreath begins as a blueprint, <em style="font-weight:300">not a vibe</em></h2>
+      <p class="lede">Behind each design is a scored composition — balance, rhythm, proportion, contrast, silhouette — placed on a polar grid before a single stem is cut. The emotion is interpreted. The geometry never is.</p>
+      <div class="craft-points">
+        <div class="craft-point reveal reveal-d1">
+          <span class="cp-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18" opacity=".5"/></svg></span>
+          <div><h4>Asymmetry by design</h4><p>Weighted clusters and counterweights — never a centered blob, never mirror symmetry.</p></div>
+        </div>
+        <div class="craft-point reveal reveal-d2">
+          <span class="cp-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 18 C8 8 16 8 20 14"/><circle cx="20" cy="14" r="2"/></svg></span>
+          <div><h4>Directional movement</h4><p>Greenery extends outward along believable lines of growth, with room left to breathe.</p></div>
+        </div>
+        <div class="craft-point reveal reveal-d3">
+          <span class="cp-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M8 16h5" opacity=".6"/></svg></span>
+          <div><h4>Buildable, every time</h4><p>Stem counts, attachment points, and layering order are part of the design — not an afterthought.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="blueprint-card reveal">
+      <div class="bp-head">
+        <h4>September Porch</h4>
+        <span>BP-EC-0417 · v2</span>
+      </div>
+      <div class="bp-rows">
+        <div><span>Territory</span><b>Seasonal Nostalgia</b></div>
+        <div><span>Base</span><span>18" exposed grapevine</span></div>
+        <div><span>Primary cluster</span><span>10:30 · focal dahlia ×3</span></div>
+        <div><span>Counterweight</span><span>4:30 · cedar + pips ×2</span></div>
+        <div><span>Greenery sweep</span><span>9:00 → 11:00, outward</span></div>
+        <div><span>Negative space</span><span>1:00 – 3:30 preserved</span></div>
+        <div><span>Total stems</span><b>23</b></div>
+        <div><span>Composite score</span><b>104 / 120</b></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ 07 · PULL QUOTE ============ -->
+<section class="block quote">
+  <div class="wrap reveal">
+    <div class="bot-divider">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: var(--ec-green)">
+        <path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M16 28 L16 10" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
+        <path d="M16 18 C16 18 12 16 10 13" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M16 14 C16 14 20 12 22 9" stroke="currentColor" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+    <!-- TODO: replace with a real customer quote after soft launch -->
+    <blockquote>&ldquo;I wrote three sentences about my mother's kitchen in November. The wreath it showed me felt like it had been waiting.&rdquo;</blockquote>
+    <cite>Founding customer · Remembrance collection</cite>
+  </div>
+</section>
+
+<!-- ============ 08 · WAITLIST ============ -->
+<section class="block waitlist" id="waitlist">
+  <div class="wrap waitlist-inner reveal">
+    <span class="overline">Collection drops</span>
+    <h2>New designs arrive <span class="script-accent">in small seasons</span></h2>
+    <p>Five to ten designs join the library each week, and collections drop a few times a season. Leave your email to see them first — finished wreaths sell in small runs.</p>
+    <!-- TODO: wire to email provider / Supabase table -->
+    <form class="waitlist-form" id="waitlistForm">
+      <input type="email" id="waitlistEmail" placeholder="you@example.com" required aria-label="Email address">
+      <button type="submit">Join the list</button>
+    </form>
+    <p class="waitlist-fine">No noise. Drop announcements and the occasional story behind a design.</p>
+    <p class="waitlist-thanks" id="waitlistThanks">You're on the list. The next drop will find you first.</p>
+  </div>
+</section>
+
+<!-- ============ 09 · FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="wordmark" href="index.html">Mood<span>oor</span></a>
+        <p>Memory-matched luxury faux botanical wreaths. Designed by feeling, placed by geometry.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Shop</h5>
+        <ul>
+          <li><a href="signature-wreaths.html">Signature wreaths</a></li>
+          <li><a href="digital-blueprints.html">Digital blueprints</a></li>
+          <li><a href="collection-bundles.html">Collection bundles</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="how-matching-works.html">How matching works</a></li>
+          <li><a href="territories.html">The six territories</a></li>
+          <li><a href="upcoming-drops.html">Upcoming drops</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>For makers</h5>
+        <ul>
+          <li><a href="#">Evercrafted Studio</a></li>
+          <li><a href="#">Become a beta maker</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>&copy; 2026 Evercrafted, Inc. All rights reserved.</span>
+      <span class="powered">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" style="color: var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>
+        Powered by <b>Evercrafted</b>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- nav scroll state ---------- */
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 24), { passive: true });
+
+/* ---------- entrance + scroll reveals ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.2 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+/* hero elements reveal immediately on load */
+requestAnimationFrame(() => document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('in')));
+
+/* ---------- memory chips fill the intake ---------- */
+const memoryInput = document.getElementById('memoryInput');
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => { memoryInput.value = chip.textContent + '…'; memoryInput.focus(); });
+});
+
+/* ============================================================
+   SIMULATED EVS MATCHING — front-end placeholder only.
+   TODO: replace pickMatches() with POST /api/match against the
+   FastAPI EVS engine + Supabase library. Keyword routing below
+   exists purely so the demo reveal feels coherent.
+   ============================================================ */
+const LIBRARY = {
+  comfort: [
+    { name: 'Linen & Cedar', meta: 'Comfort · 18" grapevine · 21 stems', pct: 94 },
+    { name: 'Quiet Hearth', meta: 'Comfort · 16" grapevine · 18 stems', pct: 89 },
+    { name: 'Sunday Bread', meta: 'Comfort · 20" grapevine · 24 stems', pct: 85 }
+  ],
+  celebration: [
+    { name: 'First Light', meta: 'Celebration · 18" grapevine · 22 stems', pct: 93 },
+    { name: 'Gathered Grace', meta: 'Celebration · 20" grapevine · 26 stems', pct: 88 },
+    { name: 'The Long Table', meta: 'Connection · 18" grapevine · 23 stems', pct: 84 }
+  ],
+  remembrance: [
+    { name: 'Legacy Garden', meta: 'Remembrance · 18" grapevine · 17 stems', pct: 95 },
+    { name: 'White Hour', meta: 'Remembrance · 16" grapevine · 14 stems', pct: 90 },
+    { name: 'Kept Letters', meta: 'Seasonal Nostalgia · 18" grapevine · 19 stems', pct: 83 }
+  ],
+  nostalgia: [
+    { name: 'September Porch', meta: 'Seasonal Nostalgia · 18" grapevine · 23 stems', pct: 96 },
+    { name: 'Cider House', meta: 'Seasonal Nostalgia · 20" grapevine · 25 stems', pct: 90 },
+    { name: 'Linen & Cedar', meta: 'Comfort · 18" grapevine · 21 stems', pct: 86 }
+  ]
+};
+const ROUTES = [
+  { keys: ['grand', 'mother', 'mom', 'dad', 'memory of', 'passed', 'miss '], terr: 'remembrance' },
+  { keys: ['wedding', 'birthday', 'party', 'celebrat', 'new home', 'came home'], terr: 'celebration' },
+  { keys: ['fall', 'autumn', 'september', 'october', 'porch', 'cider', 'leaves'], terr: 'nostalgia' },
+  { keys: ['sunday', 'kitchen', 'blanket', 'rain', 'coffee', 'lake'], terr: 'comfort' }
+];
+function pickMatches(text) {
+  const t = text.toLowerCase();
+  const hit = ROUTES.find(r => r.keys.some(k => t.includes(k)));
+  return LIBRARY[hit ? hit.terr : 'comfort'];
+}
+
+const matchBtn = document.getElementById('matchBtn');
+const interpreting = document.getElementById('interpreting');
+const matchesEl = document.getElementById('matches');
+const WREATH_THUMB = '<svg width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="#8A7458" stroke-width="1.4" opacity=".6" stroke-dasharray="8 3 5 2"/><circle cx="13" cy="13" r="4.5" fill="#EEF2ED" stroke="#4A6741"/><circle cx="27" cy="27" r="3" fill="#F9F7F4" stroke="#6B8F67"/></svg>';
+
+matchBtn.addEventListener('click', () => {
+  const text = memoryInput.value.trim();
+  if (!text) { memoryInput.focus(); memoryInput.placeholder = 'Start anywhere — a place, a person, a season…'; return; }
+  matchesEl.classList.remove('active');
+  matchesEl.innerHTML = '';
+  interpreting.classList.add('active');
+  matchBtn.disabled = true;
+
+  setTimeout(() => {
+    interpreting.classList.remove('active');
+    matchBtn.disabled = false;
+    const picks = pickMatches(text);
+    matchesEl.innerHTML = '<div class="matches-head">The wreaths that hold it</div>' + picks.map(m => `
+      <div class="match-card" onclick="document.getElementById('products').scrollIntoView()">
+        <span class="match-thumb">${WREATH_THUMB}</span>
+        <span><span class="match-name">${m.name}</span><span class="match-meta" style="display:block"><b>${m.meta.split(' · ')[0]}</b> · ${m.meta.split(' · ').slice(1).join(' · ')}</span></span>
+        <span class="match-pct">${m.pct}% match</span>
+      </div>`).join('') +
+      '<p class="matches-note">Preview matching — full Emotional Vector System arrives with the library launch.</p>';
+    matchesEl.classList.add('active');
+  }, 1600);
+});
+
+/* ---------- waitlist (placeholder submit) ---------- */
+document.getElementById('waitlistForm').addEventListener('submit', e => {
+  e.preventDefault(); /* TODO: POST to Supabase waitlist table */
+  document.getElementById('waitlistForm').style.display = 'none';
+  document.querySelector('.waitlist-fine').style.display = 'none';
+  document.getElementById('waitlistThanks').style.display = 'block';
+});
+</script>
+<script src="cart.js" defer></script>
+<script src="moodoor-runtime.js" defer></script>
+</body>
+</html>

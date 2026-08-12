@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Six Territories — Moodoor</title>
+<meta name="description" content="Every wreath in the Moodoor library lives in one of six emotional territories. Meet all six.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Dancing+Script:wght@600&family=Inter:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--ec-white:#FFFFFF;--ec-off-white:#F9F7F4;--ec-paper:#F2EFE9;--ec-black:#1A1A1A;--ec-ink:#4A4A4A;--ec-green:#4A6741;--ec-green-light:#6B8F67;--ec-green-pale:#EEF2ED;--ec-green-dim:rgba(74,103,65,.12);--ec-gray-100:#F5F5F5;--ec-gray-200:#E8E8E8;--ec-gray-400:#A8A8A8;--ec-gray-500:#787878;--ec-warning:#C4922A;--ec-info:#4A6785;--ec-border:var(--ec-gray-200);--ec-text:var(--ec-black);--ec-text-muted:var(--ec-ink);--ec-text-faint:var(--ec-gray-500);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--script:'Dancing Script',cursive;--mono:'DM Mono',monospace;--sh-md:0 4px 16px rgba(0,0,0,.08);--sh-lg:0 8px 32px rgba(0,0,0,.10);--r-lg:14px;--r-xl:20px;--r-full:9999px;--tr:200ms ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16.5px;line-height:1.65;color:var(--ec-text);background:var(--ec-off-white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")}
+::selection{background:var(--ec-green-dim);color:var(--ec-green)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+h1,h2,h3{font-family:var(--serif);font-weight:400}
+.overline{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ec-green)}
+.script-accent{font-family:var(--script);color:var(--ec-green)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease-out,transform .6s ease-out}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.12s}.reveal-d2{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(249,247,244,.92);border-bottom:1px solid var(--ec-border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.wordmark{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ec-text);text-decoration:none}
+.wordmark span{color:var(--ec-green)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--ec-text-muted);text-decoration:none;transition:color var(--tr)}
+.nav-links a:hover{color:var(--ec-green)}
+.nav-cta{color:var(--ec-off-white)!important;background:var(--ec-green);padding:9px 20px;border-radius:var(--r-full);font-weight:600!important}
+@media (max-width:768px){.nav-links li:not(:last-child){display:none}}
+.page-hero{padding:88px 0 64px;text-align:center;background:radial-gradient(ellipse 700px 420px at 50% 0%,var(--ec-green-pale),transparent 65%),var(--ec-off-white)}
+.page-hero h1{font-size:clamp(40px,5.4vw,62px);line-height:1.16;padding-bottom:.08em;overflow-wrap:break-word;letter-spacing:-.03em;margin:16px auto 0;max-width:760px}
+.page-hero h1 .script-accent{line-height:1.3;display:inline-block;padding-bottom:.06em}
+.page-hero p.sub{font-size:17.5px;color:var(--ec-text-muted);max-width:580px;margin:18px auto 0}
+main{padding:32px 0 0}
+/* territory editorial cards */
+.terr{display:grid;grid-template-columns:.42fr .58fr;gap:0;border:1px solid var(--ec-border);border-radius:var(--r-xl);overflow:hidden;background:var(--ec-white);margin-bottom:28px;transition:transform var(--tr),box-shadow var(--tr)}
+.terr:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.terr:nth-child(even){grid-template-columns:.58fr .42fr}
+.terr:nth-child(even) .t-visual{order:2}
+.t-visual{min-height:300px;display:flex;align-items:center;justify-content:center;position:relative;padding:36px}
+.t-visual .num{position:absolute;top:22px;left:26px;font-family:var(--serif);font-size:48px;font-style:italic;font-weight:300;color:rgba(26,26,26,.12)}
+.t-visual .count{position:absolute;bottom:22px;right:26px;font-family:var(--mono);font-size:11px;color:var(--ec-text-faint)}
+.v-comfort{background:linear-gradient(140deg,var(--ec-off-white),var(--ec-green-pale))}
+.v-celebration{background:linear-gradient(140deg,var(--ec-off-white),rgba(196,146,42,.13))}
+.v-remembrance{background:linear-gradient(160deg,var(--ec-white),var(--ec-paper))}
+.v-renewal{background:linear-gradient(150deg,var(--ec-green-pale),var(--ec-off-white))}
+.v-connection{background:linear-gradient(145deg,var(--ec-white),rgba(74,103,133,.10))}
+.v-nostalgia{background:linear-gradient(155deg,var(--ec-paper),rgba(196,146,42,.14))}
+.t-body{padding:42px 46px}
+.t-body h2{font-size:clamp(28px,3.4vw,38px);letter-spacing:-.02em}
+.t-body .t-lede{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ec-text-muted);margin-top:4px}
+.t-body p.desc{font-size:14.5px;color:var(--ec-text-muted);margin-top:14px;max-width:480px}
+.sig{margin-top:22px}
+.sig h5{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ec-text-faint);margin-bottom:10px}
+.sig-row{display:grid;grid-template-columns:110px 1fr 32px;gap:12px;align-items:center;margin-bottom:6px}
+.sig-row span:first-child{font-size:11.5px;color:var(--ec-text-muted)}
+.sig-track{height:3px;background:var(--ec-gray-100);border-radius:var(--r-full);overflow:hidden}
+.sig-fill{height:100%;width:0;background:linear-gradient(90deg,var(--ec-green-light),var(--ec-green));transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.sig-row span:last-child{font-family:var(--mono);font-size:10px;color:var(--ec-text-faint);text-align:right}
+.t-foot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--ec-gray-100);flex-wrap:wrap;gap:10px}
+.t-foot .samples{font-size:12.5px;color:var(--ec-text-faint)}
+.t-foot .samples b{color:var(--ec-text-muted);font-weight:500}
+.t-foot a{font-size:13px;font-weight:600;color:var(--ec-green);text-decoration:none;white-space:nowrap}
+.t-foot a:hover{color:var(--ec-text)}
+@media (max-width:880px){.terr,.terr:nth-child(even){grid-template-columns:1fr}.terr:nth-child(even) .t-visual{order:0}.t-visual{min-height:200px}.t-body{padding:30px}}
+.end-cta{text-align:center;padding:64px 0 96px}
+.end-cta h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.02em}
+.end-cta p{color:var(--ec-text-muted);margin:12px auto 0;max-width:460px}
+.btn{display:inline-block;margin-top:26px;font-family:var(--sans);font-size:14.5px;font-weight:600;color:var(--ec-off-white);background:var(--ec-green);text-decoration:none;padding:15px 32px;border-radius:var(--r-full);transition:transform var(--tr),box-shadow var(--tr)}
+.btn:hover{transform:scale(1.03);box-shadow:0 10px 26px rgba(74,103,65,.3)}
+footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:44px 0}
+.foot-base{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ec-text-faint);flex-wrap:wrap;gap:12px}
+.foot-base a{color:var(--ec-text-muted);text-decoration:none}
+.foot-base a:hover{color:var(--ec-green)}
+.powered{display:inline-flex;align-items:center;gap:8px}
+.powered b{color:var(--ec-green);font-weight:600}
+
+/* preview-host override: keep reveal content visible (host hijacks opacity:0 transitions) */
+.reveal{opacity:1 !important;transform:none !important;transition:none !important}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="index.html">Mood<span>oor</span></a>
+    <ul class="nav-links">
+      <li><a href="signature-wreaths.html">Wreaths</a></li>
+      <li><a href="digital-blueprints.html">Blueprints</a></li>
+      <li><a href="collection-bundles.html">Bundles</a></li>
+      <li><a href="territories.html" class="is-current" aria-current="page">Territories</a></li>
+      <li><a href="upcoming-drops.html">Drops</a></li>
+      <li><a href="how-matching-works.html">How it works</a></li>
+      <li><a class="nav-cta" href="index.html#memory">Begin a memory</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <span class="overline reveal">The library map</span>
+    <h1 class="reveal reveal-d1">Six territories <span class="script-accent">of feeling</span></h1>
+    <p class="sub reveal reveal-d2">Every design in the library lives in one of six emotional territories, each with its own signature — a characteristic shape on the seven dimensions the matcher listens for.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div data-hydrate="territories">
+  <article class="terr reveal">
+    <div class="t-visual v-comfort"><span class="num">I</span><span class="count">14 designs</span>
+      <svg width="150" height="150" viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="56" stroke="#4A6741" stroke-width="1.4" stroke-dasharray="24 7 14 5" opacity=".7"/><g transform="translate(52,100)"><circle r="15" fill="#fff" stroke="#4A6741" stroke-width="1.2"/><circle cx="20" cy="-8" r="9" fill="#EEF2ED" stroke="#6B8F67" stroke-width="1"/></g><circle cx="112" cy="52" r="7" fill="#F9F7F4" stroke="#4A6741" stroke-width="1"/><path d="M40 110 C30 118 24 126 22 136" stroke="#6B8F67" stroke-width="1.3"/></svg>
+    </div>
+    <div class="t-body">
+      <span class="overline">Territory one</span>
+      <h2>Comfort</h2>
+      <p class="t-lede">The wreath equivalent of a familiar room.</p>
+      <p class="desc">Soft texture, warm neutrals, low contrast, bottom-settled weight. Comfort designs don't announce themselves — they make a doorway feel like it's been yours for years.</p>
+      <div class="sig"><h5>Territory signature</h5>
+        <div class="sig-row"><span>Warmth</span><div class="sig-track"><div class="sig-fill" data-v="85"></div></div><span>.85</span></div>
+        <div class="sig-row"><span>Intimacy</span><div class="sig-track"><div class="sig-fill" data-v="75"></div></div><span>.75</span></div>
+        <div class="sig-row"><span>Energy</span><div class="sig-track"><div class="sig-fill" data-v="25"></div></div><span>.25</span></div>
+      </div>
+      <div class="t-foot"><span class="samples">Lives here: <b>Linen &amp; Cedar · Quiet Hearth · Sunday Bread</b></span><a href="signature-wreaths.html">Browse Comfort &rarr;</a></div>
+    </div>
+  </article>
+
+  <article class="terr reveal">
+    <div class="t-visual v-celebration"><span class="num">II</span><span class="count">9 designs</span>
+      <svg width="150" height="150" viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="56" stroke="#C4922A" stroke-width="1.3" stroke-dasharray="14 5" opacity=".7"/><g transform="translate(62,46)"><circle r="14" fill="#fff" stroke="#C4922A" stroke-width="1.2"/><circle cx="19" cy="9" r="9" fill="#EEF2ED" stroke="#6B8F67" stroke-width="1"/></g><circle cx="108" cy="112" r="7" fill="#F9F7F4" stroke="#4A6741" stroke-width="1"/><circle cx="100" cy="40" r="3.5" fill="#C4922A" opacity=".8"/><circle cx="110" cy="50" r="2.5" fill="#C4922A" opacity=".7"/><path d="M52 36 C44 26 40 18 38 8" stroke="#6B8F67" stroke-width="1.3"/></svg>
+    </div>
+    <div class="t-body">
+      <span class="overline">Territory two</span>
+      <h2>Celebration</h2>
+      <p class="t-lede">Lifted energy for arrivals, milestones, and good news.</p>
+      <p class="desc">Bright focal hierarchy, upper-weighted clusters, the most movement in the library. Celebration designs are for thresholds people walk through smiling.</p>
+      <div class="sig"><h5>Territory signature</h5>
+        <div class="sig-row"><span>Valence</span><div class="sig-track"><div class="sig-fill" data-v="90"></div></div><span>.90</span></div>
+        <div class="sig-row"><span>Energy</span><div class="sig-track"><div class="sig-fill" data-v="85"></div></div><span>.85</span></div>
+        <div class="sig-row"><span>Restraint</span><div class="sig-track"><div class="sig-fill" data-v="25"></div></div><span>.25</span></div>
+      </div>
+      <div class="t-foot"><span class="samples">Lives here: <b>First Light · Gathered Grace</b></span><a href="signature-wreaths.html">Browse Celebration &rarr;</a></div>
+    </div>
+  </article>
+
+  <article class="terr reveal">
+    <div class="t-visual v-remembrance"><span class="num">III</span><span class="count">11 designs</span>
+      <svg width="150" height="150" viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="56" stroke="#4A4A4A" stroke-width="1.2" stroke-dasharray="30 9" opacity=".6"/><g transform="translate(58,62)"><path d="M0,-18 C7,-9 7,9 0,18 C-7,9 -7,-9 0,-18Z" stroke="#4A6741" stroke-width="1.1" fill="#F9F7F4"/><circle cx="17" cy="13" r="8" fill="#EEF2ED" stroke="#6B8F67" stroke-width=".9"/></g><circle cx="112" cy="110" r="5.5" fill="#F2EFE9" stroke="#4A6741" stroke-width=".9"/></svg>
+    </div>
+    <div class="t-body">
+      <span class="overline">Territory three</span>
+      <h2>Remembrance</h2>
+      <p class="t-lede">Designed to honor, not decorate.</p>
+      <p class="desc">The most restrained compositions in the library — deliberate negative space, hushed palettes, exposed vine carrying as much meaning as the blooms. Built for memories that are heavy and worth holding.</p>
+      <div class="sig"><h5>Territory signature</h5>
+        <div class="sig-row"><span>Restraint</span><div class="sig-track"><div class="sig-fill" data-v="85"></div></div><span>.85</span></div>
+        <div class="sig-row"><span>Intimacy</span><div class="sig-track"><div class="sig-fill" data-v="85"></div></div><span>.85</span></div>
+        <div class="sig-row"><span>Energy</span><div class="sig-track"><div class="sig-fill" data-v="15"></div></div><span>.15</span></div>
+      </div>
+      <div class="t-foot"><span class="samples">Lives here: <b>Legacy Garden · White Hour · Kept Letters</b></span><a href="signature-wreaths.html">Browse Remembrance &rarr;</a></div>
+    </div>
+  </article>
+
+  <article class="terr reveal">
+    <div class="t-visual v-renewal"><span class="num">IV</span><span class="count">8 designs</span>
+      <svg width="150" height="150" viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="56" stroke="#6B8F67" stroke-width="1.3" stroke-dasharray="22 6 16 5" opacity=".7"/><path d="M48 112 C48 82 66 60 104 54" stroke="#6B8F67" stroke-width="1.6"/><ellipse cx="72" cy="84" rx="9" ry="3.8" transform="rotate(-46 72 84)" fill="#6B8F67" opacity=".7"/><ellipse cx="86" cy="70" rx="8" ry="3.4" transform="rotate(-36 86 70)" fill="#6B8F67" opacity=".6"/><circle cx="106" cy="54" r="8" fill="#EEF2ED" stroke="#4A6741" stroke-width="1"/></svg>
+    </div>
+    <div class="t-body">
+      <span class="overline">Territory four</span>
+      <h2>Renewal</h2>
+      <p class="t-lede">Fresh greens, upward movement, beginnings.</p>
+      <p class="desc">Diagonal flow, climbing greenery, the lightest material weight in the library. Renewal designs mark the after — new homes, recoveries, first springs.</p>
+      <div class="sig"><h5>Territory signature</h5>
+        <div class="sig-row"><span>Valence</span><div class="sig-track"><div class="sig-fill" data-v="80"></div></div><span>.80</span></div>
+        <div class="sig-row"><span>Seasonal</span><div class="sig-track"><div class="sig-fill" data-v="70"></div></div><span>.70</span></div>
+        <div class="sig-row"><span>Nostalgia</span><div class="sig-track"><div class="sig-fill" data-v="25"></div></div><span>.25</span></div>
+      </div>
+      <div class="t-foot"><span class="samples">Lives here: <b>Green Morning</b> + seven more</span><a href="signature-wreaths.html">Browse Renewal &rarr;</a></div>
+    </div>
+  </article>
+
+  <article class="terr reveal">
+    <div class="t-visual v-connection"><span class="num">V</span><span class="count">7 designs</span>
+      <svg width="150" height="150" viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="56" stroke="#8A7458" stroke-width="1.3" stroke-dasharray="18 6 26 5" opacity=".6"/><g transform="translate(58,70)"><circle r="13" fill="#EEF2ED" stroke="#4A6785" stroke-width="1.1"/></g><g transform="translate(90,90)"><circle r="13" fill="#F9F7F4" stroke="#4A6741" stroke-width="1.1"/></g><path d="M46 60 C38 52 33 44 31 34" stroke="#6B8F67" stroke-width="1.2"/></svg>
+    </div>
+    <div class="t-body">
+      <span class="overline">Territory five</span>
+      <h2>Connection</h2>
+      <p class="t-lede">Interwoven materials, paired clusters, shared weight.</p>
+      <p class="desc">Twin compositions where two clusters balance each other across the vine — designs about the people a home holds, built on the library's most intimate profiles.</p>
+      <div class="sig"><h5>Territory signature</h5>
+        <div class="sig-row"><span>Intimacy</span><div class="sig-track"><div class="sig-fill" data-v="90"></div></div><span>.90</span></div>
+        <div class="sig-row"><span>Warmth</span><div class="sig-track"><div class="sig-fill" data-v="80"></div></div><span>.80</span></div>
+        <div class="sig-row"><span>Seasonal</span><div class="sig-track"><div class="sig-fill" data-v="30"></div></div><span>.30</span></div>
+      </div>
+      <div class="t-foot"><span class="samples">Lives here: <b>The Long Table</b> + six more</span><a href="signature-wreaths.html">Browse Connection &rarr;</a></div>
+    </div>
+  </article>
+
+  <article class="terr reveal">
+    <div class="t-visual v-nostalgia"><span class="num">VI</span><span class="count">11 designs</span>
+      <svg width="150" height="150" viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="56" stroke="#A8916F" stroke-width="1.4" stroke-dasharray="12 5 24 6" opacity=".7"/><g transform="translate(54,52)"><circle r="14" fill="#F2EFE9" stroke="#4A6741" stroke-width="1.2"/><circle cx="18" cy="10" r="9" fill="#EEF2ED" stroke="#C4922A" stroke-width="1"/></g><circle cx="110" cy="110" r="7" fill="#F9F7F4" stroke="#6B8F67" stroke-width="1"/><circle cx="98" cy="124" r="3.2" fill="#C4922A" opacity=".8"/><circle cx="106" cy="130" r="2.3" fill="#C4922A" opacity=".7"/></svg>
+    </div>
+    <div class="t-body">
+      <span class="overline">Territory six</span>
+      <h2>Seasonal Nostalgia</h2>
+      <p class="t-lede">Octobers and Decembers you can almost smell.</p>
+      <p class="desc">The territory where memory and season fuse — designs anchored so firmly to a time of year that hanging one changes what month it feels like inside. The library's highest nostalgia and seasonal scores live here.</p>
+      <div class="sig"><h5>Territory signature</h5>
+        <div class="sig-row"><span>Nostalgia</span><div class="sig-track"><div class="sig-fill" data-v="95"></div></div><span>.95</span></div>
+        <div class="sig-row"><span>Seasonal</span><div class="sig-track"><div class="sig-fill" data-v="95"></div></div><span>.95</span></div>
+        <div class="sig-row"><span>Energy</span><div class="sig-track"><div class="sig-fill" data-v="30"></div></div><span>.30</span></div>
+      </div>
+      <div class="t-foot"><span class="samples">Lives here: <b>September Porch · Cider House · Last Bonfire</b></span><a href="signature-wreaths.html">Browse Seasonal Nostalgia &rarr;</a></div>
+    </div>
+  </article>
+</div>
+
+  <div class="end-cta reveal">
+    <h2>Not sure where your memory lives? <span class="script-accent">That's the point.</span></h2>
+    <p>You never have to choose a territory — the memory does it for you.</p>
+    <a class="btn" href="index.html#memory">Begin a memory</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-base">
+    <span>&copy; 2026 Evercrafted, Inc. · <a href="how-matching-works.html">How matching works &rarr;</a></span>
+    <span class="powered"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" style="color:var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>Powered by <b>Evercrafted</b></span>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll('.sig-fill').forEach(f=>f.style.width=f.dataset.v+'%');
+  io.unobserve(e.target);
+})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+requestAnimationFrame(()=>document.querySelectorAll('.page-hero .reveal').forEach(el=>el.classList.add('in')));
+</script>
+<script src="cart.js" defer></script>
+<script src="moodoor-runtime.js" defer></script>
+</body>
+</html>

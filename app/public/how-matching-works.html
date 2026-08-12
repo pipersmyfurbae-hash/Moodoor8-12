@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Matching Works — Moodoor</title>
+<meta name="description" content="How Moodoor turns a written memory into a wreath match — the Emotional Vector System, explained honestly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Dancing+Script:wght@600&family=Inter:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--ec-white:#FFFFFF;--ec-off-white:#F9F7F4;--ec-paper:#F2EFE9;--ec-black:#1A1A1A;--ec-charcoal:#2E2E2E;--ec-ink:#4A4A4A;--ec-green:#4A6741;--ec-green-light:#6B8F67;--ec-green-pale:#EEF2ED;--ec-green-dim:rgba(74,103,65,.12);--ec-gray-100:#F5F5F5;--ec-gray-200:#E8E8E8;--ec-gray-300:#D0D0D0;--ec-gray-400:#A8A8A8;--ec-gray-500:#787878;--ec-warning:#C4922A;--ec-border:var(--ec-gray-200);--ec-text:var(--ec-black);--ec-text-muted:var(--ec-ink);--ec-text-faint:var(--ec-gray-500);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--script:'Dancing Script',cursive;--mono:'DM Mono',monospace;--sh-md:0 4px 16px rgba(0,0,0,.08);--sh-lg:0 8px 32px rgba(0,0,0,.10);--r-lg:14px;--r-xl:20px;--r-full:9999px;--tr:200ms ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16.5px;line-height:1.65;color:var(--ec-text);background:var(--ec-off-white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")}
+::selection{background:var(--ec-green-dim);color:var(--ec-green)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+h1,h2,h3{font-family:var(--serif);font-weight:400}
+.overline{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ec-green)}
+.script-accent{font-family:var(--script);color:var(--ec-green)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease-out,transform .6s ease-out}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.12s}.reveal-d2{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(249,247,244,.92);border-bottom:1px solid var(--ec-border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.wordmark{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ec-text);text-decoration:none}
+.wordmark span{color:var(--ec-green)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--ec-text-muted);text-decoration:none;transition:color var(--tr)}
+.nav-links a:hover{color:var(--ec-green)}
+.nav-cta{color:var(--ec-off-white)!important;background:var(--ec-green);padding:9px 20px;border-radius:var(--r-full);font-weight:600!important}
+@media (max-width:768px){.nav-links li:not(:last-child){display:none}}
+.page-hero{padding:88px 0 64px;text-align:center;background:radial-gradient(ellipse 700px 420px at 50% 0%,var(--ec-green-pale),transparent 65%),var(--ec-off-white)}
+.page-hero h1{font-size:clamp(40px,5.4vw,62px);line-height:1.16;padding-bottom:.08em;overflow-wrap:break-word;letter-spacing:-.03em;margin:16px auto 0;max-width:760px}
+.page-hero h1 .script-accent{line-height:1.3;display:inline-block;padding-bottom:.06em}
+.page-hero p.sub{font-size:17.5px;color:var(--ec-text-muted);max-width:560px;margin:18px auto 0}
+section.block{padding:88px 0}
+@media (max-width:768px){section.block{padding:52px 0}}
+.section-head{max-width:620px;margin-bottom:52px}
+.section-head h2{font-size:clamp(30px,3.9vw,42px);line-height:1.15;letter-spacing:-.02em;margin-top:14px}
+.section-head p{color:var(--ec-text-muted);margin-top:14px}
+/* journey rail */
+.journey{position:relative;display:grid;gap:0}
+.j-step{display:grid;grid-template-columns:72px 1fr;gap:28px;padding:36px 0;position:relative}
+.j-step::before{content:'';position:absolute;left:35px;top:0;bottom:0;width:1.5px;background:var(--ec-gray-200)}
+.j-step:first-child::before{top:36px}
+.j-step:last-child::before{bottom:auto;height:36px}
+.j-dot{width:72px;height:72px;border-radius:50%;background:var(--ec-white);border:1px solid var(--ec-border);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:24px;font-style:italic;color:var(--ec-green);position:relative;z-index:2;box-shadow:var(--sh-md)}
+.j-body h3{font-size:26px;margin-bottom:8px}
+.j-body p{font-size:15.5px;color:var(--ec-text-muted);max-width:620px}
+.j-body .j-card{margin-top:18px;background:var(--ec-white);border:1px solid var(--ec-border);border-radius:var(--r-lg);padding:18px 22px;max-width:620px;font-family:var(--mono);font-size:12px;color:var(--ec-text-muted);line-height:1.9}
+.j-body .j-card em{font-family:var(--serif);font-size:16px;color:var(--ec-text);font-style:italic}
+.j-body .j-card .g{color:var(--ec-green)}
+.honest{display:inline-block;margin-top:14px;font-size:13px;color:var(--ec-text-faint);border-left:2px solid var(--ec-green-light);padding-left:12px;max-width:600px}
+/* dimensions */
+.dims{background:var(--ec-paper)}
+.dim-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.dim{background:var(--ec-white);border:1px solid var(--ec-border);border-radius:var(--r-lg);padding:26px 28px;transition:transform var(--tr),box-shadow var(--tr)}
+.dim:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.dim h3{font-size:21px;display:flex;justify-content:space-between;align-items:baseline}
+.dim h3 span{font-family:var(--mono);font-size:10.5px;color:var(--ec-text-faint)}
+.dim p{font-size:14px;color:var(--ec-text-muted);margin-top:8px}
+.dim .anchors{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--ec-text-faint);margin-top:14px;padding-top:12px;border-top:1px solid var(--ec-gray-100)}
+@media (max-width:760px){.dim-grid{grid-template-columns:1fr}}
+/* honesty band */
+.truth{background:var(--ec-charcoal);color:var(--ec-paper);border-radius:var(--r-xl);padding:56px;position:relative;overflow:hidden}
+.truth::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 90% 110%,rgba(107,143,103,.16),transparent 60%)}
+.truth>*{position:relative;z-index:2}
+.truth .overline{color:var(--ec-green-light)}
+.truth h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.02em;color:var(--ec-off-white);margin-top:12px}
+.truth-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:32px}
+.truth-grid h4{font-family:var(--serif);font-size:19px;color:var(--ec-off-white);margin-bottom:10px}
+.truth-grid p{font-size:14px;color:var(--ec-gray-300)}
+@media (max-width:820px){.truth{padding:36px}.truth-grid{grid-template-columns:1fr}}
+/* faq + cta */
+.acc{max-width:720px}
+.acc-item{border-bottom:1px solid var(--ec-border)}
+.acc-q{width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:var(--serif);font-size:20px;color:var(--ec-text);padding:22px 8px;display:flex;justify-content:space-between;align-items:center;gap:16px;transition:color var(--tr)}
+.acc-q:hover{color:var(--ec-green)}
+.acc-q svg{flex-shrink:0;transition:transform .3s ease;color:var(--ec-green)}
+.acc-item.open .acc-q svg{transform:rotate(45deg)}
+.acc-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.acc-a p{font-size:14.5px;color:var(--ec-text-muted);padding:0 8px 24px;max-width:600px}
+.end-cta{text-align:center;padding:24px 0 96px}
+.end-cta h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.02em}
+.btn{display:inline-block;margin-top:26px;font-family:var(--sans);font-size:14.5px;font-weight:600;color:var(--ec-off-white);background:var(--ec-green);text-decoration:none;padding:15px 32px;border-radius:var(--r-full);transition:transform var(--tr),box-shadow var(--tr)}
+.btn:hover{transform:scale(1.03);box-shadow:0 10px 26px rgba(74,103,65,.3)}
+footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:44px 0}
+.foot-base{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ec-text-faint);flex-wrap:wrap;gap:12px}
+.foot-base a{color:var(--ec-text-muted);text-decoration:none}
+.foot-base a:hover{color:var(--ec-green)}
+.powered{display:inline-flex;align-items:center;gap:8px}
+.powered b{color:var(--ec-green);font-weight:600}
+
+/* preview-host override: keep reveal content visible (host hijacks opacity:0 transitions) */
+.reveal{opacity:1 !important;transform:none !important;transition:none !important}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="index.html">Mood<span>oor</span></a>
+    <ul class="nav-links">
+      <li><a href="signature-wreaths.html">Wreaths</a></li>
+      <li><a href="digital-blueprints.html">Blueprints</a></li>
+      <li><a href="collection-bundles.html">Bundles</a></li>
+      <li><a href="territories.html">Territories</a></li>
+      <li><a href="upcoming-drops.html">Drops</a></li>
+      <li><a href="how-matching-works.html" class="is-current" aria-current="page">How it works</a></li>
+      <li><a class="nav-cta" href="index.html#memory">Begin a memory</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <span class="overline reveal">How matching works</span>
+    <h1 class="reveal reveal-d1">From a few sentences to <span class="script-accent">the wreath that holds them</span></h1>
+    <p class="sub reveal reveal-d2">No quiz, no style survey, no scrolling through sixty options. You write a memory; the system does the rest. Here's exactly how — including the parts most companies wouldn't explain.</p>
+  </div>
+</header>
+
+<!-- THE JOURNEY -->
+<section class="block">
+  <div class="wrap">
+    <div class="journey">
+      <div class="j-step reveal">
+        <div class="j-dot">01</div>
+        <div class="j-body">
+          <h3>You write the memory</h3>
+          <p>A porch, a person, a season, a year. Write it the way you'd tell a friend — a sentence is enough, a paragraph is better. There are no wrong answers and no design vocabulary required.</p>
+          <div class="j-card"><em>"Sunday mornings at my grandmother's lake house, the summer before we sold it."</em></div>
+        </div>
+      </div>
+      <div class="j-step reveal">
+        <div class="j-dot">02</div>
+        <div class="j-body">
+          <h3>The feeling gets read</h3>
+          <p>Our Emotional Vector System scores the memory on seven dimensions — how warm it is, how quiet, how time-soaked, how close to the chest. This is the one step where AI is involved, and it does exactly one job: interpret the feeling.</p>
+          <div class="j-card"><span class="g">warmth</span> .79 · <span class="g">nostalgia</span> .94 · <span class="g">intimacy</span> .81 · <span class="g">valence</span> .62 · <span class="g">restraint</span> .55 · <span class="g">energy</span> .33 · <span class="g">seasonal</span> .71</div>
+          <span class="honest">Honest note: the AI never chooses your wreath. It only translates words into the seven numbers above.</span>
+        </div>
+      </div>
+      <div class="j-step reveal">
+        <div class="j-dot">03</div>
+        <div class="j-body">
+          <h3>The library is ranked — by math, not by model</h3>
+          <p>Every design in the library was profiled on the same seven dimensions when it was curated. Your memory's profile is compared against all sixty using a fixed, published formula. The same memory always produces the same matches — nothing is random, nothing is "personalized" behind your back.</p>
+        </div>
+      </div>
+      <div class="j-step reveal">
+        <div class="j-dot">04</div>
+        <div class="j-body">
+          <h3>The reveal</h3>
+          <p>You see your top matches, each with its story, its emotional profile, and the choice that makes Moodoor different: order it finished from a small numbered run, or download the exact blueprint and build it yourself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE SEVEN DIMENSIONS -->
+<section class="block dims">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="overline">The seven dimensions</span>
+      <h2>What the system <span class="script-accent">actually listens for</span></h2>
+      <p>Each dimension runs from 0 to 1. Together they form a memory's emotional fingerprint.</p>
+    </div>
+    <div class="dim-grid">
+      <div class="dim reveal"><h3>Warmth <span>emotional temperature</span></h3><p>The tenderness in the memory — its glow.</p><div class="anchors"><span>0 — clinical, cold</span><span>1 — a kitchen in winter</span></div></div>
+      <div class="dim reveal reveal-d1"><h3>Energy <span>arousal level</span></h3><p>Whether the memory sits still or moves.</p><div class="anchors"><span>0 — perfect stillness</span><span>1 — a full house, music on</span></div></div>
+      <div class="dim reveal"><h3>Nostalgia <span>pull toward the past</span></h3><p>How time-soaked the memory is. The strongest signal in most memories people share.</p><div class="anchors"><span>0 — entirely present-tense</span><span>1 — aching for then</span></div></div>
+      <div class="dim reveal reveal-d1"><h3>Valence <span>positivity</span></h3><p>The brightness of the feeling. Grief can run high on nostalgia and low here — the system keeps them separate on purpose.</p><div class="anchors"><span>0 — grief, loss</span><span>1 — uncomplicated joy</span></div></div>
+      <div class="dim reveal"><h3>Intimacy <span>closeness of the circle</span></h3><p>Whether the memory belongs to a crowd or to two people on a porch.</p><div class="anchors"><span>0 — public, anonymous</span><span>1 — between two, or one</span></div></div>
+      <div class="dim reveal reveal-d1"><h3>Restraint <span>quietness</span></h3><p>How composed the feeling is. Not the opposite of energy — a wedding toast can be loud and held at once.</p><div class="anchors"><span>0 — loud, exuberant</span><span>1 — hushed, composed</span></div></div>
+      <div class="dim reveal"><h3>Seasonal affinity <span>anchoring to a season</span></h3><p>How inseparable the memory is from its time of year — Octobers you can smell, Decembers with a temperature.</p><div class="anchors"><span>0 — could be any month</span><span>1 — is its season</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT HAPPENS TO YOUR MEMORY -->
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="truth reveal">
+      <span class="overline">What happens to your memory</span>
+      <h2>You're trusting us with something personal. Here's our end of it.</h2>
+      <div class="truth-grid">
+        <div><h4>It's used for matching, full stop</h4><p>Your memory and its profile are stored so we can show you your matches, improve match quality, and let you return to your reveal. It is never published, never shown to other customers, never sold.</p></div>
+        <div><h4>It trains nothing</h4><p>Your words aren't used to train AI models — ours or anyone else's. The interpreter reads your memory once, scores it, and that's the end of its involvement.</p></div>
+        <div><h4>You can ask us to forget it</h4><p>One email and the memory, its profile, and its session are deleted. The wreath, if you bought one, is yours to keep regardless.</p></div>
+        <div><h4>The match math is inspectable</h4><p>The ranking formula is fixed and versioned. If you ever want to know why a design matched, we can show you the arithmetic — dimension by dimension.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="block" style="padding-top:24px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="overline">Common questions</span>
+      <h2>The fine-grained stuff</h2>
+    </div>
+    <div class="acc reveal">
+      <div class="acc-item">
+        <button class="acc-q">What if the match feels wrong?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="acc-a"><p>Tell us — every reveal includes a quick rating, and low ratings are how the library gets better. You can also rewrite the memory with more detail; more specific memories produce sharper profiles. And the full library is always browsable directly if you'd rather choose by eye.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q">Can a sad memory get a match?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="acc-a"><p>Yes — the Remembrance territory exists for exactly this. The system distinguishes between a memory's sadness and its meaning, so a low-valence, high-intimacy memory matches to restrained, honoring designs rather than anything festive.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q">Why only sixty designs?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="acc-a"><p>Because every design is individually profiled, storied, scored, and blueprint-backed — curation is the product. The library grows by five to ten designs a week, each one earning its place, and matching gets sharper as the territories fill in.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q">Do two people with similar memories get the same wreath?<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="acc-a"><p>If the feelings are genuinely similar, possibly — and we think that's right. The details that make memories different (a lake, a kitchen, a particular September) show up in the dimensions more than people expect, so most reveals differ even when the stories rhyme.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap end-cta reveal">
+  <h2>The explanation is over. <span class="script-accent">The memory is yours.</span></h2>
+  <a class="btn" href="index.html#memory">Begin a memory</a>
+</div>
+
+<footer>
+  <div class="wrap foot-base">
+    <span>&copy; 2026 Evercrafted, Inc. · <a href="territories.html">Explore the six territories &rarr;</a></span>
+    <span class="powered"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" style="color:var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>Powered by <b>Evercrafted</b></span>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+requestAnimationFrame(()=>document.querySelectorAll('.page-hero .reveal').forEach(el=>el.classList.add('in')));
+document.querySelectorAll('.acc-q').forEach(q=>{q.addEventListener('click',()=>{
+  const item=q.parentElement,a=item.querySelector('.acc-a'),open=item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(i=>{i.classList.remove('open');i.querySelector('.acc-a').style.maxHeight=0});
+  if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px'}
+})});
+</script>
+<script src="cart.js" defer></script>
+<script src="moodoor-runtime.js" defer></script>
+</body>
+</html>

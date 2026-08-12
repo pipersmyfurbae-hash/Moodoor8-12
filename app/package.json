@@ -1,0 +1,20 @@
+{
+  "name": "moodoor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Moodoor — memory-matched faux botanical wreaths. Storefront, Studio, and owner console in one zero-dependency Node server.",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "build": "node tools/build-inventory.mjs && node tools/build-seed.mjs && node tools/patch-pages.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check:links": "node tools/link-check.mjs",
+    "verify": "node tools/verify.mjs",
+    "reset": "node -e \"require('node:fs').rmSync('data/moodoor.sqlite',{force:true});require('node:fs').rmSync('data/moodoor.sqlite-wal',{force:true});require('node:fs').rmSync('data/moodoor.sqlite-shm',{force:true});console.log('database reset')\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

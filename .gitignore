@@ -1,0 +1,4 @@
+node_modules/
+app/data/moodoor.sqlite*
+app/tools/screens/
+_work/

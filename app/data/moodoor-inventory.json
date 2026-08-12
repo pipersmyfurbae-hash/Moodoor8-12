@@ -1,0 +1,5700 @@
+{
+  "schema": "EFS-1.0",
+  "generated_at": "2026-07-14T12:37:27.456Z",
+  "species_count": 43,
+  "sku_count_total": 551,
+  "register_gaps": [
+    "Cotton Stem",
+    "Amaranthus",
+    "Lavender",
+    "Lamb's Ear",
+    "Viburnum Berry"
+  ],
+  "species": [
+    {
+      "canon_id": "SPX-AMBERD-01",
+      "species": "Amber Dahlia",
+      "primary_emotion": "joy",
+      "secondary_emotion": "celebration",
+      "wheel_sector": "intimacy",
+      "intensity_range": [
+        0.29,
+        0.77
+      ],
+      "texture_archetype": "papery bract",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0001",
+          "color_name": "Rust",
+          "hex": "#7ac133",
+          "price": 14.26,
+          "primary_role": "accent",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0002",
+          "color_name": "Champagne",
+          "hex": "#54de80",
+          "price": 12.97,
+          "primary_role": "foliage",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0003",
+          "color_name": "Parchment",
+          "hex": "#3dd173",
+          "price": 12.48,
+          "primary_role": "foliage",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0004",
+          "color_name": "Terracotta",
+          "hex": "#e2696f",
+          "price": 15.05,
+          "primary_role": "focal",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0005",
+          "color_name": "Sage",
+          "hex": "#7833c7",
+          "price": 16.17,
+          "primary_role": "accent",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0006",
+          "color_name": "Toffee",
+          "hex": "#2a9dac",
+          "price": 10.85,
+          "primary_role": "accent",
+          "qty_on_hand": 17,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0007",
+          "color_name": "Champagne",
+          "hex": "#4b87c3",
+          "price": 9.09,
+          "primary_role": "foliage",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0008",
+          "color_name": "Cream",
+          "hex": "#89d2a6",
+          "price": 4.86,
+          "primary_role": "accent",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0009",
+          "color_name": "Champagne",
+          "hex": "#dc7041",
+          "price": 10.25,
+          "primary_role": "accent",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0010",
+          "color_name": "Wine",
+          "hex": "#46b95b",
+          "price": 15.07,
+          "primary_role": "filler",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0011",
+          "color_name": "Cream",
+          "hex": "#3223b3",
+          "price": 11.7,
+          "primary_role": "foliage",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0012",
+          "color_name": "Moss",
+          "hex": "#33c729",
+          "price": 15.36,
+          "primary_role": "accent",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 12,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-GOLDEN-02",
+      "species": "Golden Dahlia",
+      "primary_emotion": "joy",
+      "secondary_emotion": "warmth",
+      "wheel_sector": "memory",
+      "intensity_range": [
+        0.4,
+        0.85
+      ],
+      "texture_archetype": "matte foliage",
+      "seasonality": "fall",
+      "skus": [
+        {
+          "sku": "MD-0013",
+          "color_name": "Ivory",
+          "hex": "#d9c581",
+          "price": 5.62,
+          "primary_role": "foliage",
+          "qty_on_hand": 55,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0014",
+          "color_name": "Cream",
+          "hex": "#d957db",
+          "price": 13.83,
+          "primary_role": "foliage",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0015",
+          "color_name": "Cognac",
+          "hex": "#8870d7",
+          "price": 8.33,
+          "primary_role": "foliage",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0016",
+          "color_name": "Toffee",
+          "hex": "#3e97da",
+          "price": 6.92,
+          "primary_role": "secondary",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0017",
+          "color_name": "Ivory",
+          "hex": "#9e4fbf",
+          "price": 16,
+          "primary_role": "foliage",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0018",
+          "color_name": "Slate",
+          "hex": "#4350a8",
+          "price": 8.77,
+          "primary_role": "accent",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0019",
+          "color_name": "Olive",
+          "hex": "#6bb3c7",
+          "price": 10.82,
+          "primary_role": "filler",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0020",
+          "color_name": "Cognac",
+          "hex": "#9386d0",
+          "price": 12.98,
+          "primary_role": "foliage",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0021",
+          "color_name": "Olive",
+          "hex": "#8288de",
+          "price": 5.59,
+          "primary_role": "accent",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0022",
+          "color_name": "Plum",
+          "hex": "#73d47e",
+          "price": 7.98,
+          "primary_role": "filler",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0023",
+          "color_name": "Wine",
+          "hex": "#d93f94",
+          "price": 9.45,
+          "primary_role": "focal",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0024",
+          "color_name": "Parchment",
+          "hex": "#d09867",
+          "price": 17.43,
+          "primary_role": "focal",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0025",
+          "color_name": "Bone",
+          "hex": "#45b051",
+          "price": 17.06,
+          "primary_role": "secondary",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0026",
+          "color_name": "Cognac",
+          "hex": "#873dd6",
+          "price": 10.07,
+          "primary_role": "filler",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0027",
+          "color_name": "Cream",
+          "hex": "#9ddc4c",
+          "price": 6.99,
+          "primary_role": "filler",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0028",
+          "color_name": "Olive",
+          "hex": "#c436a3",
+          "price": 14.74,
+          "primary_role": "foliage",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 16,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-WHITER-03",
+      "species": "White Rosebud",
+      "primary_emotion": "reverence",
+      "secondary_emotion": "tenderness",
+      "wheel_sector": "intimacy",
+      "intensity_range": [
+        0.37,
+        0.71
+      ],
+      "texture_archetype": "papery bract",
+      "seasonality": "spring",
+      "skus": [
+        {
+          "sku": "MD-0029",
+          "color_name": "Terracotta",
+          "hex": "#4387d6",
+          "price": 7.92,
+          "primary_role": "filler",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0030",
+          "color_name": "Moss",
+          "hex": "#b4414e",
+          "price": 5.01,
+          "primary_role": "filler",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0031",
+          "color_name": "Champagne",
+          "hex": "#bc6bc7",
+          "price": 12.42,
+          "primary_role": "focal",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0032",
+          "color_name": "Parchment",
+          "hex": "#b07d36",
+          "price": 3.87,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0033",
+          "color_name": "Slate",
+          "hex": "#c474d2",
+          "price": 3.9,
+          "primary_role": "foliage",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0034",
+          "color_name": "Sage",
+          "hex": "#bf4a4a",
+          "price": 5.43,
+          "primary_role": "secondary",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0035",
+          "color_name": "Cream",
+          "hex": "#4f9ccf",
+          "price": 8.63,
+          "primary_role": "focal",
+          "qty_on_hand": 47,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0036",
+          "color_name": "Wine",
+          "hex": "#937ad6",
+          "price": 13.16,
+          "primary_role": "accent",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 7
+        }
+      ],
+      "sku_count": 8,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-BLUEHY-04",
+      "species": "Blue Hydrangea",
+      "primary_emotion": "wonder",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.21,
+        0.76
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "spring",
+      "skus": [
+        {
+          "sku": "MD-0037",
+          "color_name": "Terracotta",
+          "hex": "#40b3c4",
+          "price": 11.28,
+          "primary_role": "focal",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0038",
+          "color_name": "Amber",
+          "hex": "#49389f",
+          "price": 15.17,
+          "primary_role": "filler",
+          "qty_on_hand": 53,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0039",
+          "color_name": "Moss",
+          "hex": "#485fb1",
+          "price": 4.31,
+          "primary_role": "accent",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0040",
+          "color_name": "Parchment",
+          "hex": "#71cc87",
+          "price": 13.62,
+          "primary_role": "focal",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0041",
+          "color_name": "Champagne",
+          "hex": "#9f419f",
+          "price": 15.26,
+          "primary_role": "accent",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0042",
+          "color_name": "Cream",
+          "hex": "#95b125",
+          "price": 8.9,
+          "primary_role": "filler",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0043",
+          "color_name": "Moss",
+          "hex": "#9f6f41",
+          "price": 9.22,
+          "primary_role": "accent",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0044",
+          "color_name": "Wine",
+          "hex": "#6cc12f",
+          "price": 14.84,
+          "primary_role": "accent",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 8,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-IVORYL-05",
+      "species": "Ivory Lisianthus",
+      "primary_emotion": "tenderness",
+      "secondary_emotion": "reverence",
+      "wheel_sector": "vitality",
+      "intensity_range": [
+        0.25,
+        0.91
+      ],
+      "texture_archetype": "downy petal",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0045",
+          "color_name": "Moss",
+          "hex": "#9c8fd1",
+          "price": 8.22,
+          "primary_role": "secondary",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0046",
+          "color_name": "Dust Rose",
+          "hex": "#c34341",
+          "price": 11.31,
+          "primary_role": "focal",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0047",
+          "color_name": "Cream",
+          "hex": "#75e17e",
+          "price": 11.4,
+          "primary_role": "focal",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0048",
+          "color_name": "Ivory",
+          "hex": "#c74375",
+          "price": 8.15,
+          "primary_role": "focal",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0049",
+          "color_name": "Blush",
+          "hex": "#2dd755",
+          "price": 16.24,
+          "primary_role": "focal",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0050",
+          "color_name": "Olive",
+          "hex": "#70c7ac",
+          "price": 6.31,
+          "primary_role": "filler",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0051",
+          "color_name": "Dust Rose",
+          "hex": "#6798c5",
+          "price": 9.11,
+          "primary_role": "filler",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0052",
+          "color_name": "Champagne",
+          "hex": "#dc568e",
+          "price": 5.11,
+          "primary_role": "focal",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0053",
+          "color_name": "Cognac",
+          "hex": "#d6db75",
+          "price": 5.37,
+          "primary_role": "foliage",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0054",
+          "color_name": "Parchment",
+          "hex": "#af314d",
+          "price": 15.77,
+          "primary_role": "focal",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0055",
+          "color_name": "Plum",
+          "hex": "#d05f5d",
+          "price": 10.56,
+          "primary_role": "foliage",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0056",
+          "color_name": "Ivory",
+          "hex": "#d96dc2",
+          "price": 13.24,
+          "primary_role": "foliage",
+          "qty_on_hand": 14,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0057",
+          "color_name": "Parchment",
+          "hex": "#26b570",
+          "price": 4.81,
+          "primary_role": "foliage",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0058",
+          "color_name": "Olive",
+          "hex": "#c55e89",
+          "price": 9.27,
+          "primary_role": "secondary",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0059",
+          "color_name": "Moss",
+          "hex": "#d775ca",
+          "price": 6.6,
+          "primary_role": "focal",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0060",
+          "color_name": "Wine",
+          "hex": "#94d67a",
+          "price": 8.88,
+          "primary_role": "secondary",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 2
+        }
+      ],
+      "sku_count": 16,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-CREAMR-06",
+      "species": "Cream Ranunculus",
+      "primary_emotion": "comfort",
+      "secondary_emotion": "joy",
+      "wheel_sector": "intimacy",
+      "intensity_range": [
+        0.21,
+        0.74
+      ],
+      "texture_archetype": "matte foliage",
+      "seasonality": "spring",
+      "skus": [
+        {
+          "sku": "MD-0061",
+          "color_name": "Rust",
+          "hex": "#db3daf",
+          "price": 11.75,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0062",
+          "color_name": "Cream",
+          "hex": "#758adb",
+          "price": 12.88,
+          "primary_role": "filler",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0063",
+          "color_name": "Olive",
+          "hex": "#5bd793",
+          "price": 7.55,
+          "primary_role": "accent",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0064",
+          "color_name": "Bone",
+          "hex": "#36a695",
+          "price": 5.8,
+          "primary_role": "focal",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0065",
+          "color_name": "Dust Rose",
+          "hex": "#7dc563",
+          "price": 15.57,
+          "primary_role": "filler",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0066",
+          "color_name": "Bone",
+          "hex": "#c62460",
+          "price": 6.96,
+          "primary_role": "filler",
+          "qty_on_hand": 28,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0067",
+          "color_name": "Terracotta",
+          "hex": "#acd289",
+          "price": 11.77,
+          "primary_role": "foliage",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0068",
+          "color_name": "Dust Rose",
+          "hex": "#55a0dd",
+          "price": 8.4,
+          "primary_role": "focal",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0069",
+          "color_name": "Slate",
+          "hex": "#c1e16b",
+          "price": 12.07,
+          "primary_role": "filler",
+          "qty_on_hand": 34,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0070",
+          "color_name": "Cognac",
+          "hex": "#41a7d2",
+          "price": 6.34,
+          "primary_role": "filler",
+          "qty_on_hand": 22,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0071",
+          "color_name": "Olive",
+          "hex": "#b85abf",
+          "price": 10.06,
+          "primary_role": "secondary",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 9
+        }
+      ],
+      "sku_count": 11,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-WHITER-07",
+      "species": "White Ranunculus",
+      "primary_emotion": "reverence",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "warmth",
+      "intensity_range": [
+        0.37,
+        0.86
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0072",
+          "color_name": "Cream",
+          "hex": "#db5cd3",
+          "price": 8.53,
+          "primary_role": "secondary",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0073",
+          "color_name": "Wine",
+          "hex": "#6a4cbd",
+          "price": 7.13,
+          "primary_role": "filler",
+          "qty_on_hand": 28,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0074",
+          "color_name": "Moss",
+          "hex": "#c6397b",
+          "price": 16.2,
+          "primary_role": "secondary",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0075",
+          "color_name": "Cream",
+          "hex": "#8134a2",
+          "price": 8.98,
+          "primary_role": "foliage",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0076",
+          "color_name": "Terracotta",
+          "hex": "#5e58ca",
+          "price": 11.03,
+          "primary_role": "focal",
+          "qty_on_hand": 46,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0077",
+          "color_name": "Plum",
+          "hex": "#d373d1",
+          "price": 13.19,
+          "primary_role": "secondary",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0078",
+          "color_name": "Champagne",
+          "hex": "#c96fe2",
+          "price": 5.79,
+          "primary_role": "foliage",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0079",
+          "color_name": "Cognac",
+          "hex": "#5bd7d1",
+          "price": 8.18,
+          "primary_role": "foliage",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0080",
+          "color_name": "Toffee",
+          "hex": "#bc6d4e",
+          "price": 9.66,
+          "primary_role": "accent",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0081",
+          "color_name": "Plum",
+          "hex": "#aed553",
+          "price": 3.64,
+          "primary_role": "accent",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0082",
+          "color_name": "Ivory",
+          "hex": "#37aea8",
+          "price": 17.27,
+          "primary_role": "filler",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0083",
+          "color_name": "Plum",
+          "hex": "#b84c94",
+          "price": 10.27,
+          "primary_role": "focal",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0084",
+          "color_name": "Slate",
+          "hex": "#5abf75",
+          "price": 7.19,
+          "primary_role": "focal",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0085",
+          "color_name": "Champagne",
+          "hex": "#c23329",
+          "price": 14.94,
+          "primary_role": "secondary",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0086",
+          "color_name": "Plum",
+          "hex": "#422fac",
+          "price": 5.7,
+          "primary_role": "accent",
+          "qty_on_hand": 28,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0087",
+          "color_name": "Plum",
+          "hex": "#7796da",
+          "price": 7.12,
+          "primary_role": "foliage",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0088",
+          "color_name": "Olive",
+          "hex": "#3bb55f",
+          "price": 5.88,
+          "primary_role": "secondary",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0089",
+          "color_name": "Dust Rose",
+          "hex": "#c56ee2",
+          "price": 14.61,
+          "primary_role": "secondary",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0090",
+          "color_name": "Wine",
+          "hex": "#72ae3d",
+          "price": 8.08,
+          "primary_role": "accent",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0091",
+          "color_name": "Slate",
+          "hex": "#c55980",
+          "price": 8.74,
+          "primary_role": "secondary",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0092",
+          "color_name": "Parchment",
+          "hex": "#3599a7",
+          "price": 13.67,
+          "primary_role": "secondary",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0093",
+          "color_name": "Ivory",
+          "hex": "#566ad2",
+          "price": 14.74,
+          "primary_role": "foliage",
+          "qty_on_hand": 14,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0094",
+          "color_name": "Wine",
+          "hex": "#da4b3e",
+          "price": 14.2,
+          "primary_role": "focal",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0095",
+          "color_name": "Wine",
+          "hex": "#c3d987",
+          "price": 7.55,
+          "primary_role": "accent",
+          "qty_on_hand": 14,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0096",
+          "color_name": "Ivory",
+          "hex": "#dc9e47",
+          "price": 3.78,
+          "primary_role": "filler",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 2
+        }
+      ],
+      "sku_count": 25,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-AMBERP-08",
+      "species": "Amber Pip Berry",
+      "primary_emotion": "warmth",
+      "secondary_emotion": "celebration",
+      "wheel_sector": "vitality",
+      "intensity_range": [
+        0.48,
+        0.84
+      ],
+      "texture_archetype": "fibrous stem",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0097",
+          "color_name": "Cognac",
+          "hex": "#3441bc",
+          "price": 7.6,
+          "primary_role": "secondary",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0098",
+          "color_name": "Amber",
+          "hex": "#d4be87",
+          "price": 10.97,
+          "primary_role": "focal",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0099",
+          "color_name": "Cognac",
+          "hex": "#37a48b",
+          "price": 15.15,
+          "primary_role": "accent",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0100",
+          "color_name": "Moss",
+          "hex": "#66e191",
+          "price": 8.39,
+          "primary_role": "foliage",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0101",
+          "color_name": "Cognac",
+          "hex": "#48dbc7",
+          "price": 14.18,
+          "primary_role": "filler",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0102",
+          "color_name": "Toffee",
+          "hex": "#6b9ccc",
+          "price": 13.52,
+          "primary_role": "foliage",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0103",
+          "color_name": "Moss",
+          "hex": "#c24c58",
+          "price": 16.43,
+          "primary_role": "foliage",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0104",
+          "color_name": "Ivory",
+          "hex": "#bba13a",
+          "price": 16.87,
+          "primary_role": "filler",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0105",
+          "color_name": "Champagne",
+          "hex": "#b89032",
+          "price": 12.93,
+          "primary_role": "foliage",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0106",
+          "color_name": "Champagne",
+          "hex": "#8447b3",
+          "price": 8.41,
+          "primary_role": "accent",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0107",
+          "color_name": "Ivory",
+          "hex": "#4aba82",
+          "price": 9.71,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0108",
+          "color_name": "Dust Rose",
+          "hex": "#76d696",
+          "price": 4.03,
+          "primary_role": "foliage",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0109",
+          "color_name": "Wine",
+          "hex": "#d89069",
+          "price": 16.97,
+          "primary_role": "secondary",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0110",
+          "color_name": "Sage",
+          "hex": "#383ab2",
+          "price": 11.36,
+          "primary_role": "secondary",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 9
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-MUSTAR-09",
+      "species": "Mustard Berry",
+      "primary_emotion": "warmth",
+      "secondary_emotion": "nostalgia",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.42,
+        0.72
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "spring",
+      "skus": [
+        {
+          "sku": "MD-0111",
+          "color_name": "Moss",
+          "hex": "#29b4c7",
+          "price": 7.5,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0112",
+          "color_name": "Rust",
+          "hex": "#6031bf",
+          "price": 10.76,
+          "primary_role": "foliage",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0113",
+          "color_name": "Rust",
+          "hex": "#81c355",
+          "price": 10.51,
+          "primary_role": "foliage",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0114",
+          "color_name": "Dust Rose",
+          "hex": "#57cbae",
+          "price": 7.95,
+          "primary_role": "filler",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0115",
+          "color_name": "Cognac",
+          "hex": "#4835d4",
+          "price": 14.66,
+          "primary_role": "secondary",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0116",
+          "color_name": "Champagne",
+          "hex": "#ced48c",
+          "price": 7.49,
+          "primary_role": "foliage",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0117",
+          "color_name": "Rust",
+          "hex": "#34dabe",
+          "price": 4.76,
+          "primary_role": "filler",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0118",
+          "color_name": "Toffee",
+          "hex": "#5dc0c0",
+          "price": 11.82,
+          "primary_role": "focal",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0119",
+          "color_name": "Cream",
+          "hex": "#47dc7b",
+          "price": 3.96,
+          "primary_role": "foliage",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0120",
+          "color_name": "Bone",
+          "hex": "#b82886",
+          "price": 16.61,
+          "primary_role": "secondary",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0121",
+          "color_name": "Dust Rose",
+          "hex": "#78e1e2",
+          "price": 6.9,
+          "primary_role": "filler",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0122",
+          "color_name": "Champagne",
+          "hex": "#a0d945",
+          "price": 4.57,
+          "primary_role": "accent",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 7
+        }
+      ],
+      "sku_count": 12,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-GREYLI-10",
+      "species": "Grey Lichen",
+      "primary_emotion": "melancholy",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.22,
+        0.69
+      ],
+      "texture_archetype": "structured cluster",
+      "seasonality": "spring",
+      "skus": [
+        {
+          "sku": "MD-0123",
+          "color_name": "Toffee",
+          "hex": "#24b291",
+          "price": 7.5,
+          "primary_role": "accent",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0124",
+          "color_name": "Terracotta",
+          "hex": "#9d5439",
+          "price": 8.34,
+          "primary_role": "focal",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0125",
+          "color_name": "Toffee",
+          "hex": "#c036c9",
+          "price": 12.93,
+          "primary_role": "secondary",
+          "qty_on_hand": 28,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0126",
+          "color_name": "Blush",
+          "hex": "#4ba1c3",
+          "price": 14.69,
+          "primary_role": "filler",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0127",
+          "color_name": "Sage",
+          "hex": "#5430b5",
+          "price": 12.76,
+          "primary_role": "secondary",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0128",
+          "color_name": "Amber",
+          "hex": "#89d388",
+          "price": 8.87,
+          "primary_role": "filler",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0129",
+          "color_name": "Cream",
+          "hex": "#81d997",
+          "price": 13.57,
+          "primary_role": "foliage",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0130",
+          "color_name": "Amber",
+          "hex": "#dd73b5",
+          "price": 5.77,
+          "primary_role": "filler",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0131",
+          "color_name": "Moss",
+          "hex": "#a640bf",
+          "price": 13.64,
+          "primary_role": "foliage",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0132",
+          "color_name": "Rust",
+          "hex": "#57a72f",
+          "price": 8.83,
+          "primary_role": "accent",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0133",
+          "color_name": "Blush",
+          "hex": "#db4880",
+          "price": 6.04,
+          "primary_role": "accent",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0134",
+          "color_name": "Moss",
+          "hex": "#72aacf",
+          "price": 3.88,
+          "primary_role": "focal",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0135",
+          "color_name": "Parchment",
+          "hex": "#76ace5",
+          "price": 5.12,
+          "primary_role": "filler",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0136",
+          "color_name": "Wine",
+          "hex": "#cdc756",
+          "price": 4.23,
+          "primary_role": "foliage",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0137",
+          "color_name": "Cream",
+          "hex": "#cf5e78",
+          "price": 12.27,
+          "primary_role": "focal",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0138",
+          "color_name": "Bone",
+          "hex": "#233eb8",
+          "price": 7.12,
+          "primary_role": "foliage",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0139",
+          "color_name": "Dust Rose",
+          "hex": "#c02a84",
+          "price": 5.02,
+          "primary_role": "accent",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0140",
+          "color_name": "Terracotta",
+          "hex": "#4db143",
+          "price": 15.48,
+          "primary_role": "filler",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0141",
+          "color_name": "Terracotta",
+          "hex": "#a459de",
+          "price": 5.49,
+          "primary_role": "secondary",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0142",
+          "color_name": "Olive",
+          "hex": "#72cbc8",
+          "price": 13.07,
+          "primary_role": "accent",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0143",
+          "color_name": "Rust",
+          "hex": "#de7887",
+          "price": 4.17,
+          "primary_role": "filler",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0144",
+          "color_name": "Ivory",
+          "hex": "#5baa41",
+          "price": 4.9,
+          "primary_role": "secondary",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0145",
+          "color_name": "Cream",
+          "hex": "#8bc16c",
+          "price": 5.04,
+          "primary_role": "secondary",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0146",
+          "color_name": "Rust",
+          "hex": "#64a432",
+          "price": 11.01,
+          "primary_role": "focal",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 9
+        }
+      ],
+      "sku_count": 24,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-DRIEDS-11",
+      "species": "Dried Strawflower",
+      "primary_emotion": "nostalgia",
+      "secondary_emotion": "warmth",
+      "wheel_sector": "vitality",
+      "intensity_range": [
+        0.37,
+        0.63
+      ],
+      "texture_archetype": "matte foliage",
+      "seasonality": "fall",
+      "skus": [
+        {
+          "sku": "MD-0147",
+          "color_name": "Cream",
+          "hex": "#be6466",
+          "price": 11.73,
+          "primary_role": "focal",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0148",
+          "color_name": "Parchment",
+          "hex": "#73cf4f",
+          "price": 13.09,
+          "primary_role": "filler",
+          "qty_on_hand": 55,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0149",
+          "color_name": "Parchment",
+          "hex": "#797edc",
+          "price": 16.64,
+          "primary_role": "secondary",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0150",
+          "color_name": "Slate",
+          "hex": "#c8e15b",
+          "price": 6.47,
+          "primary_role": "foliage",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0151",
+          "color_name": "Sage",
+          "hex": "#63409c",
+          "price": 14.4,
+          "primary_role": "focal",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0152",
+          "color_name": "Toffee",
+          "hex": "#708dc2",
+          "price": 4.81,
+          "primary_role": "accent",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0153",
+          "color_name": "Slate",
+          "hex": "#ab9530",
+          "price": 6.92,
+          "primary_role": "filler",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0154",
+          "color_name": "Toffee",
+          "hex": "#5340b5",
+          "price": 4.3,
+          "primary_role": "accent",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0155",
+          "color_name": "Blush",
+          "hex": "#26b0c5",
+          "price": 15.79,
+          "primary_role": "secondary",
+          "qty_on_hand": 22,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0156",
+          "color_name": "Parchment",
+          "hex": "#cec788",
+          "price": 3.73,
+          "primary_role": "accent",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0157",
+          "color_name": "Amber",
+          "hex": "#3fc1ca",
+          "price": 15.46,
+          "primary_role": "secondary",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0158",
+          "color_name": "Plum",
+          "hex": "#9264d8",
+          "price": 12.26,
+          "primary_role": "accent",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 7
+        }
+      ],
+      "sku_count": 12,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-WHITEW-12",
+      "species": "White Waxflower",
+      "primary_emotion": "tenderness",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.37,
+        0.92
+      ],
+      "texture_archetype": "downy petal",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0159",
+          "color_name": "Dust Rose",
+          "hex": "#c55976",
+          "price": 7.33,
+          "primary_role": "focal",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0160",
+          "color_name": "Ivory",
+          "hex": "#c58d63",
+          "price": 12.49,
+          "primary_role": "secondary",
+          "qty_on_hand": 47,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0161",
+          "color_name": "Ivory",
+          "hex": "#b66bd1",
+          "price": 8.43,
+          "primary_role": "filler",
+          "qty_on_hand": 34,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0162",
+          "color_name": "Terracotta",
+          "hex": "#3146a5",
+          "price": 13.47,
+          "primary_role": "filler",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0163",
+          "color_name": "Plum",
+          "hex": "#4e97bc",
+          "price": 4.98,
+          "primary_role": "filler",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0164",
+          "color_name": "Cognac",
+          "hex": "#7d7de3",
+          "price": 14.23,
+          "primary_role": "accent",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0165",
+          "color_name": "Wine",
+          "hex": "#6c36d9",
+          "price": 6.66,
+          "primary_role": "focal",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0166",
+          "color_name": "Terracotta",
+          "hex": "#a2cd4c",
+          "price": 9.4,
+          "primary_role": "focal",
+          "qty_on_hand": 17,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0167",
+          "color_name": "Cream",
+          "hex": "#cbcf5e",
+          "price": 10.18,
+          "primary_role": "filler",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0168",
+          "color_name": "Blush",
+          "hex": "#8bbad0",
+          "price": 5.54,
+          "primary_role": "secondary",
+          "qty_on_hand": 17,
+          "recommended_qty_24in": 9
+        }
+      ],
+      "sku_count": 10,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-CREAMW-13",
+      "species": "Cream Waxflower",
+      "primary_emotion": "comfort",
+      "secondary_emotion": "tenderness",
+      "wheel_sector": "warmth",
+      "intensity_range": [
+        0.32,
+        0.83
+      ],
+      "texture_archetype": "papery bract",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0169",
+          "color_name": "Slate",
+          "hex": "#c36fbc",
+          "price": 12,
+          "primary_role": "accent",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0170",
+          "color_name": "Moss",
+          "hex": "#c251b9",
+          "price": 5.7,
+          "primary_role": "filler",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0171",
+          "color_name": "Champagne",
+          "hex": "#c1a753",
+          "price": 15.23,
+          "primary_role": "focal",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0172",
+          "color_name": "Toffee",
+          "hex": "#b1b955",
+          "price": 11.75,
+          "primary_role": "secondary",
+          "qty_on_hand": 32,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0173",
+          "color_name": "Cognac",
+          "hex": "#d57a6c",
+          "price": 10.98,
+          "primary_role": "accent",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0174",
+          "color_name": "Blush",
+          "hex": "#6f85c3",
+          "price": 9.45,
+          "primary_role": "focal",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0175",
+          "color_name": "Amber",
+          "hex": "#df7f68",
+          "price": 14.1,
+          "primary_role": "secondary",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0176",
+          "color_name": "Sage",
+          "hex": "#d1cd75",
+          "price": 11.07,
+          "primary_role": "secondary",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0177",
+          "color_name": "Wine",
+          "hex": "#bcd33c",
+          "price": 14.04,
+          "primary_role": "secondary",
+          "qty_on_hand": 35,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0178",
+          "color_name": "Parchment",
+          "hex": "#6c2ebd",
+          "price": 9.7,
+          "primary_role": "filler",
+          "qty_on_hand": 60,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0179",
+          "color_name": "Cognac",
+          "hex": "#8daace",
+          "price": 10.65,
+          "primary_role": "secondary",
+          "qty_on_hand": 47,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0180",
+          "color_name": "Slate",
+          "hex": "#b1b125",
+          "price": 5.67,
+          "primary_role": "focal",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0181",
+          "color_name": "Terracotta",
+          "hex": "#6582e2",
+          "price": 17.23,
+          "primary_role": "foliage",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 3
+        }
+      ],
+      "sku_count": 13,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-BLUECE-14",
+      "species": "Blue Cedar",
+      "primary_emotion": "stillness",
+      "secondary_emotion": "memory",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.4,
+        0.89
+      ],
+      "texture_archetype": "fibrous stem",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0182",
+          "color_name": "Rust",
+          "hex": "#d47da5",
+          "price": 10.71,
+          "primary_role": "focal",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0183",
+          "color_name": "Cognac",
+          "hex": "#a7af2c",
+          "price": 16.79,
+          "primary_role": "foliage",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0184",
+          "color_name": "Moss",
+          "hex": "#82db5c",
+          "price": 6.22,
+          "primary_role": "filler",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0185",
+          "color_name": "Slate",
+          "hex": "#d66c5c",
+          "price": 5.62,
+          "primary_role": "foliage",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0186",
+          "color_name": "Toffee",
+          "hex": "#b83ec1",
+          "price": 3.75,
+          "primary_role": "accent",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0187",
+          "color_name": "Olive",
+          "hex": "#ae29a9",
+          "price": 9.08,
+          "primary_role": "accent",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0188",
+          "color_name": "Wine",
+          "hex": "#aa81cf",
+          "price": 4.68,
+          "primary_role": "focal",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0189",
+          "color_name": "Moss",
+          "hex": "#beda62",
+          "price": 10.41,
+          "primary_role": "foliage",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0190",
+          "color_name": "Parchment",
+          "hex": "#d784af",
+          "price": 14.54,
+          "primary_role": "accent",
+          "qty_on_hand": 55,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0191",
+          "color_name": "Blush",
+          "hex": "#7acdb1",
+          "price": 12.55,
+          "primary_role": "focal",
+          "qty_on_hand": 38,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0192",
+          "color_name": "Bone",
+          "hex": "#7374c4",
+          "price": 13.45,
+          "primary_role": "filler",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0193",
+          "color_name": "Blush",
+          "hex": "#ce83cb",
+          "price": 13.25,
+          "primary_role": "filler",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0194",
+          "color_name": "Olive",
+          "hex": "#80cbad",
+          "price": 5.91,
+          "primary_role": "secondary",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0195",
+          "color_name": "Olive",
+          "hex": "#4dbbd1",
+          "price": 3.52,
+          "primary_role": "focal",
+          "qty_on_hand": 17,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0196",
+          "color_name": "Blush",
+          "hex": "#a63a59",
+          "price": 9.89,
+          "primary_role": "filler",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0197",
+          "color_name": "Ivory",
+          "hex": "#af6546",
+          "price": 17.41,
+          "primary_role": "focal",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0198",
+          "color_name": "Toffee",
+          "hex": "#d9bb45",
+          "price": 13.3,
+          "primary_role": "accent",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0199",
+          "color_name": "Blush",
+          "hex": "#86acd0",
+          "price": 9.12,
+          "primary_role": "foliage",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0200",
+          "color_name": "Toffee",
+          "hex": "#3f5ecf",
+          "price": 9.73,
+          "primary_role": "filler",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0201",
+          "color_name": "Wine",
+          "hex": "#90419b",
+          "price": 5.44,
+          "primary_role": "focal",
+          "qty_on_hand": 47,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0202",
+          "color_name": "Toffee",
+          "hex": "#c89474",
+          "price": 15.61,
+          "primary_role": "accent",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0203",
+          "color_name": "Champagne",
+          "hex": "#6dc0c5",
+          "price": 15.53,
+          "primary_role": "accent",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0204",
+          "color_name": "Dust Rose",
+          "hex": "#ca4495",
+          "price": 12.63,
+          "primary_role": "accent",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0205",
+          "color_name": "Plum",
+          "hex": "#9872d5",
+          "price": 6.03,
+          "primary_role": "filler",
+          "qty_on_hand": 28,
+          "recommended_qty_24in": 6
+        }
+      ],
+      "sku_count": 24,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-TOASTE-15",
+      "species": "Toasted Oak Leaf",
+      "primary_emotion": "nostalgia",
+      "secondary_emotion": "warmth",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.21,
+        0.86
+      ],
+      "texture_archetype": "waxy leaf",
+      "seasonality": "fall",
+      "skus": [
+        {
+          "sku": "MD-0206",
+          "color_name": "Ivory",
+          "hex": "#5c6ce0",
+          "price": 12.87,
+          "primary_role": "filler",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0207",
+          "color_name": "Sage",
+          "hex": "#d29b84",
+          "price": 11.69,
+          "primary_role": "focal",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0208",
+          "color_name": "Rust",
+          "hex": "#ca4eb8",
+          "price": 15.64,
+          "primary_role": "accent",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0209",
+          "color_name": "Bone",
+          "hex": "#b4c16c",
+          "price": 14,
+          "primary_role": "focal",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0210",
+          "color_name": "Rust",
+          "hex": "#c985d6",
+          "price": 14.2,
+          "primary_role": "foliage",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0211",
+          "color_name": "Ivory",
+          "hex": "#adc238",
+          "price": 15.39,
+          "primary_role": "accent",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0212",
+          "color_name": "Parchment",
+          "hex": "#85d594",
+          "price": 5.28,
+          "primary_role": "focal",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0213",
+          "color_name": "Toffee",
+          "hex": "#58ad43",
+          "price": 8.42,
+          "primary_role": "foliage",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0214",
+          "color_name": "Bone",
+          "hex": "#ca8268",
+          "price": 3.73,
+          "primary_role": "accent",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0215",
+          "color_name": "Ivory",
+          "hex": "#8ed2d2",
+          "price": 5.38,
+          "primary_role": "foliage",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0216",
+          "color_name": "Blush",
+          "hex": "#e273cc",
+          "price": 13.01,
+          "primary_role": "focal",
+          "qty_on_hand": 55,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0217",
+          "color_name": "Cream",
+          "hex": "#6a3d99",
+          "price": 13.33,
+          "primary_role": "foliage",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0218",
+          "color_name": "Parchment",
+          "hex": "#bb2a64",
+          "price": 4.95,
+          "primary_role": "foliage",
+          "qty_on_hand": 47,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0219",
+          "color_name": "Sage",
+          "hex": "#db43d1",
+          "price": 4.64,
+          "primary_role": "foliage",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0220",
+          "color_name": "Cognac",
+          "hex": "#6576cd",
+          "price": 6.86,
+          "primary_role": "focal",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0221",
+          "color_name": "Terracotta",
+          "hex": "#d45e60",
+          "price": 8.68,
+          "primary_role": "accent",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0222",
+          "color_name": "Moss",
+          "hex": "#3693c9",
+          "price": 15.97,
+          "primary_role": "filler",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0223",
+          "color_name": "Champagne",
+          "hex": "#d79b84",
+          "price": 16.98,
+          "primary_role": "secondary",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0224",
+          "color_name": "Olive",
+          "hex": "#e48172",
+          "price": 7.22,
+          "primary_role": "filler",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0225",
+          "color_name": "Slate",
+          "hex": "#62c66c",
+          "price": 9.67,
+          "primary_role": "foliage",
+          "qty_on_hand": 53,
+          "recommended_qty_24in": 3
+        }
+      ],
+      "sku_count": 20,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-SEEDED-16",
+      "species": "Seeded Eucalyptus",
+      "primary_emotion": "renewal",
+      "secondary_emotion": "vitality",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.29,
+        0.76
+      ],
+      "texture_archetype": "papery bract",
+      "seasonality": "summer",
+      "skus": [
+        {
+          "sku": "MD-0226",
+          "color_name": "Cognac",
+          "hex": "#38cc45",
+          "price": 5.72,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0227",
+          "color_name": "Cream",
+          "hex": "#578acb",
+          "price": 5.98,
+          "primary_role": "focal",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0228",
+          "color_name": "Plum",
+          "hex": "#72cf8d",
+          "price": 16.38,
+          "primary_role": "secondary",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0229",
+          "color_name": "Slate",
+          "hex": "#41be84",
+          "price": 11.17,
+          "primary_role": "focal",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0230",
+          "color_name": "Bone",
+          "hex": "#72c94f",
+          "price": 13.86,
+          "primary_role": "focal",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0231",
+          "color_name": "Plum",
+          "hex": "#d765d3",
+          "price": 5.42,
+          "primary_role": "focal",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0232",
+          "color_name": "Champagne",
+          "hex": "#47a951",
+          "price": 9.89,
+          "primary_role": "accent",
+          "qty_on_hand": 35,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0233",
+          "color_name": "Blush",
+          "hex": "#7ec658",
+          "price": 7.21,
+          "primary_role": "secondary",
+          "qty_on_hand": 60,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0234",
+          "color_name": "Rust",
+          "hex": "#715ac4",
+          "price": 9.49,
+          "primary_role": "accent",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0235",
+          "color_name": "Champagne",
+          "hex": "#51bda4",
+          "price": 6.53,
+          "primary_role": "accent",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0236",
+          "color_name": "Rust",
+          "hex": "#d680b6",
+          "price": 4.72,
+          "primary_role": "focal",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0237",
+          "color_name": "Blush",
+          "hex": "#65ca53",
+          "price": 5.27,
+          "primary_role": "foliage",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0238",
+          "color_name": "Terracotta",
+          "hex": "#b18248",
+          "price": 5.76,
+          "primary_role": "accent",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0239",
+          "color_name": "Slate",
+          "hex": "#24bca6",
+          "price": 11.03,
+          "primary_role": "filler",
+          "qty_on_hand": 36,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0240",
+          "color_name": "Olive",
+          "hex": "#ae2d36",
+          "price": 11.41,
+          "primary_role": "accent",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0241",
+          "color_name": "Rust",
+          "hex": "#41729b",
+          "price": 12.25,
+          "primary_role": "focal",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0242",
+          "color_name": "Olive",
+          "hex": "#3ec14e",
+          "price": 16.83,
+          "primary_role": "accent",
+          "qty_on_hand": 60,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0243",
+          "color_name": "Toffee",
+          "hex": "#bc8252",
+          "price": 4.59,
+          "primary_role": "filler",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0244",
+          "color_name": "Cream",
+          "hex": "#7bb238",
+          "price": 16.67,
+          "primary_role": "secondary",
+          "qty_on_hand": 38,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0245",
+          "color_name": "Champagne",
+          "hex": "#e675d5",
+          "price": 12.78,
+          "primary_role": "filler",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0246",
+          "color_name": "Dust Rose",
+          "hex": "#d58bb5",
+          "price": 17.48,
+          "primary_role": "foliage",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0247",
+          "color_name": "Champagne",
+          "hex": "#7dd9b1",
+          "price": 9.68,
+          "primary_role": "filler",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0248",
+          "color_name": "Slate",
+          "hex": "#50b84c",
+          "price": 3.55,
+          "primary_role": "foliage",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0249",
+          "color_name": "Parchment",
+          "hex": "#9237a4",
+          "price": 12.74,
+          "primary_role": "accent",
+          "qty_on_hand": 55,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0250",
+          "color_name": "Toffee",
+          "hex": "#54d4b8",
+          "price": 9.95,
+          "primary_role": "accent",
+          "qty_on_hand": 47,
+          "recommended_qty_24in": 7
+        }
+      ],
+      "sku_count": 25,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-WILDIV-17",
+      "species": "Wild Ivy",
+      "primary_emotion": "vitality",
+      "secondary_emotion": "connection",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.23,
+        0.64
+      ],
+      "texture_archetype": "matte foliage",
+      "seasonality": "summer",
+      "skus": [
+        {
+          "sku": "MD-0251",
+          "color_name": "Olive",
+          "hex": "#5b43a3",
+          "price": 13.58,
+          "primary_role": "accent",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0252",
+          "color_name": "Dust Rose",
+          "hex": "#ca6d7b",
+          "price": 7.39,
+          "primary_role": "filler",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0253",
+          "color_name": "Blush",
+          "hex": "#d27346",
+          "price": 7.37,
+          "primary_role": "filler",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0254",
+          "color_name": "Amber",
+          "hex": "#c328b8",
+          "price": 13.68,
+          "primary_role": "accent",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0255",
+          "color_name": "Toffee",
+          "hex": "#39afdb",
+          "price": 11.98,
+          "primary_role": "foliage",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0256",
+          "color_name": "Amber",
+          "hex": "#ab74d8",
+          "price": 16.97,
+          "primary_role": "focal",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0257",
+          "color_name": "Dust Rose",
+          "hex": "#68c639",
+          "price": 13.26,
+          "primary_role": "accent",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0258",
+          "color_name": "Cream",
+          "hex": "#408c96",
+          "price": 3.61,
+          "primary_role": "foliage",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0259",
+          "color_name": "Toffee",
+          "hex": "#4758d7",
+          "price": 10.5,
+          "primary_role": "secondary",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0260",
+          "color_name": "Sage",
+          "hex": "#79d27c",
+          "price": 16.98,
+          "primary_role": "foliage",
+          "qty_on_hand": 17,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 10,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-BAREWI-18",
+      "species": "Bare Willow",
+      "primary_emotion": "melancholy",
+      "secondary_emotion": "memory",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.27,
+        0.85
+      ],
+      "texture_archetype": "matte foliage",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0261",
+          "color_name": "Cream",
+          "hex": "#259bb6",
+          "price": 14.73,
+          "primary_role": "filler",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0262",
+          "color_name": "Parchment",
+          "hex": "#57cd3c",
+          "price": 13.49,
+          "primary_role": "focal",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0263",
+          "color_name": "Olive",
+          "hex": "#533b9b",
+          "price": 8.22,
+          "primary_role": "foliage",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0264",
+          "color_name": "Amber",
+          "hex": "#c1c837",
+          "price": 15.69,
+          "primary_role": "focal",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0265",
+          "color_name": "Slate",
+          "hex": "#d463c3",
+          "price": 16.35,
+          "primary_role": "foliage",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0266",
+          "color_name": "Cognac",
+          "hex": "#31c48e",
+          "price": 7.28,
+          "primary_role": "focal",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0267",
+          "color_name": "Sage",
+          "hex": "#61b4e0",
+          "price": 8.35,
+          "primary_role": "filler",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0268",
+          "color_name": "Amber",
+          "hex": "#c8658d",
+          "price": 7.81,
+          "primary_role": "filler",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0269",
+          "color_name": "Amber",
+          "hex": "#bd9e2e",
+          "price": 15.16,
+          "primary_role": "focal",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0270",
+          "color_name": "Sage",
+          "hex": "#cb7a72",
+          "price": 11.39,
+          "primary_role": "secondary",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0271",
+          "color_name": "Cream",
+          "hex": "#dd46c6",
+          "price": 6.52,
+          "primary_role": "focal",
+          "qty_on_hand": 46,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0272",
+          "color_name": "Moss",
+          "hex": "#bc9534",
+          "price": 8.51,
+          "primary_role": "secondary",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0273",
+          "color_name": "Champagne",
+          "hex": "#d84bb0",
+          "price": 15.46,
+          "primary_role": "filler",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0274",
+          "color_name": "Cream",
+          "hex": "#c97886",
+          "price": 17.16,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0275",
+          "color_name": "Slate",
+          "hex": "#8955d3",
+          "price": 6.02,
+          "primary_role": "focal",
+          "qty_on_hand": 13,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0276",
+          "color_name": "Wine",
+          "hex": "#64beb7",
+          "price": 11.24,
+          "primary_role": "focal",
+          "qty_on_hand": 24,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0277",
+          "color_name": "Plum",
+          "hex": "#698bbf",
+          "price": 16.4,
+          "primary_role": "secondary",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0278",
+          "color_name": "Plum",
+          "hex": "#7ecc75",
+          "price": 12.34,
+          "primary_role": "filler",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 9
+        }
+      ],
+      "sku_count": 18,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-SILVER-19",
+      "species": "Silver Sage",
+      "primary_emotion": "stillness",
+      "secondary_emotion": "renewal",
+      "wheel_sector": "memory",
+      "intensity_range": [
+        0.25,
+        0.69
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0279",
+          "color_name": "Sage",
+          "hex": "#8b2eb2",
+          "price": 17.04,
+          "primary_role": "secondary",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0280",
+          "color_name": "Sage",
+          "hex": "#43ad81",
+          "price": 12.52,
+          "primary_role": "foliage",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0281",
+          "color_name": "Slate",
+          "hex": "#b67f43",
+          "price": 13.82,
+          "primary_role": "accent",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0282",
+          "color_name": "Toffee",
+          "hex": "#d58f6d",
+          "price": 8.15,
+          "primary_role": "accent",
+          "qty_on_hand": 35,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0283",
+          "color_name": "Olive",
+          "hex": "#8b5fd8",
+          "price": 7.08,
+          "primary_role": "filler",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0284",
+          "color_name": "Wine",
+          "hex": "#34ad34",
+          "price": 15.47,
+          "primary_role": "filler",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0285",
+          "color_name": "Dust Rose",
+          "hex": "#84d7a6",
+          "price": 9.63,
+          "primary_role": "filler",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0286",
+          "color_name": "Dust Rose",
+          "hex": "#af3c90",
+          "price": 8.91,
+          "primary_role": "foliage",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0287",
+          "color_name": "Cream",
+          "hex": "#dc84c5",
+          "price": 16.6,
+          "primary_role": "focal",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0288",
+          "color_name": "Ivory",
+          "hex": "#dcd884",
+          "price": 12.14,
+          "primary_role": "filler",
+          "qty_on_hand": 60,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0289",
+          "color_name": "Terracotta",
+          "hex": "#c0d685",
+          "price": 8.66,
+          "primary_role": "foliage",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0290",
+          "color_name": "Moss",
+          "hex": "#d25e2d",
+          "price": 7.89,
+          "primary_role": "focal",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0291",
+          "color_name": "Wine",
+          "hex": "#3d47b3",
+          "price": 6.36,
+          "primary_role": "filler",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0292",
+          "color_name": "Parchment",
+          "hex": "#b9754b",
+          "price": 11,
+          "primary_role": "foliage",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0293",
+          "color_name": "Slate",
+          "hex": "#bbcc38",
+          "price": 7.98,
+          "primary_role": "foliage",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0294",
+          "color_name": "Olive",
+          "hex": "#bad08b",
+          "price": 10.95,
+          "primary_role": "foliage",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0295",
+          "color_name": "Bone",
+          "hex": "#a957e0",
+          "price": 6.61,
+          "primary_role": "secondary",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0296",
+          "color_name": "Moss",
+          "hex": "#5574c3",
+          "price": 7.56,
+          "primary_role": "foliage",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0297",
+          "color_name": "Dust Rose",
+          "hex": "#adbf5f",
+          "price": 16.58,
+          "primary_role": "filler",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0298",
+          "color_name": "Amber",
+          "hex": "#474dbd",
+          "price": 14.13,
+          "primary_role": "accent",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0299",
+          "color_name": "Ivory",
+          "hex": "#958ed2",
+          "price": 11.29,
+          "primary_role": "accent",
+          "qty_on_hand": 17,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0300",
+          "color_name": "Sage",
+          "hex": "#d02f82",
+          "price": 13.91,
+          "primary_role": "accent",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 3
+        }
+      ],
+      "sku_count": 22,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-PRESER-20",
+      "species": "Preserved Peony",
+      "primary_emotion": "tenderness",
+      "secondary_emotion": "celebration",
+      "wheel_sector": "vitality",
+      "intensity_range": [
+        0.22,
+        0.68
+      ],
+      "texture_archetype": "glossy berry",
+      "seasonality": "fall",
+      "skus": [
+        {
+          "sku": "MD-0301",
+          "color_name": "Slate",
+          "hex": "#c563d4",
+          "price": 10.13,
+          "primary_role": "filler",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0302",
+          "color_name": "Blush",
+          "hex": "#67afd0",
+          "price": 9.53,
+          "primary_role": "foliage",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0303",
+          "color_name": "Olive",
+          "hex": "#4aba55",
+          "price": 7.66,
+          "primary_role": "accent",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0304",
+          "color_name": "Amber",
+          "hex": "#30a648",
+          "price": 12.99,
+          "primary_role": "accent",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0305",
+          "color_name": "Terracotta",
+          "hex": "#96e472",
+          "price": 8.59,
+          "primary_role": "focal",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0306",
+          "color_name": "Slate",
+          "hex": "#966dd5",
+          "price": 14.32,
+          "primary_role": "foliage",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0307",
+          "color_name": "Ivory",
+          "hex": "#8cd4bb",
+          "price": 4.45,
+          "primary_role": "accent",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0308",
+          "color_name": "Toffee",
+          "hex": "#e3687d",
+          "price": 16.46,
+          "primary_role": "focal",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0309",
+          "color_name": "Cognac",
+          "hex": "#cadc60",
+          "price": 17.36,
+          "primary_role": "filler",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0310",
+          "color_name": "Toffee",
+          "hex": "#72e38b",
+          "price": 17.16,
+          "primary_role": "filler",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0311",
+          "color_name": "Amber",
+          "hex": "#e06c87",
+          "price": 9.82,
+          "primary_role": "secondary",
+          "qty_on_hand": 61,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0312",
+          "color_name": "Amber",
+          "hex": "#ca7e58",
+          "price": 7.43,
+          "primary_role": "focal",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0313",
+          "color_name": "Toffee",
+          "hex": "#429e93",
+          "price": 13.8,
+          "primary_role": "foliage",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0314",
+          "color_name": "Plum",
+          "hex": "#2980d1",
+          "price": 7.32,
+          "primary_role": "focal",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0315",
+          "color_name": "Olive",
+          "hex": "#5155d2",
+          "price": 17.2,
+          "primary_role": "accent",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0316",
+          "color_name": "Toffee",
+          "hex": "#e5c076",
+          "price": 13.03,
+          "primary_role": "foliage",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0317",
+          "color_name": "Olive",
+          "hex": "#c9c54a",
+          "price": 13.64,
+          "primary_role": "filler",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0318",
+          "color_name": "Terracotta",
+          "hex": "#26b52e",
+          "price": 9.35,
+          "primary_role": "focal",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0319",
+          "color_name": "Olive",
+          "hex": "#6298df",
+          "price": 5.52,
+          "primary_role": "accent",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0320",
+          "color_name": "Bone",
+          "hex": "#dd7555",
+          "price": 5.44,
+          "primary_role": "accent",
+          "qty_on_hand": 61,
+          "recommended_qty_24in": 8
+        }
+      ],
+      "sku_count": 20,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-GARDEN-21",
+      "species": "Garden Rose",
+      "primary_emotion": "joy",
+      "secondary_emotion": "tenderness",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.33,
+        0.72
+      ],
+      "texture_archetype": "fibrous stem",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0321",
+          "color_name": "Olive",
+          "hex": "#6e34c5",
+          "price": 7.12,
+          "primary_role": "secondary",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0322",
+          "color_name": "Plum",
+          "hex": "#8b62c0",
+          "price": 10.72,
+          "primary_role": "foliage",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0323",
+          "color_name": "Cognac",
+          "hex": "#4943b6",
+          "price": 9.77,
+          "primary_role": "secondary",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0324",
+          "color_name": "Slate",
+          "hex": "#c9884a",
+          "price": 8.6,
+          "primary_role": "accent",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0325",
+          "color_name": "Champagne",
+          "hex": "#ae2983",
+          "price": 12.55,
+          "primary_role": "focal",
+          "qty_on_hand": 46,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0326",
+          "color_name": "Plum",
+          "hex": "#8aaf3c",
+          "price": 10.91,
+          "primary_role": "filler",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0327",
+          "color_name": "Champagne",
+          "hex": "#d049d0",
+          "price": 11.11,
+          "primary_role": "accent",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0328",
+          "color_name": "Cognac",
+          "hex": "#b6dc65",
+          "price": 12.3,
+          "primary_role": "focal",
+          "qty_on_hand": 14,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0329",
+          "color_name": "Bone",
+          "hex": "#4acf7b",
+          "price": 16.19,
+          "primary_role": "filler",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0330",
+          "color_name": "Terracotta",
+          "hex": "#6bcf68",
+          "price": 5.33,
+          "primary_role": "accent",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0331",
+          "color_name": "Plum",
+          "hex": "#b76d34",
+          "price": 14.64,
+          "primary_role": "focal",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0332",
+          "color_name": "Cognac",
+          "hex": "#56b3c8",
+          "price": 16.29,
+          "primary_role": "accent",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0333",
+          "color_name": "Wine",
+          "hex": "#be5596",
+          "price": 9.92,
+          "primary_role": "filler",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0334",
+          "color_name": "Blush",
+          "hex": "#a458ca",
+          "price": 10.24,
+          "primary_role": "accent",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 4
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-BLUSHR-22",
+      "species": "Blush Ranunculus",
+      "primary_emotion": "tenderness",
+      "secondary_emotion": "joy",
+      "wheel_sector": "memory",
+      "intensity_range": [
+        0.49,
+        0.62
+      ],
+      "texture_archetype": "glossy berry",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0335",
+          "color_name": "Terracotta",
+          "hex": "#6de3dd",
+          "price": 6.49,
+          "primary_role": "filler",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0336",
+          "color_name": "Toffee",
+          "hex": "#5d69d5",
+          "price": 12.74,
+          "primary_role": "accent",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0337",
+          "color_name": "Rust",
+          "hex": "#96405a",
+          "price": 15.83,
+          "primary_role": "secondary",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0338",
+          "color_name": "Terracotta",
+          "hex": "#77cb5d",
+          "price": 15.92,
+          "primary_role": "secondary",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0339",
+          "color_name": "Slate",
+          "hex": "#9e4283",
+          "price": 12.67,
+          "primary_role": "secondary",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0340",
+          "color_name": "Amber",
+          "hex": "#39aa31",
+          "price": 6.77,
+          "primary_role": "secondary",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0341",
+          "color_name": "Bone",
+          "hex": "#3acf71",
+          "price": 10.83,
+          "primary_role": "foliage",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0342",
+          "color_name": "Rust",
+          "hex": "#33b7d1",
+          "price": 13.63,
+          "primary_role": "foliage",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0343",
+          "color_name": "Sage",
+          "hex": "#c544a3",
+          "price": 9.63,
+          "primary_role": "secondary",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0344",
+          "color_name": "Dust Rose",
+          "hex": "#c5ad63",
+          "price": 9.89,
+          "primary_role": "focal",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0345",
+          "color_name": "Moss",
+          "hex": "#c978a3",
+          "price": 6.29,
+          "primary_role": "secondary",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0346",
+          "color_name": "Blush",
+          "hex": "#b84c6b",
+          "price": 15.08,
+          "primary_role": "focal",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0347",
+          "color_name": "Cognac",
+          "hex": "#b95ac4",
+          "price": 3.76,
+          "primary_role": "focal",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0348",
+          "color_name": "Moss",
+          "hex": "#6cd082",
+          "price": 9.33,
+          "primary_role": "focal",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 4
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-TERRAC-23",
+      "species": "Terracotta Zinnia",
+      "primary_emotion": "warmth",
+      "secondary_emotion": "vitality",
+      "wheel_sector": "memory",
+      "intensity_range": [
+        0.46,
+        0.89
+      ],
+      "texture_archetype": "papery bract",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0349",
+          "color_name": "Cognac",
+          "hex": "#72d573",
+          "price": 4.98,
+          "primary_role": "focal",
+          "qty_on_hand": 36,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0350",
+          "color_name": "Moss",
+          "hex": "#2cc9af",
+          "price": 3.69,
+          "primary_role": "accent",
+          "qty_on_hand": 38,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0351",
+          "color_name": "Sage",
+          "hex": "#83ddd2",
+          "price": 17.2,
+          "primary_role": "accent",
+          "qty_on_hand": 32,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0352",
+          "color_name": "Bone",
+          "hex": "#d3823c",
+          "price": 5.77,
+          "primary_role": "filler",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0353",
+          "color_name": "Toffee",
+          "hex": "#d476d6",
+          "price": 6.9,
+          "primary_role": "focal",
+          "qty_on_hand": 38,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0354",
+          "color_name": "Parchment",
+          "hex": "#5c87d1",
+          "price": 15.57,
+          "primary_role": "focal",
+          "qty_on_hand": 22,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0355",
+          "color_name": "Moss",
+          "hex": "#3e3b9b",
+          "price": 13.82,
+          "primary_role": "accent",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0356",
+          "color_name": "Olive",
+          "hex": "#62bcb4",
+          "price": 9.59,
+          "primary_role": "focal",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0357",
+          "color_name": "Moss",
+          "hex": "#b89e28",
+          "price": 14.98,
+          "primary_role": "focal",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0358",
+          "color_name": "Champagne",
+          "hex": "#86cbb6",
+          "price": 5.79,
+          "primary_role": "secondary",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0359",
+          "color_name": "Olive",
+          "hex": "#a651d6",
+          "price": 16.42,
+          "primary_role": "accent",
+          "qty_on_hand": 32,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0360",
+          "color_name": "Wine",
+          "hex": "#67da9b",
+          "price": 6.09,
+          "primary_role": "focal",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0361",
+          "color_name": "Wine",
+          "hex": "#8240c9",
+          "price": 14.36,
+          "primary_role": "focal",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0362",
+          "color_name": "Parchment",
+          "hex": "#db4c39",
+          "price": 4.08,
+          "primary_role": "filler",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 4
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-COPPER-24",
+      "species": "Copper Chrysanthemum",
+      "primary_emotion": "nostalgia",
+      "secondary_emotion": "celebration",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.43,
+        0.8
+      ],
+      "texture_archetype": "structured cluster",
+      "seasonality": "summer",
+      "skus": [
+        {
+          "sku": "MD-0363",
+          "color_name": "Dust Rose",
+          "hex": "#8fe273",
+          "price": 6.06,
+          "primary_role": "foliage",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0364",
+          "color_name": "Champagne",
+          "hex": "#c6c25d",
+          "price": 4.65,
+          "primary_role": "secondary",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0365",
+          "color_name": "Slate",
+          "hex": "#4fcf6b",
+          "price": 13.72,
+          "primary_role": "focal",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0366",
+          "color_name": "Olive",
+          "hex": "#8abb3a",
+          "price": 6.5,
+          "primary_role": "filler",
+          "qty_on_hand": 42,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0367",
+          "color_name": "Bone",
+          "hex": "#d3b969",
+          "price": 8.55,
+          "primary_role": "foliage",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0368",
+          "color_name": "Dust Rose",
+          "hex": "#52a531",
+          "price": 10.71,
+          "primary_role": "focal",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0369",
+          "color_name": "Bone",
+          "hex": "#75bc24",
+          "price": 17.31,
+          "primary_role": "filler",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0370",
+          "color_name": "Blush",
+          "hex": "#df729a",
+          "price": 5.7,
+          "primary_role": "filler",
+          "qty_on_hand": 46,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0371",
+          "color_name": "Parchment",
+          "hex": "#62c6c3",
+          "price": 7.18,
+          "primary_role": "focal",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0372",
+          "color_name": "Dust Rose",
+          "hex": "#696bdd",
+          "price": 15.16,
+          "primary_role": "secondary",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0373",
+          "color_name": "Cream",
+          "hex": "#c43b6d",
+          "price": 14.79,
+          "primary_role": "secondary",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0374",
+          "color_name": "Dust Rose",
+          "hex": "#60c362",
+          "price": 7.79,
+          "primary_role": "filler",
+          "qty_on_hand": 38,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0375",
+          "color_name": "Terracotta",
+          "hex": "#c469c9",
+          "price": 4.71,
+          "primary_role": "foliage",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0376",
+          "color_name": "Bone",
+          "hex": "#33d7ae",
+          "price": 12.47,
+          "primary_role": "foliage",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 7
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-PLUMAN-25",
+      "species": "Plum Anemone",
+      "primary_emotion": "melancholy",
+      "secondary_emotion": "wonder",
+      "wheel_sector": "memory",
+      "intensity_range": [
+        0.24,
+        0.83
+      ],
+      "texture_archetype": "waxy leaf",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0377",
+          "color_name": "Bone",
+          "hex": "#352caf",
+          "price": 12.64,
+          "primary_role": "secondary",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0378",
+          "color_name": "Amber",
+          "hex": "#cba080",
+          "price": 9.74,
+          "primary_role": "secondary",
+          "qty_on_hand": 28,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0379",
+          "color_name": "Moss",
+          "hex": "#ab4984",
+          "price": 17.14,
+          "primary_role": "filler",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0380",
+          "color_name": "Sage",
+          "hex": "#c2cb6c",
+          "price": 8.59,
+          "primary_role": "filler",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0381",
+          "color_name": "Terracotta",
+          "hex": "#bd4c92",
+          "price": 8.62,
+          "primary_role": "accent",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0382",
+          "color_name": "Toffee",
+          "hex": "#d2b18e",
+          "price": 10.15,
+          "primary_role": "foliage",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0383",
+          "color_name": "Olive",
+          "hex": "#363eab",
+          "price": 13.36,
+          "primary_role": "filler",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0384",
+          "color_name": "Plum",
+          "hex": "#aa51c2",
+          "price": 3.88,
+          "primary_role": "focal",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0385",
+          "color_name": "Moss",
+          "hex": "#cbb267",
+          "price": 10.42,
+          "primary_role": "filler",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0386",
+          "color_name": "Parchment",
+          "hex": "#59c993",
+          "price": 3.6,
+          "primary_role": "focal",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 8
+        }
+      ],
+      "sku_count": 10,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-CHAMPA-26",
+      "species": "Champagne Peony",
+      "primary_emotion": "celebration",
+      "secondary_emotion": "grandeur",
+      "wheel_sector": "memory",
+      "intensity_range": [
+        0.23,
+        0.83
+      ],
+      "texture_archetype": "fibrous stem",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0387",
+          "color_name": "Toffee",
+          "hex": "#9dc440",
+          "price": 16.04,
+          "primary_role": "accent",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0388",
+          "color_name": "Moss",
+          "hex": "#d86f86",
+          "price": 11.34,
+          "primary_role": "secondary",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0389",
+          "color_name": "Sage",
+          "hex": "#38b277",
+          "price": 12.99,
+          "primary_role": "accent",
+          "qty_on_hand": 35,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0390",
+          "color_name": "Terracotta",
+          "hex": "#863ea3",
+          "price": 6.63,
+          "primary_role": "filler",
+          "qty_on_hand": 21,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0391",
+          "color_name": "Toffee",
+          "hex": "#3838b2",
+          "price": 6.95,
+          "primary_role": "filler",
+          "qty_on_hand": 5,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0392",
+          "color_name": "Parchment",
+          "hex": "#b04aa4",
+          "price": 12.57,
+          "primary_role": "accent",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0393",
+          "color_name": "Blush",
+          "hex": "#a26ec9",
+          "price": 12.25,
+          "primary_role": "filler",
+          "qty_on_hand": 55,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0394",
+          "color_name": "Slate",
+          "hex": "#70b8db",
+          "price": 14.48,
+          "primary_role": "filler",
+          "qty_on_hand": 46,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0395",
+          "color_name": "Terracotta",
+          "hex": "#e067a5",
+          "price": 16.29,
+          "primary_role": "focal",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0396",
+          "color_name": "Moss",
+          "hex": "#3bd8c3",
+          "price": 9.58,
+          "primary_role": "accent",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0397",
+          "color_name": "Champagne",
+          "hex": "#b82e4c",
+          "price": 10.6,
+          "primary_role": "focal",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 6
+        }
+      ],
+      "sku_count": 11,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-SAGEEU-27",
+      "species": "Sage Eucalyptus",
+      "primary_emotion": "renewal",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "intimacy",
+      "intensity_range": [
+        0.48,
+        0.69
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0398",
+          "color_name": "Ivory",
+          "hex": "#27aed3",
+          "price": 11.03,
+          "primary_role": "secondary",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0399",
+          "color_name": "Amber",
+          "hex": "#4848ad",
+          "price": 13.83,
+          "primary_role": "secondary",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0400",
+          "color_name": "Moss",
+          "hex": "#c94031",
+          "price": 9.83,
+          "primary_role": "filler",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0401",
+          "color_name": "Blush",
+          "hex": "#82ca4e",
+          "price": 10.09,
+          "primary_role": "accent",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0402",
+          "color_name": "Sage",
+          "hex": "#cd8465",
+          "price": 6.5,
+          "primary_role": "filler",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0403",
+          "color_name": "Dust Rose",
+          "hex": "#b8813d",
+          "price": 15.29,
+          "primary_role": "accent",
+          "qty_on_hand": 16,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0404",
+          "color_name": "Cream",
+          "hex": "#c84669",
+          "price": 3.97,
+          "primary_role": "accent",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0405",
+          "color_name": "Sage",
+          "hex": "#58cfd5",
+          "price": 9.53,
+          "primary_role": "accent",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0406",
+          "color_name": "Ivory",
+          "hex": "#a44d41",
+          "price": 14,
+          "primary_role": "foliage",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0407",
+          "color_name": "Wine",
+          "hex": "#c44a73",
+          "price": 11.32,
+          "primary_role": "filler",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0408",
+          "color_name": "Champagne",
+          "hex": "#51c26c",
+          "price": 13.6,
+          "primary_role": "foliage",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0409",
+          "color_name": "Ivory",
+          "hex": "#bda347",
+          "price": 10.64,
+          "primary_role": "foliage",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0410",
+          "color_name": "Champagne",
+          "hex": "#77b2d4",
+          "price": 8.83,
+          "primary_role": "accent",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0411",
+          "color_name": "Amber",
+          "hex": "#ca495a",
+          "price": 9.38,
+          "primary_role": "secondary",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0412",
+          "color_name": "Ivory",
+          "hex": "#7f44ab",
+          "price": 9.87,
+          "primary_role": "foliage",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 15,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-DUSTYM-28",
+      "species": "Dusty Miller",
+      "primary_emotion": "stillness",
+      "secondary_emotion": "memory",
+      "wheel_sector": "intimacy",
+      "intensity_range": [
+        0.24,
+        0.6
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "year-round",
+      "skus": [
+        {
+          "sku": "MD-0413",
+          "color_name": "Rust",
+          "hex": "#d260b4",
+          "price": 13.29,
+          "primary_role": "filler",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0414",
+          "color_name": "Cream",
+          "hex": "#3da3b8",
+          "price": 4.68,
+          "primary_role": "filler",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0415",
+          "color_name": "Ivory",
+          "hex": "#a630a2",
+          "price": 9.5,
+          "primary_role": "foliage",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0416",
+          "color_name": "Rust",
+          "hex": "#ccc971",
+          "price": 6.13,
+          "primary_role": "focal",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0417",
+          "color_name": "Olive",
+          "hex": "#c284d2",
+          "price": 9.79,
+          "primary_role": "filler",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0418",
+          "color_name": "Dust Rose",
+          "hex": "#bead60",
+          "price": 4.06,
+          "primary_role": "filler",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0419",
+          "color_name": "Bone",
+          "hex": "#59cf8e",
+          "price": 7.78,
+          "primary_role": "secondary",
+          "qty_on_hand": 58,
+          "recommended_qty_24in": 4
+        }
+      ],
+      "sku_count": 7,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-MAGNOL-29",
+      "species": "Magnolia Leaf",
+      "primary_emotion": "grandeur",
+      "secondary_emotion": "reverence",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.24,
+        0.63
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "fall",
+      "skus": [
+        {
+          "sku": "MD-0420",
+          "color_name": "Olive",
+          "hex": "#cb3473",
+          "price": 13.26,
+          "primary_role": "foliage",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0421",
+          "color_name": "Champagne",
+          "hex": "#c18ccf",
+          "price": 11.85,
+          "primary_role": "secondary",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0422",
+          "color_name": "Wine",
+          "hex": "#d58681",
+          "price": 6.93,
+          "primary_role": "foliage",
+          "qty_on_hand": 13,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0423",
+          "color_name": "Olive",
+          "hex": "#c766b2",
+          "price": 13.7,
+          "primary_role": "accent",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0424",
+          "color_name": "Bone",
+          "hex": "#7c3caa",
+          "price": 15.75,
+          "primary_role": "filler",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0425",
+          "color_name": "Dust Rose",
+          "hex": "#bf4f82",
+          "price": 3.91,
+          "primary_role": "foliage",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0426",
+          "color_name": "Moss",
+          "hex": "#d246a8",
+          "price": 10.51,
+          "primary_role": "accent",
+          "qty_on_hand": 14,
+          "recommended_qty_24in": 4
+        }
+      ],
+      "sku_count": 7,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-BOXWOO-30",
+      "species": "Boxwood Sprig",
+      "primary_emotion": "stillness",
+      "secondary_emotion": "renewal",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.37,
+        0.8
+      ],
+      "texture_archetype": "waxy leaf",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0427",
+          "color_name": "Olive",
+          "hex": "#bc3329",
+          "price": 3.71,
+          "primary_role": "foliage",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0428",
+          "color_name": "Moss",
+          "hex": "#cc9633",
+          "price": 11.23,
+          "primary_role": "focal",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0429",
+          "color_name": "Amber",
+          "hex": "#bbcc5c",
+          "price": 7.11,
+          "primary_role": "accent",
+          "qty_on_hand": 46,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0430",
+          "color_name": "Olive",
+          "hex": "#8090e0",
+          "price": 16.94,
+          "primary_role": "foliage",
+          "qty_on_hand": 61,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0431",
+          "color_name": "Amber",
+          "hex": "#6556c2",
+          "price": 3.55,
+          "primary_role": "filler",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0432",
+          "color_name": "Rust",
+          "hex": "#b12f93",
+          "price": 13.26,
+          "primary_role": "focal",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0433",
+          "color_name": "Amber",
+          "hex": "#d9bb68",
+          "price": 9.43,
+          "primary_role": "accent",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0434",
+          "color_name": "Cognac",
+          "hex": "#60a7d7",
+          "price": 9.35,
+          "primary_role": "accent",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0435",
+          "color_name": "Terracotta",
+          "hex": "#be5b74",
+          "price": 6.44,
+          "primary_role": "accent",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0436",
+          "color_name": "Slate",
+          "hex": "#b985cc",
+          "price": 13.85,
+          "primary_role": "filler",
+          "qty_on_hand": 31,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0437",
+          "color_name": "Cream",
+          "hex": "#be7c46",
+          "price": 5.3,
+          "primary_role": "filler",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0438",
+          "color_name": "Rust",
+          "hex": "#803a9c",
+          "price": 5.33,
+          "primary_role": "filler",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0439",
+          "color_name": "Olive",
+          "hex": "#c46876",
+          "price": 6.86,
+          "primary_role": "focal",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0440",
+          "color_name": "Amber",
+          "hex": "#6cb6d0",
+          "price": 10.06,
+          "primary_role": "foliage",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0441",
+          "color_name": "Bone",
+          "hex": "#4839a7",
+          "price": 14.59,
+          "primary_role": "secondary",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0442",
+          "color_name": "Slate",
+          "hex": "#be4b41",
+          "price": 7.13,
+          "primary_role": "foliage",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0443",
+          "color_name": "Ivory",
+          "hex": "#4ab63a",
+          "price": 14.3,
+          "primary_role": "secondary",
+          "qty_on_hand": 13,
+          "recommended_qty_24in": 4
+        }
+      ],
+      "sku_count": 17,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-HOLLYB-31",
+      "species": "Holly Berry",
+      "primary_emotion": "celebration",
+      "secondary_emotion": "warmth",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.5,
+        0.84
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "fall",
+      "skus": [
+        {
+          "sku": "MD-0444",
+          "color_name": "Amber",
+          "hex": "#30c546",
+          "price": 16.24,
+          "primary_role": "foliage",
+          "qty_on_hand": 22,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0445",
+          "color_name": "Sage",
+          "hex": "#dcab5b",
+          "price": 11.55,
+          "primary_role": "accent",
+          "qty_on_hand": 8,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0446",
+          "color_name": "Moss",
+          "hex": "#2c81af",
+          "price": 13.19,
+          "primary_role": "foliage",
+          "qty_on_hand": 13,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0447",
+          "color_name": "Olive",
+          "hex": "#da86ac",
+          "price": 6.83,
+          "primary_role": "focal",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0448",
+          "color_name": "Wine",
+          "hex": "#9a2caf",
+          "price": 7.15,
+          "primary_role": "focal",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0449",
+          "color_name": "Plum",
+          "hex": "#af3c42",
+          "price": 12.77,
+          "primary_role": "foliage",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0450",
+          "color_name": "Dust Rose",
+          "hex": "#ce5a9e",
+          "price": 12.46,
+          "primary_role": "focal",
+          "qty_on_hand": 34,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0451",
+          "color_name": "Cream",
+          "hex": "#745ce0",
+          "price": 14.68,
+          "primary_role": "focal",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0452",
+          "color_name": "Parchment",
+          "hex": "#c78d70",
+          "price": 16.5,
+          "primary_role": "accent",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0453",
+          "color_name": "Blush",
+          "hex": "#4b6ab9",
+          "price": 9.79,
+          "primary_role": "foliage",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0454",
+          "color_name": "Cognac",
+          "hex": "#b47f22",
+          "price": 10.8,
+          "primary_role": "accent",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0455",
+          "color_name": "Champagne",
+          "hex": "#dbaf84",
+          "price": 15.04,
+          "primary_role": "foliage",
+          "qty_on_hand": 60,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0456",
+          "color_name": "Toffee",
+          "hex": "#58da92",
+          "price": 17.49,
+          "primary_role": "foliage",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0457",
+          "color_name": "Rust",
+          "hex": "#4baf5d",
+          "price": 14.18,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-PINEBO-32",
+      "species": "Pine Bough",
+      "primary_emotion": "renewal",
+      "secondary_emotion": "memory",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.32,
+        0.85
+      ],
+      "texture_archetype": "waxy leaf",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0458",
+          "color_name": "Wine",
+          "hex": "#4e5adf",
+          "price": 13.8,
+          "primary_role": "focal",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0459",
+          "color_name": "Slate",
+          "hex": "#67e0b3",
+          "price": 10.2,
+          "primary_role": "secondary",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0460",
+          "color_name": "Toffee",
+          "hex": "#30d5c1",
+          "price": 4.99,
+          "primary_role": "focal",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0461",
+          "color_name": "Sage",
+          "hex": "#65bd6b",
+          "price": 7.67,
+          "primary_role": "focal",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0462",
+          "color_name": "Slate",
+          "hex": "#cb76ab",
+          "price": 13.24,
+          "primary_role": "focal",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0463",
+          "color_name": "Cognac",
+          "hex": "#34c576",
+          "price": 3.7,
+          "primary_role": "accent",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0464",
+          "color_name": "Olive",
+          "hex": "#49da49",
+          "price": 15.03,
+          "primary_role": "secondary",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0465",
+          "color_name": "Ivory",
+          "hex": "#9d50d7",
+          "price": 17.31,
+          "primary_role": "accent",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0466",
+          "color_name": "Cognac",
+          "hex": "#45c3d3",
+          "price": 14.34,
+          "primary_role": "accent",
+          "qty_on_hand": 13,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0467",
+          "color_name": "Ivory",
+          "hex": "#e67a99",
+          "price": 12.53,
+          "primary_role": "focal",
+          "qty_on_hand": 46,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0468",
+          "color_name": "Olive",
+          "hex": "#69bf7a",
+          "price": 13.08,
+          "primary_role": "foliage",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0469",
+          "color_name": "Cognac",
+          "hex": "#cbbc34",
+          "price": 13.58,
+          "primary_role": "filler",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0470",
+          "color_name": "Toffee",
+          "hex": "#359cb6",
+          "price": 4.85,
+          "primary_role": "filler",
+          "qty_on_hand": 39,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0471",
+          "color_name": "Champagne",
+          "hex": "#a85c3e",
+          "price": 5.23,
+          "primary_role": "accent",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-FIRSPR-33",
+      "species": "Fir Sprig",
+      "primary_emotion": "stillness",
+      "secondary_emotion": "warmth",
+      "wheel_sector": "warmth",
+      "intensity_range": [
+        0.39,
+        0.81
+      ],
+      "texture_archetype": "velvet bloom",
+      "seasonality": "spring",
+      "skus": [
+        {
+          "sku": "MD-0472",
+          "color_name": "Ivory",
+          "hex": "#4ec1b3",
+          "price": 16.7,
+          "primary_role": "foliage",
+          "qty_on_hand": 27,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0473",
+          "color_name": "Rust",
+          "hex": "#8e45a1",
+          "price": 13.33,
+          "primary_role": "foliage",
+          "qty_on_hand": 33,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0474",
+          "color_name": "Olive",
+          "hex": "#28d797",
+          "price": 16.99,
+          "primary_role": "filler",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0475",
+          "color_name": "Olive",
+          "hex": "#bd74e2",
+          "price": 11.27,
+          "primary_role": "filler",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0476",
+          "color_name": "Bone",
+          "hex": "#d59c86",
+          "price": 14.98,
+          "primary_role": "secondary",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0477",
+          "color_name": "Wine",
+          "hex": "#ad42d7",
+          "price": 4.47,
+          "primary_role": "foliage",
+          "qty_on_hand": 62,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0478",
+          "color_name": "Moss",
+          "hex": "#c5447e",
+          "price": 13.09,
+          "primary_role": "foliage",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0479",
+          "color_name": "Ivory",
+          "hex": "#7da4d4",
+          "price": 16.12,
+          "primary_role": "filler",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0480",
+          "color_name": "Plum",
+          "hex": "#62a7bc",
+          "price": 6.99,
+          "primary_role": "foliage",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 2
+        }
+      ],
+      "sku_count": 9,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-BITTER-34",
+      "species": "Bittersweet Vine",
+      "primary_emotion": "nostalgia",
+      "secondary_emotion": "vitality",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.28,
+        0.77
+      ],
+      "texture_archetype": "papery bract",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0481",
+          "color_name": "Cognac",
+          "hex": "#737bce",
+          "price": 12.45,
+          "primary_role": "foliage",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0482",
+          "color_name": "Wine",
+          "hex": "#93389f",
+          "price": 14.62,
+          "primary_role": "focal",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0483",
+          "color_name": "Slate",
+          "hex": "#862cba",
+          "price": 7.22,
+          "primary_role": "filler",
+          "qty_on_hand": 38,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0484",
+          "color_name": "Toffee",
+          "hex": "#7bdbc9",
+          "price": 9.61,
+          "primary_role": "filler",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0485",
+          "color_name": "Ivory",
+          "hex": "#bf7669",
+          "price": 11.09,
+          "primary_role": "focal",
+          "qty_on_hand": 34,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0486",
+          "color_name": "Wine",
+          "hex": "#c6d86f",
+          "price": 5.07,
+          "primary_role": "secondary",
+          "qty_on_hand": 59,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0487",
+          "color_name": "Dust Rose",
+          "hex": "#46bea8",
+          "price": 4.7,
+          "primary_role": "secondary",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0488",
+          "color_name": "Wine",
+          "hex": "#de4ac3",
+          "price": 11.7,
+          "primary_role": "filler",
+          "qty_on_hand": 9,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0489",
+          "color_name": "Rust",
+          "hex": "#74c37e",
+          "price": 8.62,
+          "primary_role": "foliage",
+          "qty_on_hand": 38,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0490",
+          "color_name": "Cognac",
+          "hex": "#d03e48",
+          "price": 16.37,
+          "primary_role": "focal",
+          "qty_on_hand": 57,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0491",
+          "color_name": "Slate",
+          "hex": "#3c3cc3",
+          "price": 7.13,
+          "primary_role": "secondary",
+          "qty_on_hand": 56,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0492",
+          "color_name": "Wine",
+          "hex": "#376fae",
+          "price": 8.54,
+          "primary_role": "filler",
+          "qty_on_hand": 55,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0493",
+          "color_name": "Plum",
+          "hex": "#50be62",
+          "price": 7.31,
+          "primary_role": "focal",
+          "qty_on_hand": 14,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0494",
+          "color_name": "Champagne",
+          "hex": "#7e2bb6",
+          "price": 16.04,
+          "primary_role": "foliage",
+          "qty_on_hand": 14,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0495",
+          "color_name": "Bone",
+          "hex": "#8fba4f",
+          "price": 9.51,
+          "primary_role": "secondary",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0496",
+          "color_name": "Toffee",
+          "hex": "#c9739e",
+          "price": 10.17,
+          "primary_role": "foliage",
+          "qty_on_hand": 34,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0497",
+          "color_name": "Cream",
+          "hex": "#42b8b6",
+          "price": 15.1,
+          "primary_role": "focal",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0498",
+          "color_name": "Dust Rose",
+          "hex": "#728fd5",
+          "price": 16.17,
+          "primary_role": "filler",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0499",
+          "color_name": "Bone",
+          "hex": "#db5c62",
+          "price": 15.63,
+          "primary_role": "foliage",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0500",
+          "color_name": "Bone",
+          "hex": "#a5b540",
+          "price": 8.98,
+          "primary_role": "focal",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0501",
+          "color_name": "Dust Rose",
+          "hex": "#dc9b65",
+          "price": 5.2,
+          "primary_role": "accent",
+          "qty_on_hand": 53,
+          "recommended_qty_24in": 5
+        }
+      ],
+      "sku_count": 21,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-DRIEDP-35",
+      "species": "Dried Pampas",
+      "primary_emotion": "wonder",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.48,
+        0.79
+      ],
+      "texture_archetype": "downy petal",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0502",
+          "color_name": "Blush",
+          "hex": "#41aa5b",
+          "price": 5.53,
+          "primary_role": "filler",
+          "qty_on_hand": 19,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0503",
+          "color_name": "Plum",
+          "hex": "#e278db",
+          "price": 8.9,
+          "primary_role": "accent",
+          "qty_on_hand": 40,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0504",
+          "color_name": "Blush",
+          "hex": "#a3b422",
+          "price": 13.08,
+          "primary_role": "foliage",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0505",
+          "color_name": "Wine",
+          "hex": "#d6b771",
+          "price": 6.32,
+          "primary_role": "secondary",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0506",
+          "color_name": "Blush",
+          "hex": "#b4ce55",
+          "price": 12.11,
+          "primary_role": "focal",
+          "qty_on_hand": 41,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0507",
+          "color_name": "Cognac",
+          "hex": "#67dd55",
+          "price": 11.45,
+          "primary_role": "secondary",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0508",
+          "color_name": "Amber",
+          "hex": "#5e33d7",
+          "price": 14.36,
+          "primary_role": "secondary",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0509",
+          "color_name": "Toffee",
+          "hex": "#ad489e",
+          "price": 14.8,
+          "primary_role": "focal",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 6
+        }
+      ],
+      "sku_count": 8,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-THISTL-36",
+      "species": "Thistle Bloom",
+      "primary_emotion": "melancholy",
+      "secondary_emotion": "vitality",
+      "wheel_sector": "intimacy",
+      "intensity_range": [
+        0.45,
+        0.67
+      ],
+      "texture_archetype": "papery bract",
+      "seasonality": "fall",
+      "skus": [
+        {
+          "sku": "MD-0510",
+          "color_name": "Slate",
+          "hex": "#d14e47",
+          "price": 13.49,
+          "primary_role": "accent",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0511",
+          "color_name": "Bone",
+          "hex": "#37b3af",
+          "price": 14.5,
+          "primary_role": "focal",
+          "qty_on_hand": 23,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0512",
+          "color_name": "Ivory",
+          "hex": "#45a190",
+          "price": 4.74,
+          "primary_role": "accent",
+          "qty_on_hand": 53,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0513",
+          "color_name": "Terracotta",
+          "hex": "#be76d0",
+          "price": 7.19,
+          "primary_role": "accent",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0514",
+          "color_name": "Champagne",
+          "hex": "#8741c8",
+          "price": 3.89,
+          "primary_role": "filler",
+          "qty_on_hand": 13,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0515",
+          "color_name": "Wine",
+          "hex": "#a554c0",
+          "price": 16.77,
+          "primary_role": "focal",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0516",
+          "color_name": "Olive",
+          "hex": "#d48788",
+          "price": 15.93,
+          "primary_role": "secondary",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0517",
+          "color_name": "Moss",
+          "hex": "#cfe675",
+          "price": 5.19,
+          "primary_role": "focal",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0518",
+          "color_name": "Moss",
+          "hex": "#7333c1",
+          "price": 4.94,
+          "primary_role": "focal",
+          "qty_on_hand": 7,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0519",
+          "color_name": "Parchment",
+          "hex": "#cd2d6a",
+          "price": 16.38,
+          "primary_role": "foliage",
+          "qty_on_hand": 64,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0520",
+          "color_name": "Wine",
+          "hex": "#a8a63e",
+          "price": 9.09,
+          "primary_role": "accent",
+          "qty_on_hand": 26,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0521",
+          "color_name": "Plum",
+          "hex": "#656ad2",
+          "price": 15.92,
+          "primary_role": "focal",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0522",
+          "color_name": "Moss",
+          "hex": "#ac395c",
+          "price": 13.19,
+          "primary_role": "foliage",
+          "qty_on_hand": 28,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0523",
+          "color_name": "Bone",
+          "hex": "#be3749",
+          "price": 6.25,
+          "primary_role": "accent",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 9
+        }
+      ],
+      "sku_count": 14,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-WILDFE-37",
+      "species": "Wild Fern",
+      "primary_emotion": "renewal",
+      "secondary_emotion": "connection",
+      "wheel_sector": "memory",
+      "intensity_range": [
+        0.46,
+        0.7
+      ],
+      "texture_archetype": "waxy leaf",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0524",
+          "color_name": "Ivory",
+          "hex": "#3a7dcf",
+          "price": 5.74,
+          "primary_role": "foliage",
+          "qty_on_hand": 54,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0525",
+          "color_name": "Parchment",
+          "hex": "#e2837e",
+          "price": 6.29,
+          "primary_role": "filler",
+          "qty_on_hand": 45,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0526",
+          "color_name": "Cognac",
+          "hex": "#b468cf",
+          "price": 6.78,
+          "primary_role": "accent",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0527",
+          "color_name": "Toffee",
+          "hex": "#c1c559",
+          "price": 12.05,
+          "primary_role": "accent",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0528",
+          "color_name": "Champagne",
+          "hex": "#503ddb",
+          "price": 12.43,
+          "primary_role": "accent",
+          "qty_on_hand": 49,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0529",
+          "color_name": "Sage",
+          "hex": "#80c757",
+          "price": 13.27,
+          "primary_role": "focal",
+          "qty_on_hand": 63,
+          "recommended_qty_24in": 4
+        },
+        {
+          "sku": "MD-0530",
+          "color_name": "Champagne",
+          "hex": "#da8a67",
+          "price": 3.86,
+          "primary_role": "secondary",
+          "qty_on_hand": 12,
+          "recommended_qty_24in": 8
+        },
+        {
+          "sku": "MD-0531",
+          "color_name": "Amber",
+          "hex": "#b679d7",
+          "price": 5.62,
+          "primary_role": "filler",
+          "qty_on_hand": 51,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0532",
+          "color_name": "Amber",
+          "hex": "#d65785",
+          "price": 3.69,
+          "primary_role": "secondary",
+          "qty_on_hand": 50,
+          "recommended_qty_24in": 9
+        }
+      ],
+      "sku_count": 9,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-GOLDEN-38",
+      "species": "Golden Wheat Stem",
+      "primary_emotion": "nostalgia",
+      "secondary_emotion": "warmth",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.37,
+        0.71
+      ],
+      "texture_archetype": "fibrous stem",
+      "seasonality": "winter",
+      "skus": [
+        {
+          "sku": "MD-0533",
+          "color_name": "Cognac",
+          "hex": "#c76086",
+          "price": 11.69,
+          "primary_role": "secondary",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0534",
+          "color_name": "Terracotta",
+          "hex": "#2f27be",
+          "price": 15.18,
+          "primary_role": "focal",
+          "qty_on_hand": 25,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0535",
+          "color_name": "Slate",
+          "hex": "#9731a5",
+          "price": 9.79,
+          "primary_role": "foliage",
+          "qty_on_hand": 52,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0536",
+          "color_name": "Champagne",
+          "hex": "#56c8bb",
+          "price": 12.82,
+          "primary_role": "foliage",
+          "qty_on_hand": 35,
+          "recommended_qty_24in": 7
+        },
+        {
+          "sku": "MD-0537",
+          "color_name": "Moss",
+          "hex": "#46a47c",
+          "price": 3.69,
+          "primary_role": "focal",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0538",
+          "color_name": "Toffee",
+          "hex": "#d6cc71",
+          "price": 9.55,
+          "primary_role": "foliage",
+          "qty_on_hand": 20,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0539",
+          "color_name": "Rust",
+          "hex": "#6d74d9",
+          "price": 4.1,
+          "primary_role": "filler",
+          "qty_on_hand": 30,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0540",
+          "color_name": "Rust",
+          "hex": "#d3367f",
+          "price": 11.91,
+          "primary_role": "foliage",
+          "qty_on_hand": 6,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0541",
+          "color_name": "Amber",
+          "hex": "#b1403e",
+          "price": 11.89,
+          "primary_role": "foliage",
+          "qty_on_hand": 11,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0542",
+          "color_name": "Cognac",
+          "hex": "#bf7ad6",
+          "price": 4.2,
+          "primary_role": "filler",
+          "qty_on_hand": 37,
+          "recommended_qty_24in": 6
+        },
+        {
+          "sku": "MD-0543",
+          "color_name": "Champagne",
+          "hex": "#32b3ad",
+          "price": 16.5,
+          "primary_role": "focal",
+          "qty_on_hand": 43,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0544",
+          "color_name": "Parchment",
+          "hex": "#7862c0",
+          "price": 7.49,
+          "primary_role": "secondary",
+          "qty_on_hand": 48,
+          "recommended_qty_24in": 3
+        },
+        {
+          "sku": "MD-0545",
+          "color_name": "Rust",
+          "hex": "#bad28e",
+          "price": 3.78,
+          "primary_role": "filler",
+          "qty_on_hand": 15,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0546",
+          "color_name": "Terracotta",
+          "hex": "#66d6c0",
+          "price": 8.13,
+          "primary_role": "focal",
+          "qty_on_hand": 18,
+          "recommended_qty_24in": 2
+        },
+        {
+          "sku": "MD-0547",
+          "color_name": "Champagne",
+          "hex": "#3b70b5",
+          "price": 15.02,
+          "primary_role": "accent",
+          "qty_on_hand": 29,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0548",
+          "color_name": "Wine",
+          "hex": "#6edb43",
+          "price": 7.5,
+          "primary_role": "focal",
+          "qty_on_hand": 44,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0549",
+          "color_name": "Dust Rose",
+          "hex": "#bac559",
+          "price": 5.46,
+          "primary_role": "foliage",
+          "qty_on_hand": 10,
+          "recommended_qty_24in": 5
+        },
+        {
+          "sku": "MD-0550",
+          "color_name": "Dust Rose",
+          "hex": "#c75452",
+          "price": 11.14,
+          "primary_role": "filler",
+          "qty_on_hand": 34,
+          "recommended_qty_24in": 9
+        },
+        {
+          "sku": "MD-0551",
+          "color_name": "Toffee",
+          "hex": "#81cf77",
+          "price": 6.05,
+          "primary_role": "accent",
+          "qty_on_hand": 24,
+          "recommended_qty_24in": 8
+        }
+      ],
+      "sku_count": 19,
+      "register_gap": false
+    },
+    {
+      "canon_id": "SPX-GAP-01",
+      "species": "Cotton Stem",
+      "primary_emotion": "comfort",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "grandeur",
+      "intensity_range": [
+        0.21,
+        0.94
+      ],
+      "texture_archetype": "structured cluster",
+      "seasonality": "winter",
+      "skus": [],
+      "sku_count": 0,
+      "register_gap": true
+    },
+    {
+      "canon_id": "SPX-GAP-02",
+      "species": "Amaranthus",
+      "primary_emotion": "melancholy",
+      "secondary_emotion": "grandeur",
+      "wheel_sector": "intimacy",
+      "intensity_range": [
+        0.38,
+        0.63
+      ],
+      "texture_archetype": "waxy leaf",
+      "seasonality": "fall",
+      "skus": [],
+      "sku_count": 0,
+      "register_gap": true
+    },
+    {
+      "canon_id": "SPX-GAP-03",
+      "species": "Lavender",
+      "primary_emotion": "tenderness",
+      "secondary_emotion": "stillness",
+      "wheel_sector": "stillness",
+      "intensity_range": [
+        0.33,
+        0.86
+      ],
+      "texture_archetype": "matte foliage",
+      "seasonality": "summer",
+      "skus": [],
+      "sku_count": 0,
+      "register_gap": true
+    },
+    {
+      "canon_id": "SPX-GAP-04",
+      "species": "Lamb's Ear",
+      "primary_emotion": "comfort",
+      "secondary_emotion": "tenderness",
+      "wheel_sector": "warmth",
+      "intensity_range": [
+        0.22,
+        0.74
+      ],
+      "texture_archetype": "glossy berry",
+      "seasonality": "fall",
+      "skus": [],
+      "sku_count": 0,
+      "register_gap": true
+    },
+    {
+      "canon_id": "SPX-GAP-05",
+      "species": "Viburnum Berry",
+      "primary_emotion": "celebration",
+      "secondary_emotion": "warmth",
+      "wheel_sector": "warmth",
+      "intensity_range": [
+        0.21,
+        0.78
+      ],
+      "texture_archetype": "structured cluster",
+      "seasonality": "winter",
+      "skus": [],
+      "sku_count": 0,
+      "register_gap": true
+    }
+  ]
+}

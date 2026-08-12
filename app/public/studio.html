@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodoor Studio — Operator Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Dancing+Script:wght@600&family=Inter:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+<!-- Real engine wiring: the AI supplies emotional interpretation + floral CONTENT only;
+     EC.composeDreamBlueprint owns every coordinate. "AI interprets. Geometry places." -->
+<script src="../inventory.js"></script>
+<script src="../evercrafted-engine.js"></script>
+<style>
+:root{
+  --bg:#F9F7F4;--bg2:#FFFFFF;--bg3:#F4F1EC;--bg4:#EDE9E2;
+  --border:#E4E0D8;--border2:#D0CBC0;
+  --green:#4A6741;--green-light:#6B8F67;--green-pale:#EEF2ED;--green-dim:rgba(74,103,65,.08);--green-glow:rgba(74,103,65,.14);
+  --amber:#C4922A;--amber-pale:rgba(196,146,42,.1);--amber-border:rgba(196,146,42,.28);
+  --text:#1A1A1A;--text-muted:#4A4A4A;--text-faint:#8A8A8A;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+  --r:8px;--r-lg:14px;--r-full:9999px;--tr:180ms ease;
+  --sh-sm:0 1px 3px rgba(0,0,0,.05);--sh-md:0 4px 14px rgba(0,0,0,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--text);background:var(--bg);min-height:100%;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--green-dim);color:var(--green)}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;color:var(--text)}
+.overline{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-bottom:1px solid var(--border);background:rgba(249,247,244,.95);position:sticky;top:0;z-index:100;gap:16px;flex-wrap:wrap}
+.logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.logo span{color:var(--green)}
+.logo-tag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:var(--bg4);color:var(--text-faint);padding:3px 9px;border-radius:var(--r-full);border:1px solid var(--border2)}
+.header-right{display:flex;align-items:center;gap:14px}
+.hd-site{font-size:12px;color:var(--text-faint);text-decoration:none;transition:color var(--tr);font-weight:500}
+.hd-site:hover{color:var(--green)}
+.hd-timer{font-family:var(--mono);font-size:12px;color:var(--amber);background:var(--amber-pale);border:1px solid var(--amber-border);padding:5px 13px;border-radius:var(--r-full);display:flex;align-items:center;gap:7px}
+.hd-timer .dot{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:blink 1.4s ease-in-out infinite}
+
+/* LAYOUT */
+.studio{display:grid;grid-template-columns:1fr 460px;flex:1;min-height:0;overflow:hidden}
+@media(max-width:1100px){.studio{grid-template-columns:1fr;overflow:visible}}
+
+/* PANELS */
+.panel-left{overflow-y:auto;border-right:1px solid var(--border);background:var(--bg)}
+.panel-right{overflow-y:auto;background:var(--bg2)}
+.section{padding:26px 28px;border-bottom:1px solid var(--border)}
+.section-title{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.section-title h2{font-size:19px;flex:1;letter-spacing:-.01em}
+.step-n{font-family:var(--mono);font-size:10px;width:22px;height:22px;border-radius:50%;background:var(--bg4);border:1px solid var(--border2);display:inline-flex;align-items:center;justify-content:center;color:var(--text-faint);flex-shrink:0}
+.step-n.on{background:var(--green-pale);border-color:var(--green-light);color:var(--green)}
+
+/* FIELDS */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.field input,.field select{font-family:var(--sans);font-size:13px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);outline:none;transition:border-color var(--tr),box-shadow var(--tr)}
+.field input:focus,.field select:focus{border-color:var(--green-light);box-shadow:0 0 0 3px var(--green-glow)}
+.field input::placeholder{color:var(--text-faint)}
+
+/* MEMORY */
+.memory-area{font-family:var(--serif);font-size:17px;line-height:1.72;min-height:136px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;color:var(--text);width:100%;outline:none;resize:vertical;transition:border-color var(--tr),box-shadow var(--tr)}
+.memory-area:focus{border-color:var(--green-light);box-shadow:0 0 0 3px var(--green-glow)}
+.memory-area::placeholder{color:var(--text-faint);font-style:italic}
+.memory-meta{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:var(--text-faint)}
+
+/* ANALYSE BUTTON */
+.btn-analyse{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border-radius:var(--r-full);background:var(--green);color:#FFFFFF;font:600 14px var(--sans);border:none;cursor:pointer;transition:transform var(--tr),box-shadow var(--tr);margin-top:16px}
+.btn-analyse:hover:not(:disabled){transform:scale(1.01);box-shadow:0 8px 24px rgba(74,103,65,.24)}
+.btn-analyse:disabled{opacity:.45;cursor:not-allowed}
+.spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+
+/* EVS */
+.evs-section{display:none}
+.evs-section.show{display:block}
+.dim-row{display:grid;grid-template-columns:94px 1fr 32px;gap:10px;align-items:center;margin-bottom:8px}
+.dim-label{font-size:11px;color:var(--text-muted)}
+.dim-track{height:2px;background:var(--border);border-radius:var(--r-full);overflow:hidden}
+.dim-fill{height:100%;width:0;border-radius:var(--r-full);background:linear-gradient(90deg,var(--green-light),var(--green));transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.dim-fill.hi{background:linear-gradient(90deg,#C4922A,#A8752A)}
+.dim-val{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-align:right}
+.dim-row.hi .dim-label,.dim-row.hi .dim-val{color:var(--amber)}
+.terr-card{margin-top:16px;padding:14px 16px;background:var(--green-pale);border:1px solid rgba(74,103,65,.18);border-radius:var(--r-lg);display:flex;gap:14px;align-items:center}
+.terr-icon{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid rgba(74,103,65,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;color:var(--green)}
+.terr-name{font-family:var(--serif);font-size:18px;line-height:1.15;color:var(--text)}
+.terr-desc{font-size:11px;color:var(--text-muted);margin-top:2px}
+.match-score{font-family:var(--mono);font-size:12px;color:var(--green);margin-left:auto;white-space:nowrap;font-weight:600}
+.evs-narrative{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--text-muted);line-height:1.65;margin-top:14px;padding-left:14px;border-left:2px solid rgba(74,103,65,.25)}
+
+/* OUTPUT */
+.output-section{padding:22px 26px;border-bottom:1px solid var(--border)}
+.output-section h3{font-size:16px;letter-spacing:-.01em;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--text)}
+.copy-btn{font-family:var(--mono);font-size:10px;color:var(--text-faint);background:var(--bg3);border:1px solid var(--border);padding:3px 10px;border-radius:var(--r-full);cursor:pointer;transition:color var(--tr),border-color var(--tr)}
+.copy-btn:hover,.copy-btn.copied{color:var(--green);border-color:var(--green-light)}
+.out-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-lg);padding:15px;font-family:var(--mono);font-size:12px;line-height:1.75;color:var(--text-faint);min-height:72px;white-space:pre-wrap;word-break:break-word}
+.out-box.live{color:var(--text-muted)}
+.out-placeholder{color:var(--text-faint);font-style:italic;font-family:var(--serif);font-size:14px}
+.param-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.param-tag{font-family:var(--mono);font-size:10px;color:var(--text-faint);background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-full);padding:3px 9px;cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr);user-select:none}
+.param-tag.active{color:var(--green);background:var(--green-pale);border-color:rgba(74,103,65,.3)}
+.spec-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.spec-tbl td{padding:8px 0;border-bottom:1px solid var(--border);vertical-align:top}
+.spec-tbl td:first-child{color:var(--text-faint);width:110px;padding-right:12px;font-family:var(--mono);font-size:11px}
+.spec-tbl td:last-child{color:var(--text-muted)}
+
+/* BLUEPRINT */
+.bp-stage{position:relative;width:100%;aspect-ratio:1/1;max-width:340px;margin:0 auto;background:radial-gradient(circle at 50% 46%,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:var(--r-lg)}
+.bp-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:var(--text-faint);font-style:italic;font-family:var(--serif);font-size:14px}
+.bp-stage svg{width:100%;height:100%;display:block}
+.bp-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px;justify-content:center}
+.bp-legend:empty{display:none}
+.lg-item{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--text-muted)}
+.lg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;border:1px solid rgba(0,0,0,.08)}
+.lg-code{font-family:var(--mono);font-size:9.5px;color:var(--text-faint)}
+.bp-json-wrap{margin-top:14px}
+.bp-json-wrap summary{font-family:var(--mono);font-size:11px;color:var(--text-faint);cursor:pointer;list-style:none;user-select:none;transition:color var(--tr)}
+.bp-json-wrap summary:hover{color:var(--green)}
+.bp-json-wrap summary::before{content:'▸ ';color:var(--green)}
+.bp-json-wrap[open] summary::before{content:'▾ '}
+.bp-json{margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--text-muted);white-space:pre;overflow-x:auto;max-height:280px;overflow-y:auto}
+
+/* TRACKER */
+.tracker-grid{display:grid;gap:7px}
+.t-step{display:flex;gap:12px;align-items:center;padding:10px 13px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--border);transition:border-color var(--tr),background var(--tr)}
+.t-step.active{border-color:var(--amber-border);background:var(--amber-pale)}
+.t-step.done{border-color:rgba(74,103,65,.2);background:var(--green-pale)}
+.t-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--border2)}
+.t-step.active .t-dot{background:var(--amber);animation:blink 1.4s infinite}
+.t-step.done .t-dot{background:var(--green)}
+.t-label{font-size:12px;color:var(--text-faint);flex:1}
+.t-step.active .t-label{color:var(--amber)}
+.t-step.done .t-label{color:var(--green)}
+.t-time{font-family:var(--mono);font-size:10px;color:var(--text-faint);white-space:nowrap}
+.t-step.active .t-time{color:var(--amber)}
+.countdown{display:flex;gap:16px;align-items:center;margin-top:14px;padding:14px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-lg)}
+.cd-num{font-family:var(--serif);font-size:30px;color:var(--amber);line-height:1}
+.cd-lbl{font-size:10px;color:var(--text-faint);font-family:var(--mono)}
+.cd-bar-wrap{flex:1;height:3px;background:var(--border);border-radius:var(--r-full);overflow:hidden}
+.cd-bar{height:100%;background:linear-gradient(90deg,var(--amber),#E8C478);border-radius:var(--r-full);transition:width 1s linear}
+.btn-deliver{display:none;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border-radius:var(--r-full);background:var(--green-pale);color:var(--green);font:600 13px var(--sans);border:1px solid rgba(74,103,65,.25);cursor:pointer;margin-top:12px;transition:background var(--tr),border-color var(--tr)}
+.btn-deliver:hover{background:rgba(74,103,65,.14);border-color:var(--green)}
+
+/* QUEUE */
+.queue-empty{text-align:center;padding:32px 16px;color:var(--text-faint);font-style:italic;font-family:var(--serif);font-size:14px}
+.job-card{padding:13px 14px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--border);margin-bottom:8px;cursor:pointer;transition:border-color var(--tr),box-shadow var(--tr)}
+.job-card:hover{border-color:var(--border2);box-shadow:var(--sh-sm)}
+.job-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.job-name{font-family:var(--serif);font-size:15px;color:var(--text)}
+.job-badge{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:var(--r-full)}
+.job-badge.new{color:var(--amber);background:var(--amber-pale);border:1px solid var(--amber-border)}
+.job-badge.in-progress{color:var(--green);background:var(--green-pale);border:1px solid rgba(74,103,65,.2)}
+.job-badge.delivered{color:var(--text-faint);background:var(--bg4);border:1px solid var(--border)}
+.job-meta{font-size:11px;color:var(--text-faint);margin-top:3px}
+.job-terr{font-size:11px;color:var(--green);margin-top:2px}
+.btn-clear{font-size:11px;color:var(--text-faint);background:none;border:none;cursor:pointer;text-decoration:underline;transition:color var(--tr)}
+.btn-clear:hover{color:var(--text-muted)}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);background:#1A1A1A;color:#F9F7F4;padding:10px 20px;border-radius:var(--r-full);font:500 12px var(--sans);box-shadow:0 8px 28px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:999;display:flex;align-items:center;gap:8px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:var(--r-full)}
+</style>
+<script src="moodoor-runtime.js" defer></script>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">Mood<span>oor</span><span class="logo-tag">Studio</span></a>
+  <div class="header-right">
+    <a class="hd-site" href="index.html">&#8592; Back to site</a>
+    <div class="hd-timer"><span class="dot"></span><span id="timerDisplay">No active job</span></div>
+  </div>
+</header>
+
+<div class="studio">
+
+  <!-- ================ LEFT ================ -->
+  <div class="panel-left">
+
+    <!-- CLIENT -->
+    <div class="section">
+      <div class="section-title">
+        <span class="step-n on">1</span>
+        <h2>Client intake</h2>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="clientName">Client name</label><input type="text" id="clientName" placeholder="First name or initials"></div>
+        <div class="field"><label for="clientEmail">Email</label><input type="email" id="clientEmail" placeholder="for confirmation"></div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="orderType">Order type</label>
+          <select id="orderType">
+            <option value="finished">Finished wreath</option>
+            <option value="blueprint">Blueprint only</option>
+            <option value="both">Both</option>
+          </select>
+        </div>
+        <div class="field"><label for="deadline">Deadline (mins)</label><input type="number" id="deadline" value="510" min="30" max="2880" step="30"></div>
+      </div>
+    </div>
+
+    <!-- MEMORY -->
+    <div class="section">
+      <div class="section-title">
+        <span class="step-n on">2</span>
+        <h2>The memory</h2>
+      </div>
+      <textarea class="memory-area" id="memoryInput" placeholder="Type or paste the client&#39;s memory here — place, person, time of year, smell, light, what it felt like. Even a few sentences works."></textarea>
+      <div class="memory-meta">
+        <span id="wordCount">0 words</span>
+        <span>Aim for 30&#8211;150 words for best EVS scoring</span>
+      </div>
+      <button class="btn-analyse" id="analyseBtn" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Run EVS analysis &amp; generate prompt
+      </button>
+    </div>
+
+    <!-- EVS RESULTS -->
+    <div class="section evs-section" id="evsSection">
+      <div class="section-title">
+        <span class="step-n on">3</span>
+        <h2>Emotional profile</h2>
+      </div>
+      <div id="dimBars"></div>
+      <div class="terr-card">
+        <div class="terr-icon" id="terrIcon">&#9675;</div>
+        <div style="flex:1">
+          <div class="overline" style="margin-bottom:3px">Territory match</div>
+          <div class="terr-name" id="terrName">&#8212;</div>
+          <div class="terr-desc" id="terrDesc">&#8212;</div>
+        </div>
+        <div class="match-score" id="matchScore">&#8212;</div>
+      </div>
+      <p class="evs-narrative" id="evsNarrative"></p>
+    </div>
+
+    <!-- QUEUE -->
+    <div class="section" style="flex:1;min-height:200px">
+      <div class="section-title">
+        <span class="step-n">Q</span>
+        <h2>Job queue</h2>
+        <button class="btn-clear" id="clearQueue">Clear all</button>
+      </div>
+      <div id="jobQueue"><div class="queue-empty">No jobs yet. Run an analysis to create the first one.</div></div>
+    </div>
+
+  </div>
+
+  <!-- ================ RIGHT ================ -->
+  <div class="panel-right">
+
+    <!-- BLUEPRINT -->
+    <div class="output-section">
+      <h3><span>Generated blueprint</span><span style="display:flex;gap:8px"><button class="copy-btn" id="downloadBpPng">Download PNG</button><button class="copy-btn" id="copyBp">Copy JSON</button></span></h3>
+      <div class="bp-stage" id="bpStage">
+        <div class="bp-empty">Run the analysis &#8212; the deterministic polar blueprint renders here.</div>
+      </div>
+      <div class="bp-legend" id="bpLegend"></div>
+      <details class="bp-json-wrap" id="bpJsonWrap" style="display:none">
+        <summary>View blueprint JSON</summary>
+        <pre class="bp-json" id="bpJson"></pre>
+      </details>
+    </div>
+
+    <!-- MJ PROMPT -->
+    <div class="output-section">
+      <h3><span>Midjourney prompt</span><button class="copy-btn" id="copyMj">Copy</button></h3>
+      <div class="out-box" id="mjBox"><span class="out-placeholder">Derived from the blueprint geometry &#8212; honors the silence arc, the crescent mass and every cluster.</span></div>
+      <div style="font-size:10.5px;color:var(--text-faint);margin-top:6px;line-height:1.5">This prompt ends in <code>--ow N</code> (Omni Weight) &#8212; that only does anything if you also upload the <strong>Download PNG</strong> from the blueprint above as an image reference alongside this text in Midjourney. Pasting the text alone without the image means <code>--ow</code> has nothing to weight.</div>
+      <div class="param-tags" id="paramTags">
+        <span class="param-tag active" data-param="--ar 1:1">1:1</span>
+        <span class="param-tag" data-param="--ar 4:5">4:5</span>
+        <span class="param-tag" data-param="--ar 2:3">2:3</span>
+        <span class="param-tag active" data-param="--style raw">raw</span>
+        <span class="param-tag active" data-param="--v 6.1">v6.1</span>
+        <span class="param-tag" data-param="--v 7">v7</span>
+        <span class="param-tag active" data-param="--q 2">q2</span>
+        <span class="param-tag" data-param="--stylize 750">stylize 750</span>
+      </div>
+    </div>
+
+    <!-- QUALITY GATE -->
+    <div class="output-section">
+      <h3><span>Quality gate (BSRE)</span><span id="gradeBadge" style="font-family:var(--mono);font-size:11px;padding:3px 10px;border-radius:999px;background:var(--bg3);color:var(--text-faint)">&#8212;</span></h3>
+      <div id="dimScoreBars"><span class="out-placeholder">Runs automatically once the engine composes the blueprint &#8212; six dimensions, R10-backed balance, real purchase-stem feasibility.</span></div>
+    </div>
+
+    <!-- BUILD SPEC -->
+    <div class="output-section">
+      <h3><span>Build specification</span><button class="copy-btn" id="copySpec">Copy</button></h3>
+      <table class="spec-tbl" id="specTbl">
+        <tbody>
+          <tr><td>Territory</td><td>&#8212;</td></tr>
+          <tr><td>Formula</td><td>&#8212;</td></tr>
+          <tr><td>Canvas</td><td>&#8212;</td></tr>
+          <tr><td>Silence arc</td><td>&#8212;</td></tr>
+          <tr><td>Palette</td><td>&#8212;</td></tr>
+          <tr><td>Focal</td><td>&#8212;</td></tr>
+          <tr><td>Stem count</td><td>&#8212;</td></tr>
+          <tr><td>Mood notes</td><td>&#8212;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TRACKER -->
+    <div class="output-section">
+      <h3>Turnaround tracker</h3>
+      <div class="tracker-grid">
+        <div class="t-step" data-step="0"><div class="t-dot"></div><div class="t-label">Memory received</div><div class="t-time">&#8212;</div></div>
+        <div class="t-step" data-step="1"><div class="t-dot"></div><div class="t-label">EVS analysis complete</div><div class="t-time">&#8212;</div></div>
+        <div class="t-step" data-step="2"><div class="t-dot"></div><div class="t-label">Midjourney prompt generated</div><div class="t-time">&#8212;</div></div>
+        <div class="t-step" data-step="3"><div class="t-dot"></div><div class="t-label">Image ready for review</div><div class="t-time">&#8212;</div></div>
+        <div class="t-step" data-step="4"><div class="t-dot"></div><div class="t-label">Delivered to client</div><div class="t-time">&#8212;</div></div>
+      </div>
+      <div class="countdown" id="countdown" style="display:none">
+        <div><div class="cd-lbl">Time remaining</div><div class="cd-num" id="cdNum">&#8212;</div><div class="cd-lbl">hrs : min</div></div>
+        <div class="cd-bar-wrap"><div class="cd-bar" id="cdBar" style="width:100%"></div></div>
+      </div>
+      <button class="btn-deliver" id="deliverBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        Mark as delivered to client
+      </button>
+    </div>
+
+    <!-- CATALOG RECORD -->
+    <div class="output-section">
+      <h3><span>Catalog record</span><button class="copy-btn" id="copyCatalog">Copy</button></h3>
+      <div class="out-box" id="catalogBox"><span class="out-placeholder">A ready-to-paste wreaths-data.js entry — real blueprint, real price, real stem count and score, once an analysis completes.</span></div>
+    </div>
+
+    <!-- EMAIL DRAFT -->
+    <div class="output-section">
+      <h3><span>Client email draft</span><button class="copy-btn" id="copyEmail">Copy</button></h3>
+      <div class="out-box" id="emailBox" style="font-family:var(--serif);font-size:14px;line-height:1.8"><span class="out-placeholder">Generated alongside the prompt &#8212; ready to personalise and send.</span></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var QUEUE_KEY = 'moodoor_studio_queue_v1';
+var TERRITORIES = [
+  {name:'Comfort',           desc:'Safe, warm, held — the feeling of unremarkable home',   icon:'○'},
+  {name:'Celebration',       desc:'Joy, arrival, fullness — high positive valence',         icon:'☆'},
+  {name:'Remembrance',       desc:'Steady grief, quiet absence, enduring care',             icon:'◇'},
+  {name:'Renewal',           desc:'Momentum, starting over, forward motion',                icon:'↑'},
+  {name:'Connection',        desc:'Relationship, mutual weight, held together',             icon:'∞'},
+  {name:'Seasonal Nostalgia',desc:'A specific month, inseparable from its season',          icon:'◑'},
+];
+var activeParams = new Set(['--ar 1:1','--style raw','--v 6.1','--q 2']);
+var currentJob = null;
+var cdInterval = null;
+
+function $i(id){return document.getElementById(id);}
+function toast(msg){var t=$i('toast');t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> '+msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2400);}
+function fmt(ms){var s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;return h>0?h+':'+pad(m)+':'+pad(ss):m+':'+pad(ss);}
+function pad(n){return n<10?'0'+n:''+n;}
+function ts(t){return t?new Date(t).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'—';}
+function readQ(){try{return JSON.parse(localStorage.getItem(QUEUE_KEY))||[];}catch(e){return[];}}
+function writeQ(q){localStorage.setItem(QUEUE_KEY,JSON.stringify(q));}
+
+/* word count + enable button */
+var mem=$i('memoryInput'), btn=$i('analyseBtn');
+mem.addEventListener('input',function(){
+  var w=mem.value.trim()?mem.value.trim().split(/\s+/).length:0;
+  $i('wordCount').textContent=w+' word'+(w===1?'':'s');
+  btn.disabled=w<5;
+});
+
+/* param tags — cosmetic only now; the compiled prompt already carries its own params */
+document.querySelectorAll('.param-tag').forEach(function(tag){tag.style.display='none';});
+
+/* copy buttons */
+/* ---- download the generated blueprint diagram as a PNG. The omni SVG is pure
+   vector shapes from the engine (no external images), so unlike Wreath Composer's
+   photo composite this is never CORS-tainted — a clean, real, working export. ---- */
+$i('downloadBpPng').addEventListener('click', function(){
+  var svgEl = document.querySelector('#bpStage svg');
+  if(!svgEl){ toast('Run the analysis first — nothing to download yet.'); return; }
+  var svgText = new XMLSerializer().serializeToString(svgEl);
+  var svgBlob = new Blob([svgText], {type:'image/svg+xml;charset=utf-8'});
+  var url = URL.createObjectURL(svgBlob);
+  var img = new Image();
+  img.onload = function(){
+    var SCALE = 3; // export at 3x for a crisp, print-usable file
+    var w = (svgEl.viewBox && svgEl.viewBox.baseVal && svgEl.viewBox.baseVal.width) || svgEl.width.baseVal.value || 800;
+    var h = (svgEl.viewBox && svgEl.viewBox.baseVal && svgEl.viewBox.baseVal.height) || svgEl.height.baseVal.value || 800;
+    var cv = document.createElement('canvas');
+    cv.width = w * SCALE; cv.height = h * SCALE;
+    var ctx = cv.getContext('2d');
+    ctx.fillStyle = '#FDFBF7'; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    URL.revokeObjectURL(url);
+    var a = document.createElement('a');
+    a.href = cv.toDataURL('image/png');
+    a.download = (currentJob && currentJob.client ? currentJob.client.replace(/[^a-z0-9]+/gi,'-').toLowerCase() : 'wreath') + '-blueprint.png';
+    a.click();
+    toast('Blueprint PNG downloaded.');
+  };
+  img.onerror = function(){ URL.revokeObjectURL(url); toast('Could not export the diagram — try again.'); };
+  img.src = url;
+});
+
+document.querySelectorAll('.copy-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    var map={copyMj:'mjBox',copySpec:'specTbl',copyEmail:'emailBox',copyBp:'bpJson',copyCatalog:'catalogBox'};
+    var el=$i(map[b.id]||b.getAttribute('data-target'));
+    if(!el)return;
+    navigator.clipboard.writeText((el.innerText||el.textContent).trim()).then(function(){
+      b.textContent=b.id==='copyBp'?'Copied!':'Copied!';b.classList.add('copied');
+      setTimeout(function(){b.textContent=b.id==='copyBp'?'Copy JSON':'Copy';b.classList.remove('copied');},2000);
+    });
+  });
+});
+
+/* ---- real inventory wiring (same adapter as Reveal Flow / Layout Visualizer) ---- */
+function wireInventory(){
+  try{
+    if(typeof window==='undefined'||!window.EC||!window.EverInventory)return false;
+    var diaFor=function(f){return (typeof f.bloomIn==='number'&&f.bloomIn>0)?f.bloomIn:(f.visualWeight==='heavy'?5.5:f.visualWeight==='light'?2.2:3.6);};
+    var items=window.EverInventory.map(function(f){return {
+      item_id:f.id,name:f.name,mjSpecies:(f.mjSpecies||f.name||'').toLowerCase(),
+      color_hex:f.hex,color_family:f.colorFamily,bloom_diameter_in:{typical:diaFor(f)},role:f.engineType||f.role
+    };});
+    window.EC.data=window.EC.data||{};
+    window.EC.data.inventory={items:items};
+    return true;
+  }catch(e){return false;}
+}
+/* short, real-inventory shortlist per role so the AI can only pick names that exist
+   (WGS Rule 2: no invented names) — content choice only, never coordinates */
+/* short, real-inventory shortlist per role so the AI can only pick names that exist
+   (WGS Rule 2: no invented names) — content choice only, never coordinates.
+   Season-diverse + banned-floral-filtered: round-robins across each item's primary
+   seasonality tag so winter/christmas items are actually offered, not just whatever
+   sorts first alphabetically; excludes any banned floral (cherry blossom / pussy
+   willow / twig-blossom / forsythia) so it can never be offered to begin with. */
+function floralShortlist(){
+  var inv=(typeof window!=='undefined'&&window.EverInventory)||[];
+  var BANNED=/cherry\s*blossom|pussy\s*willow|twig[-\s]?blossom|forsythia/i;
+  function seasonDiverse(pool,n){
+    var groups={};
+    pool.forEach(function(f){
+      var tag=(f.seasonality&&f.seasonality[0])||'year-round';
+      (groups[tag]=groups[tag]||[]).push(f);
+    });
+    var keys=Object.keys(groups),out=[],i=0;
+    while(out.length<n && keys.some(function(k){return groups[k].length;})){
+      var k=keys[i%keys.length];
+      if(groups[k].length) out.push(groups[k].shift());
+      i++;
+    }
+    return out;
+  }
+  function byRole(role,n){
+    var pool=inv.filter(function(f){return f.engineType===role && !BANNED.test(f.name||'');});
+    if(role==='focal'){
+      // house rule (see Reveal Flow's curation logic): the focal must be a true
+      // anchor bloom, never a blossoming branch/spray — sort real blooms first.
+      pool=pool.slice().sort(function(a,b){
+        var av=/blossom/i.test(a.name||'')?1:0, bv=/blossom/i.test(b.name||'')?1:0;
+        return av-bv;
+      });
+    }
+    return seasonDiverse(pool,n).map(function(f){return f.id+' ('+f.name+(f.seasonality?', '+f.seasonality.join('/'):'')+')';});
+  }
+  return {
+    focal:byRole('focal',16), secondary:byRole('secondary',16),
+    filler:byRole('filler',10).concat(byRole('accent',6)), accent:byRole('accent',10),
+    foliage:byRole('foliage',10)
+  };
+}
+
+/* ---- material catalog resolver (legacy fallback only — real picks resolve via EC.inventoryItem) ---- */
+var CAT_NAMES={FOL:'Foliage',EUC:'Eucalyptus',SEED:'Seeded euc.',HYD:'Hydrangea',RAN:'Ranunculus',LIS:'Lisianthus',ROS:'Rose',PEO:'Peony',DAH:'Dahlia',PRO:'Protea',WAX:'Waxflower',BER:'Berry',THI:'Thistle',STA:'Statice',ANE:'Anemone',MUM:'Chrysanthemum',CARN:'Carnation'};
+var COLOR_HEX={WHITE:'#F1EDE2',IVORY:'#EDE6D4',CREAM:'#EFE7D6',BLUSH:'#E7C3BF',PINK:'#DE9AAE',BLUE:'#9BB0CE',NAVY:'#52617E',AMBER:'#D4A84B',GOLD:'#C99A3A',PLUM:'#7E5A74',RUST:'#B06A45',CORAL:'#E89A82',BURG:'#7A3340',SAGE:'#8CA37E',EUC:'#9CB3A0',OLIVE:'#6E7B4D',CEDAR:'#4A6741',GREEN:'#6B8F67',RED:'#A83B33',LAV:'#A99BC4',MAUVE:'#B79BB0',PEACH:'#EBB592',TERRA:'#B5603F',DUSTY:'#C9A9A2'};
+var COLOR_WORD={WHITE:'white',IVORY:'ivory',CREAM:'cream',BLUSH:'blush',PINK:'pink',BLUE:'blue',NAVY:'navy',AMBER:'amber',GOLD:'gold',PLUM:'plum',RUST:'rust',CORAL:'coral',BURG:'burgundy',SAGE:'sage',EUC:'eucalyptus',OLIVE:'olive',CEDAR:'cedar',GREEN:'green',RED:'red',LAV:'lavender',MAUVE:'mauve',PEACH:'peach',TERRA:'terracotta',DUSTY:'dusty rose'};
+function resolveItem(id){
+  var parts=String(id||'').split('-'),cat=parts[1]||'',col=parts[2]||'';
+  var catName=CAT_NAMES[cat]||cat||'Stem';
+  var colWord=COLOR_WORD[col]||(col?col.toLowerCase():'');
+  var hex=COLOR_HEX[col]||'#C8C2B6';
+  var foliage=(cat==='FOL'||cat==='EUC'||cat==='SEED');
+  return {cat:cat,catName:catName,colWord:colWord,hex:hex,foliage:foliage,name:(colWord?colWord+' ':'')+catName.toLowerCase()};
+}
+function clockOf(deg){
+  var d=((deg%360)+360)%360;
+  var h=d/30; var hr=Math.floor(h); if(hr===0)hr=12;
+  var mins=Math.round((h-Math.floor(h))*60);
+  var label=hr+(mins>=30?':30':"")+" o'clock";
+  return label;
+}
+
+/* ---- blueprint diagram — now the ENGINE's own diagram (EC.generateOmniSVG), not a
+   hand-rolled duplicate. bp here is always an engine-composed EC_WR_V2 blueprint. ---- */
+function renderBlueprint(bp){
+  var stage=$i('bpStage');
+  if(!bp||!window.EC){stage.innerHTML='<div class="bp-empty">Run the analysis — the deterministic polar blueprint renders here.</div>';$i('bpLegend').innerHTML='';return;}
+  stage.innerHTML=window.EC.generateOmniSVG(bp);
+  var seen={},items=[];
+  (bp.foliage_sweeps||[]).forEach(function(f){if(!seen[f.item_id]){seen[f.item_id]=1;items.push(f.item_id);}});
+  (bp.clusters||[]).forEach(function(c){(c.stems||[]).forEach(function(st){if(!seen[st.item_id]){seen[st.item_id]=1;items.push(st.item_id);}});});
+  $i('bpLegend').innerHTML=items.map(function(id){
+    var it=window.EC.inventoryItem(id);
+    var hex=(it&&it.color_hex)||resolveItem(id).hex;
+    var name=(it&&it.name)||resolveItem(id).name;
+    return '<span class="lg-item"><span class="lg-dot" style="background:'+hex+'"></span>'+name+' <span class="lg-code">'+id+'</span></span>';
+  }).join('');
+}
+function renderScoreGate(bp){
+  var wrap=$i('dimScoreBars'),badge=$i('gradeBadge');
+  if(!bp||!window.EC){wrap.innerHTML='<span class="out-placeholder">Runs automatically once the engine composes the blueprint.</span>';badge.textContent='—';return;}
+  var score=window.EC.scoreBlueprint(bp);
+  var gradeColor={A:'var(--green)',B:'var(--green-light)',C:'var(--amber)',D:'#B06A45',F:'#A83B33'}[score.overall_grade]||'var(--text-faint)';
+  badge.textContent='GRADE '+score.overall_grade+' · '+score.overall_score+'/120';
+  badge.style.background=score.overall_grade==='A'||score.overall_grade==='B'?'var(--green-pale)':'var(--amber-pale)';
+  badge.style.color=gradeColor;
+  var dims=score.dimension_scores;
+  wrap.innerHTML=Object.keys(dims).map(function(k){
+    var d=dims[k],pct=Math.round(d.score/d.max*100),hi=d.score<14?' hi':'';
+    var issues=d.issues.length?'<div style="font-size:10.5px;color:var(--text-faint);margin-top:2px">'+d.issues.join(' · ')+'</div>':'';
+    return '<div class="dim-row'+hi+'" style="grid-template-columns:110px 1fr 32px"><span class="dim-label">'+d.label+'</span><div class="dim-track"><div class="dim-fill'+hi+'" style="width:'+pct+'%"></div></div><span class="dim-val">'+d.score+'</span></div>'+issues;
+  }).join('');
+}
+/* ---- material catalog resolver (legacy fallback only — real picks resolve via EC.inventoryItem) ---- */
+
+/* MJ prompt now comes straight from the engine's own deterministic prompt compiler
+   (EC.editorialPrompt) — it reads the composed blueprint's real geometry, palette,
+   species and silence arcs. No separate prompt-composer duplicating that logic here. */
+function composeEmail(client,terr,otype,narrative){
+  var what=otype==='blueprint'?'digital blueprint':(otype==='both'?'finished wreath and its blueprint':'finished wreath');
+  return 'Dear '+(client||'there')+',\n\n'
+    +'Thank you for trusting us with your memory. We\u2019ve read its emotional signature, and it settles into our '+terr+' territory.\n\n'
+    +'Your '+what+' is now being designed to hold exactly that feeling \u2014 we\u2019ll be in touch the moment it\u2019s ready for you.\n\n'
+    +'Warmly,\nThe Moodoor Studio';
+}
+
+function slugify(s){return String(s||'design').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||'design';}
+
+/* Real, ready-to-paste wreaths-data.js record — the actual bridge from studio (design)
+   to the storefront catalog. Embeds the REAL EC blueprint so the product page can
+   later compute its own live price/score/diagram instead of trusting hand-typed copy. */
+function buildCatalogRecord(bp,terr,narrative,client,dims){
+  if(!bp||!window.EC)return null;
+  var EC=window.EC;
+  var listing=EC.commerceListing(bp,{});
+  var score=EC.scoreBlueprint(bp);
+  var guide=EC.buildConstructionGuide(bp);
+  var focal=(bp.clusters||[]).find(function(c){return c.type==='focal';});
+  var cw=(bp.clusters||[]).filter(function(c){return c.type==='secondary'||c.type==='accent';})[0];
+  var fol=(bp.foliage_sweeps||[])[0];
+  var sa=(bp.silence_arcs||[])[0];
+  function nm(id){var it=EC.inventoryItem(id);return (it&&it.name)||id;}
+  var profile=Object.keys(dims||{}).map(function(k){return [k,Math.round((dims[k]||0)*100),(dims[k]||0)>=0.7];});
+  var slug=slugify(client)+'-'+slugify(terr);
+  var record={};
+  record[slug]={
+    name:client||'Untitled design', territory:terr, terr:0,
+    lede:(narrative||'').split('.')[0],
+    desc:listing.description[0],
+    price:listing.price_estimate, blueprint_grade:score.overall_grade+' · '+score.overall_score+'/120',
+    bp:bp.blueprint_id, version:'v1', runRemaining:5, runTotal:5,
+    profile:profile,
+    anatomy:{
+      base:(bp.canvas&&bp.canvas.diameter_in)+'" exposed grapevine',
+      primary:focal?(EC.degToClock(focal.angle_deg)+' · '+nm(focal.stems[0].item_id)+' ×'+focal.stems.reduce(function(a,s){return a+(s.qty||1);},0)):'—',
+      counterweight:cw?(EC.degToClock(cw.angle_deg)+' · '+nm(cw.stems[0].item_id)):'—',
+      sweep:fol?(EC.degToClock(fol.arc_from)+' → '+EC.degToClock(fol.arc_to)):'—',
+      space:sa?(EC.degToClock(sa.from_deg)+' – '+EC.degToClock(sa.to_deg)+' preserved'):'—',
+      stems:guide.total_purchase, score:score.overall_score+' / 120'
+    },
+    story:{ quote:narrative||'', cite:'The memory behind '+(client||'this design'), p1:narrative||'', p2:'' },
+    tags:listing.tags, title:listing.title,
+    vb:'0 0 140 140',
+    motif:'<circle cx="70" cy="70" r="50" stroke="#A8916F" stroke-width="2" opacity=".5" stroke-dasharray="20 7 16 4"/><circle cx="70" cy="70" r="10" fill="#EEF2ED" stroke="#4A6741" stroke-width="1.2"/>',
+    related:[],
+    blueprint:bp // the REAL EC_WR_V2 object — product page recomputes price/score/diagram live from this
+  };
+  return { slug:slug, record:record, text:'"'+slug+'": '+JSON.stringify(record[slug],null,2)+',' };
+}
+
+function renderCatalogBox(cat){
+  var box=$i('catalogBox');
+  if(!cat){box.textContent='';box.innerHTML='<span class="out-placeholder">A ready-to-paste wreaths-data.js entry — real blueprint, real price, real stem count and score, once an analysis completes.</span>';return;}
+  box.textContent=cat.text;box.classList.add('live');
+}
+
+/* ---- ANALYSE ---- */
+btn.addEventListener('click',runAnalysis);
+
+async function runAnalysis(){
+  var memory=mem.value.trim();
+  if(!memory||memory.split(/\s+/).length<5)return;
+  var client=$i('clientName').value.trim()||'Client';
+  var email=$i('clientEmail').value.trim();
+  var otype=$i('orderType').value;
+  var dmins=parseInt($i('deadline').value)||510;
+
+  btn.disabled=true;
+  btn.innerHTML='<div class="spinner"></div> Analysing memory&#8230;';
+
+  wireInventory();
+  var shortlist=floralShortlist();
+  var FORMULAS=['Crescent','Side Sweep','Bottom Heavy','Diagonal Flow','Twin Cluster','Corner Cluster','Wild Asymmetry','Half Ring','Top Cluster','Spiral Flow','Classic Balanced','Garden Scatter'];
+  var EMOTIONS=(window.EC&&window.EC.WGS_EMOTIONS)||['grief','gratitude','warmth','nostalgia','joy','celebration','peace','hope','love','strength','remembrance','renewal','comfort','wonder','wild','tender','melancholy','reverence','playful','bold'];
+
+  var systemPrompt=`You are the Emotional Vector System (EVS) for Moodoor — a wreath design studio whose principle is "AI interprets, geometry decides." You read a memory and score it emotionally, then choose the design CONTENT: which real florals carry that feeling, in what formula, at what density. You never invent coordinates, angles, or item codes — a deterministic geometry engine places every stem; you only choose from the SHORTLIST OF REAL INVENTORY provided.
+
+SHORTLIST (item_id (name) — you may ONLY use these ids):
+Focal: ${shortlist.focal.join(' | ')}
+Secondary: ${shortlist.secondary.join(' | ')}
+Filler: ${shortlist.filler.join(' | ')}
+Accent: ${shortlist.accent.join(' | ')}
+Foliage: ${shortlist.foliage.join(' | ')}
+
+CANONICAL FORMULAS (pick exactly one): ${FORMULAS.join(', ')}
+CANONICAL EMOTION SLUGS (pick 1-3, dominant first): ${EMOTIONS.join(', ')}
+
+Return ONLY a valid JSON object — no markdown, no prose outside the JSON:
+
+{
+  "dims": { "Nostalgia":0-1,"Warmth":0-1,"Intimacy":0-1,"Valence":0-1,"Restraint":0-1,"Energy":0-1 },
+  "territory": "Comfort | Celebration | Remembrance | Renewal | Connection | Seasonal Nostalgia",
+  "matchScore": 0-1,
+  "narrative": "One evocative sentence (max 40 words) naming the dominant emotional texture and why it scores this way.",
+  "palette": ["2-3 color phrases, e.g. 'pale ivory','dusty sage','soft slate blue'"],
+  "season": "spring | summer | fall | winter | evergreen | holiday",
+  "style": "romantic | rustic | modern | wild | minimal | woodland | coastal",
+  "diameter_in": 16 | 22 | 24 | 26,
+  "coverage_tier": "EDITORIAL | GARDEN | LUSH",
+  "formula": "one of the canonical formulas above",
+  "emotional_tags": ["1-3 of the canonical emotion slugs above, dominant first"],
+  "florals": {
+    "focal": { "item_id": "from the Focal shortlist", "density": "light | medium | lush" },
+    "secondary": { "item_id": "from the Secondary shortlist", "density": "light | medium | lush" },
+    "filler": { "item_id": "from the Filler shortlist", "density": "light | medium | lush" },
+    "accent": { "item_id": "from the Accent shortlist", "density": "light | medium | lush" }
+  },
+  "foliage": ["1-2 item_ids from the Foliage shortlist"]
+}
+
+Design so the choices genuinely embody the memory: restrained grief → Crescent or Half Ring, EDITORIAL coverage, muted palette; abundant celebration → Classic Balanced or Garden Scatter, LUSH coverage, warm palette; quiet comfort → Bottom Heavy, GARDEN coverage. Output nothing but a single MINIFIED JSON object — no line breaks, no markdown fences, no text before or after.`;
+
+  var userMsg='Memory: "'+memory+'"';
+
+  var raw='';
+  try{
+    raw=await window.claude.complete(systemPrompt+'\n\n'+userMsg,{maxTokens:1200});
+    var json=extractJson(raw);
+    if(!json) throw new Error('Could not parse a complete JSON object from the response.');
+    renderResult(json,client,email,otype,dmins,memory);
+  } catch(e){
+    btn.disabled=false;
+    btn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Run EVS analysis &amp; generate prompt';
+    $i('bpStage').innerHTML='<div class="bp-empty" style="color:#A83B33">Analysis didn\u2019t complete cleanly. Tap the button to try again \u2014 the model occasionally returns an incomplete blueprint.</div>';
+    $i('bpLegend').innerHTML='';
+    toast('Analysis incomplete — please run it again.');
+  }
+}
+
+/* Robust JSON extraction: strips code fences, then balances braces from the first { */
+function extractJson(raw){
+  if(!raw) return null;
+  var s=raw.replace(/```json/gi,'').replace(/```/g,'').trim();
+  var start=s.indexOf('{');
+  if(start<0) return null;
+  // try a direct parse of the whole remainder first
+  try{ return JSON.parse(s.slice(start)); }catch(e){}
+  // otherwise walk braces (ignoring those inside strings) to find a complete object
+  var depth=0,inStr=false,esc=false;
+  for(var i=start;i<s.length;i++){
+    var ch=s[i];
+    if(esc){esc=false;continue;}
+    if(ch==='\\'){esc=true;continue;}
+    if(ch==='"'){inStr=!inStr;continue;}
+    if(inStr)continue;
+    if(ch==='{')depth++;
+    else if(ch==='}'){depth--;if(depth===0){try{return JSON.parse(s.slice(start,i+1));}catch(e){return null;}}}
+  }
+  return null; // unbalanced → truncated
+}
+
+function renderResult(json,client,email,otype,dmins,memory){
+  var dims=json.dims||{};
+  var terr=json.territory||'Comfort';
+  var matchScore=json.matchScore||0.8;
+  var narrative=json.narrative||'';
+
+  // ENGINE composes the real blueprint — the AI chose content (formula, florals,
+  // density, emotion, season/style); every coordinate below is deterministic.
+  var densityQty={light:{focal:5,secondary:6,filler:8,accent:2},medium:{focal:7,secondary:9,filler:12,accent:3},lush:{focal:12,secondary:16,filler:20,accent:5}};
+  var fl=json.florals||{};
+  var shortlist=floralShortlist();
+  // strict validation: every id() below must come from the shortlist WE offered —
+  // never trust the AI's item_id at face value. A hallucinated/out-of-role id
+  // (this is exactly how a rose ended up rendering as "foliage" before this fix)
+  // is replaced with that role's own first shortlist item instead of passed through.
+  function idsOf(list){ return list.map(function(s){return s.split(' ')[0];}); }
+  var validIds={ focal:idsOf(shortlist.focal), secondary:idsOf(shortlist.secondary), filler:idsOf(shortlist.filler), accent:idsOf(shortlist.accent), foliage:idsOf(shortlist.foliage) };
+  function pick(role,fallbackShortlist){
+    var f=fl[role]||{};
+    var id=f.item_id;
+    if(!id||validIds[role].indexOf(id)===-1){ id=validIds[role][0]||id; }
+    var qty=(densityQty[f.density]||densityQty.medium)[role];
+    return {item_id:id,role:role,qty:qty};
+  }
+  var florals=['focal','secondary','filler','accent'].map(function(r){return pick(r,shortlist[r]);});
+  var foliageRaw=(json.foliage&&json.foliage.length?json.foliage:[]);
+  var foliage=foliageRaw.filter(function(id){return validIds.foliage.indexOf(id)!==-1;});
+  if(!foliage.length) foliage=[validIds.foliage[0]].filter(Boolean);
+  var diameter=json.diameter_in||24;
+  var tier=json.coverage_tier||'GARDEN';
+  var spec={formula:json.formula||'Crescent',emotional_tags:json.emotional_tags||['peace'],florals:florals,foliage:foliage,
+    seed:(window.EC&&window.EC.seedFromText)?window.EC.seedFromText(memory+client):Math.floor(Math.random()*9999)};
+  var opts={diameter_in:diameter,base_width_in:(window.EC&&window.EC.wgsBaseWidthIn)?window.EC.wgsBaseWidthIn(diameter):4.5,tier:tier};
+  var composed=window.EC?window.EC.composeDreamBlueprint(spec,opts):null;
+  var bp=composed?composed.blueprint:null;
+
+  var mjBase=bp&&window.EC?window.EC.editorialPrompt(bp):'';
+  var emailDraft=composeEmail(client,terr,otype,narrative);
+
+  /* EVS bars */
+  var sorted=Object.entries(dims).sort(function(a,b){return b[1]-a[1];});
+  $i('dimBars').innerHTML=sorted.map(function(d){
+    var v=Math.round(d[1]*100),hi=v>=70?' hi':'';
+    return '<div class="dim-row'+hi+'"><span class="dim-label">'+d[0]+'</span><div class="dim-track"><div class="dim-fill'+hi+'" data-v="'+v+'"></div></div><span class="dim-val">'+pad(v)+'</span></div>';
+  }).join('');
+  setTimeout(function(){document.querySelectorAll('.dim-fill').forEach(function(f){f.style.width=f.dataset.v+'%';});},80);
+
+  /* territory */
+  var td=TERRITORIES.find(function(t){return t.name===terr;})||TERRITORIES[0];
+  $i('terrIcon').textContent=td.icon;
+  $i('terrName').textContent=td.name;
+  $i('terrDesc').textContent=td.desc;
+  $i('matchScore').textContent=Math.round(matchScore*100)+'% match';
+  $i('evsNarrative').textContent=narrative;
+  $i('evsSection').classList.add('show');
+
+  /* blueprint diagram + json */
+  renderBlueprint(bp);
+  if(bp){
+    $i('bpJson').textContent=JSON.stringify(bp,null,2);
+    $i('bpJsonWrap').style.display='block';
+  }
+
+  /* MJ prompt — the engine's own compiled prompt already carries its params (--style
+     raw --v 7 --ow N --ar 1:1 --no ...); no separate param-tag append needed. */
+  $i('mjBox').textContent=mjBase;
+  $i('mjBox').classList.add('live');
+
+  renderScoreGate(bp);
+
+  var catalog=buildCatalogRecord(bp,terr,narrative,client,dims);
+  renderCatalogBox(catalog);
+
+
+  /* build spec from blueprint */
+  renderSpec(bp,terr,json.palette,narrative);
+
+  /* email */
+  $i('emailBox').textContent=emailDraft;
+  $i('emailBox').classList.add('live');
+
+  /* tracker */
+  var now=Date.now();
+  setStep(0,'done',ts(now-90000));
+  setStep(1,'done',ts(now-15000));
+  setStep(2,'active',ts(now));
+  setStep(3,'','');
+  setStep(4,'','');
+
+  /* job */
+  var deadline=now+dmins*60000;
+  var job={id:now,client:client,email:email,otype:otype,territory:terr,matchScore:matchScore,
+    memory:memory.slice(0,100)+(memory.length>100?'…':''),
+    mjBase:mjBase,emailDraft:emailDraft,blueprint:bp,palette:json.palette,narrative:narrative,dims:dims,
+    catalogText:catalog?catalog.text:null,
+    status:'in-progress',createdAt:now,deadline:deadline,
+    steps:{0:now-90000,1:now-15000,2:now,3:null,4:null}};
+  currentJob=job;
+  var q=readQ().filter(function(j){return j.id!==job.id;});
+  q.unshift(job);writeQ(q);renderQueue();
+
+  startCd(deadline);
+  $i('countdown').style.display='flex';
+  $i('deliverBtn').style.display='flex';
+
+  btn.disabled=false;
+  btn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Re-run analysis';
+  toast('Blueprint generated — prompt honors the geometry.');
+}
+
+function renderSpec(bp,terr,palette,narrative){
+  if(!bp){
+    $i('specTbl').querySelector('tbody').innerHTML='<tr><td>Territory</td><td>'+terr+'</td></tr><tr><td>Mood notes</td><td>'+(narrative||'—')+'</td></tr>';
+    return;
+  }
+  var sa=(bp.silence_arcs||[])[0];
+  var silenceTxt=sa?clockOf(sa.from_deg)+' \u2192 '+clockOf(sa.to_deg)+' bare':'none';
+  var focal=(bp.clusters||[]).find(function(c){return c.type==='focal';});
+  var focalIt=focal&&window.EC?window.EC.inventoryItem(focal.stems[0].item_id):null;
+  var focalTxt=focal?((focalIt&&focalIt.name)||resolveItem(focal.stems[0].item_id).name)+' @ '+clockOf(focal.angle_deg):'—';
+  var stemCount=(bp.clusters||[]).reduce(function(s,c){return s+(c.stems||[]).reduce(function(a,st){return a+(st.qty||1);},0);},0);
+  $i('specTbl').querySelector('tbody').innerHTML=''
+    +'<tr><td>Territory</td><td>'+terr+'</td></tr>'
+    +'<tr><td>Formula</td><td>'+(bp.formula||'—')+'</td></tr>'
+    +'<tr><td>Canvas</td><td>'+(bp.canvas&&bp.canvas.diameter_in?bp.canvas.diameter_in+'\u2033 polar':'—')+'</td></tr>'
+    +'<tr><td>Silence arc</td><td>'+silenceTxt+'</td></tr>'
+    +'<tr><td>Palette</td><td>'+((palette||[]).join(', ')||'—')+'</td></tr>'
+    +'<tr><td>Focal</td><td>'+focalTxt+'</td></tr>'
+    +'<tr><td>Stem count</td><td>'+stemCount+' stems</td></tr>'
+    +'<tr><td>Mood notes</td><td>'+(narrative||'—')+'</td></tr>';
+}
+
+function setStep(idx,state,time){
+  var el=document.querySelector('[data-step="'+idx+'"]');
+  if(!el)return;
+  el.classList.remove('active','done');
+  if(state)el.classList.add(state);
+  el.querySelector('.t-time').textContent=time||'—';
+}
+
+function startCd(deadline){
+  if(cdInterval)clearInterval(cdInterval);
+  var total=deadline-Date.now();
+  function tick(){
+    var rem=deadline-Date.now();
+    var pct=Math.max(0,Math.min(100,(rem/total)*100));
+    $i('cdNum').textContent=fmt(rem);
+    $i('cdBar').style.width=pct+'%';
+    $i('timerDisplay').textContent=fmt(rem);
+    if(rem<=0){clearInterval(cdInterval);$i('timerDisplay').textContent='OVERDUE';$i('cdNum').textContent='0:00';}
+  }
+  tick();cdInterval=setInterval(tick,1000);
+}
+
+$i('deliverBtn').addEventListener('click',function(){
+  if(!currentJob)return;
+  var q=readQ(),job=q.find(function(j){return j.id===currentJob.id;});
+  if(!job)return;
+  job.status='delivered';job.steps[3]=Date.now()-180000;job.steps[4]=Date.now();
+  writeQ(q);setStep(3,'done',ts(job.steps[3]));setStep(4,'done',ts(job.steps[4]));
+  renderQueue();toast('Delivered! Great work.');
+  $i('deliverBtn').style.display='none';
+  clearInterval(cdInterval);$i('timerDisplay').textContent='&#10003; Done';
+});
+
+function renderQueue(){
+  var q=readQ();var el=$i('jobQueue');
+  if(!q.length){el.innerHTML='<div class="queue-empty">No jobs yet. Run an analysis to create the first one.</div>';return;}
+  el.innerHTML=q.map(function(job){
+    var rem=job.deadline-Date.now();
+    var tl=rem>0?fmt(rem)+' left':'OVERDUE';
+    var badge={'new':'new','in-progress':'in-progress','delivered':'delivered'}[job.status]||'new';
+    return '<div class="job-card" data-id="'+job.id+'">'
+      +'<div class="job-head"><span class="job-name">'+job.client+'</span><span class="job-badge '+badge+'">'+badge.replace('-',' ')+'</span></div>'
+      +'<div class="job-terr">'+job.territory+' &middot; '+Math.round(job.matchScore*100)+'% match</div>'
+      +'<div class="job-meta">'+job.otype+' &middot; '+tl+' &middot; '+ts(job.createdAt)+'</div></div>';
+  }).join('');
+  el.querySelectorAll('.job-card').forEach(function(card){
+    card.addEventListener('click',function(){
+      var id=parseInt(card.getAttribute('data-id'));
+      var job=readQ().find(function(j){return j.id===id;});
+      if(job)loadJob(job);
+    });
+  });
+}
+
+function loadJob(job){
+  currentJob=job;
+  $i('mjBox').textContent=job.mjBase||'';$i('mjBox').classList.add('live');
+  $i('emailBox').textContent=job.emailDraft||'';$i('emailBox').classList.add('live');
+  renderBlueprint(job.blueprint||null);
+  renderScoreGate(job.blueprint||null);
+  renderCatalogBox(job.catalogText?{text:job.catalogText}:null);
+  if(job.blueprint){
+    $i('bpJson').textContent=JSON.stringify(job.blueprint,null,2);
+    $i('bpJsonWrap').style.display='block';
+  } else { $i('bpJsonWrap').style.display='none'; }
+  renderSpec(job.blueprint||null,job.territory,job.palette,job.narrative);
+  startCd(job.deadline);
+  $i('countdown').style.display='flex';
+  $i('deliverBtn').style.display=job.status==='delivered'?'none':'flex';
+  toast('Loaded: '+job.client);
+}
+
+$i('clearQueue').addEventListener('click',function(){
+  if(confirm('Clear all jobs?')){localStorage.removeItem(QUEUE_KEY);renderQueue();}
+});
+
+/* init */
+wireInventory();
+renderQueue();
+var q=readQ();
+if(q.length&&q[0].status!=='delivered')loadJob(q[0]);
+</script>
+</body>
+</html>

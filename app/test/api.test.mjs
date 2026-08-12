@@ -1,0 +1,354 @@
+/**
+ * API tests — auth, authorisation, CRUD, validation, import, publish.
+ * Each test file gets its own throwaway database, so nothing here touches the
+ * development data.
+ */
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const { createApp, parseCsv, normaliseInventoryPayload } = require('../server/index.js');
+
+const dbFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'moodoor-test-')), 'test.sqlite');
+const app = createApp({ dbFile, email: 'test@moodoor.test', password: 'test-password-123' });
+
+let base;
+await new Promise((r) => app.server.listen(0, () => {
+  base = `http://127.0.0.1:${app.server.address().port}`;
+  r();
+}));
+test.after(() => app.server.close());
+
+let cookie = '';
+async function call(method, path, body, opts = {}) {
+  const res = await fetch(base + path, {
+    method,
+    headers: {
+      ...(body ? { 'Content-Type': 'application/json' } : {}),
+      ...(opts.anon ? {} : cookie ? { Cookie: cookie } : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const setCookie = res.headers.getSetCookie?.()[0];
+  if (setCookie && !opts.keepCookie) cookie = setCookie.split(';')[0];
+  const json = await res.json().catch(() => ({}));
+  return { status: res.status, json };
+}
+
+/* ------------------------------------------------------------------ *
+ * Seeding
+ * ------------------------------------------------------------------ */
+
+test('the database seeds from the shipped storefront', () => {
+  assert.equal(app.boot.counts.products, 10);
+  assert.equal(app.boot.counts.territories, 6);
+  assert.equal(app.boot.counts.bundles, 3);
+  assert.equal(app.boot.counts.drops, 3);
+  assert.ok(app.boot.counts.inventory > 500);
+});
+
+test('health reports live counts', async () => {
+  const { status, json } = await call('GET', '/api/health', null, { anon: true });
+  assert.equal(status, 200);
+  assert.equal(json.ok, true);
+  assert.equal(json.products, 10);
+});
+
+/* ------------------------------------------------------------------ *
+ * Authorisation — every admin surface must be closed by default
+ * ------------------------------------------------------------------ */
+
+test('every admin route rejects an anonymous caller', async () => {
+  const routes = [
+    ['GET', '/api/admin/summary'], ['GET', '/api/admin/products'],
+    ['POST', '/api/admin/products'], ['PATCH', '/api/admin/products/september-porch'],
+    ['DELETE', '/api/admin/products/september-porch'],
+    ['POST', '/api/admin/inventory/import'],
+    ['POST', '/api/admin/concepts/x/publish'], ['POST', '/api/auth/password'],
+  ];
+  for (const [method, route] of routes) {
+    const { status } = await call(method, route, method === 'GET' ? null : {}, { anon: true });
+    assert.equal(status, 401, `${method} ${route} should be 401 for an anonymous caller`);
+  }
+});
+
+test('public reads need no session', async () => {
+  for (const kind of ['products', 'bundles', 'territories', 'drops', 'stories', 'content']) {
+    const { status, json } = await call('GET', `/api/public/${kind}`, null, { anon: true });
+    assert.equal(status, 200, kind);
+    assert.ok(json.data !== undefined, kind);
+  }
+});
+
+test('login rejects a wrong password and accepts the right one', async () => {
+  const bad = await call('POST', '/api/auth/login', { email: 'test@moodoor.test', password: 'nope' });
+  assert.equal(bad.status, 401);
+  assert.equal(cookie, '', 'no session cookie is issued on a failed login');
+
+  const ok = await call('POST', '/api/auth/login', { email: 'test@moodoor.test', password: 'test-password-123' });
+  assert.equal(ok.status, 200);
+  assert.equal(ok.json.user.role, 'admin');
+  assert.match(cookie, /^moodoor_session=/);
+});
+
+test('a signed-in owner is recognised', async () => {
+  const { json } = await call('GET', '/api/auth/me');
+  assert.equal(json.user.email, 'test@moodoor.test');
+});
+
+/* ------------------------------------------------------------------ *
+ * CRUD
+ * ------------------------------------------------------------------ */
+
+test('admin can list every collection with its writable fields', async () => {
+  for (const kind of Object.keys(app.RESOURCES)) {
+    const { status, json } = await call('GET', `/api/admin/${kind}`);
+    assert.equal(status, 200, kind);
+    assert.ok(Array.isArray(json.data), kind);
+    assert.ok(json.writable.length > 0, kind);
+    assert.ok(json.key, kind);
+  }
+});
+
+test('creating, editing and deleting a design round-trips', async () => {
+  const created = await call('POST', '/api/admin/products', {
+    slug: 'test-design', name: 'Test Design', territory: 'Comfort',
+    price: 210, inventoryQuantity: 3, runLimit: 5,
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.json.data.name, 'Test Design');
+
+  const listed = await call('GET', '/api/public/products', null, { anon: true });
+  assert.ok(listed.json.data.some((p) => p.slug === 'test-design'), 'appears publicly once published');
+
+  const patched = await call('PATCH', '/api/admin/products/test-design', { price: 265, lede: 'Edited.' });
+  assert.equal(patched.status, 200);
+  assert.equal(patched.json.data.price, 265);
+  assert.equal(patched.json.data.name, 'Test Design', 'an unmentioned field is left alone');
+
+  const removed = await call('DELETE', '/api/admin/products/test-design');
+  assert.equal(removed.status, 200);
+  assert.equal((await call('DELETE', '/api/admin/products/test-design')).status, 404);
+});
+
+test('an unpublished record disappears from the public API but not the admin one', async () => {
+  await call('PATCH', '/api/admin/products/white-hour', { isPublished: 0 });
+  const pub = await call('GET', '/api/public/products', null, { anon: true });
+  assert.ok(!pub.json.data.some((p) => p.slug === 'white-hour'), 'hidden from the storefront');
+  assert.equal((await call('GET', '/api/public/products/white-hour', null, { anon: true })).status, 404);
+
+  const admin = await call('GET', '/api/admin/products');
+  assert.ok(admin.json.data.some((p) => p.slug === 'white-hour'), 'still editable by the owner');
+
+  await call('PATCH', '/api/admin/products/white-hour', { isPublished: 1 });
+});
+
+test('duplicate slugs are refused, not silently merged', async () => {
+  const { status, json } = await call('POST', '/api/admin/products', {
+    slug: 'september-porch', name: 'Clash', territory: 'Comfort',
+  });
+  assert.equal(status, 409);
+  assert.match(json.error, /already exists/i);
+});
+
+test('required fields are enforced', async () => {
+  const { status, json } = await call('POST', '/api/admin/products', { slug: 'no-name-here' });
+  assert.equal(status, 400);
+  assert.match(json.error, /required/i);
+});
+
+test('enum fields reject a value outside the set', async () => {
+  const { status, json } = await call('PATCH', '/api/admin/drops/high-summer', { status: 'whenever' });
+  assert.equal(status, 400);
+  assert.match(json.error, /must be one of/);
+});
+
+test('fields outside the allow-list are ignored, not written', async () => {
+  const { status } = await call('PATCH', '/api/admin/products/september-porch', {
+    price: 350, id: 9999, createdAt: '1999-01-01', updatedBy: 4242,
+  });
+  assert.equal(status, 200);
+  const row = (await call('GET', '/api/admin/products')).json.data.find((p) => p.slug === 'september-porch');
+  assert.notEqual(row.id, 9999, 'id is not client-writable');
+  assert.notEqual(row.createdAt, '1999-01-01', 'createdAt is not client-writable');
+  assert.equal(row.price, 350);
+});
+
+test('editing a record changes what the storefront serves', async () => {
+  await call('PATCH', '/api/admin/territories/comfort', { lede: 'A brand new lede.', designCount: 99 });
+  const pub = await call('GET', '/api/public/territories', null, { anon: true });
+  const comfort = pub.json.data.find((t) => t.slug === 'comfort');
+  assert.equal(comfort.lede, 'A brand new lede.');
+  assert.equal(comfort.designCount, 99);
+});
+
+test('a 404 is returned for an unknown record and an unknown collection', async () => {
+  assert.equal((await call('PATCH', '/api/admin/products/nope', { price: 1 })).status, 404);
+  assert.equal((await call('GET', '/api/admin/nonsense')).status, 404);
+  assert.equal((await call('GET', '/api/public/nonsense', null, { anon: true })).status, 404);
+});
+
+/* ------------------------------------------------------------------ *
+ * Public shape — what the storefront actually reads
+ * ------------------------------------------------------------------ */
+
+test('public products carry the fields the product page reads', async () => {
+  const { json } = await call('GET', '/api/public/products/september-porch', null, { anon: true });
+  const p = json.data;
+  for (const f of ['slug', 'name', 'territory', 'lede', 'desc', 'price', 'bp', 'version',
+                   'runRemaining', 'runTotal', 'profile', 'anatomy', 'story', 'related',
+                   'vb', 'motif', 'blueprint']) {
+    assert.ok(f in p, `public product is missing "${f}"`);
+  }
+  assert.ok(Array.isArray(p.profile) && p.profile.length, 'profile survives the JSON round-trip');
+  assert.ok(p.blueprint && p.blueprint.clusters.length, 'the EC_WR_V2 blueprint survives');
+});
+
+test('public territories carry the presentation payload the page needs', async () => {
+  const { json } = await call('GET', '/api/public/territories', null, { anon: true });
+  for (const t of json.data) {
+    assert.ok(t.visualSvg && t.visualSvg.startsWith('<svg'), `${t.slug} keeps its illustration`);
+    assert.ok(Array.isArray(t.signature) && t.signature.length === 3, `${t.slug} keeps its signature bars`);
+  }
+});
+
+test('public bundles keep their trio markup', async () => {
+  const { json } = await call('GET', '/api/public/bundles', null, { anon: true });
+  assert.equal(json.data.length, 3);
+  for (const b of json.data) {
+    assert.ok(b.trioHtml && b.trioHtml.includes('<svg'), `${b.slug} keeps its trio`);
+    assert.ok(b.items.length >= 3, `${b.slug} keeps its list`);
+  }
+});
+
+/* ------------------------------------------------------------------ *
+ * Inventory import
+ * ------------------------------------------------------------------ */
+
+test('CSV parsing handles quotes, embedded commas and CRLF', () => {
+  const rows = parseCsv('sku,species,colorName,qtyOnHand\r\nX-1,"Rose, Garden",Ivory,7\r\nX-2,"He said ""hi""",Sage,3\r\n');
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].species, 'Rose, Garden');
+  assert.equal(rows[0].qtyOnHand, 7);
+  assert.equal(rows[1].species, 'He said "hi"');
+});
+
+test('the importer accepts all three documented shapes', () => {
+  assert.equal(normaliseInventoryPayload([{ sku: 'A-1', species: 'Rose' }]).length, 1);
+  assert.equal(normaliseInventoryPayload({
+    species: [{ species: 'Rose', canon_id: 1, skus: [{ sku: 'A-2', color_name: 'Ivory', price: 4 }] }],
+  }).length, 1);
+  assert.equal(normaliseInventoryPayload('sku,species\nA-3,Rose\n').length, 1);
+  assert.equal(normaliseInventoryPayload('nonsense').length, 0);
+});
+
+test('import creates new SKUs, updates existing ones and reports duplicates', async () => {
+  const before = (await call('GET', '/api/admin/inventory')).json.data.length;
+  const { status, json } = await call('POST', '/api/admin/inventory/import', {
+    payload: 'sku,species,colorName,qtyOnHand,unitPrice\n' +
+             'ZZ-NEW-1,Test Species,Ivory,12,5.5\n' +
+             'ZZ-NEW-1,Test Species,Ivory,99,5.5\n' +
+             'MD-0001,Amber Dahlia,Rust,4,14.26\n',
+  });
+  assert.equal(status, 200);
+  assert.equal(json.created, 1);
+  assert.equal(json.updated, 1);
+  assert.deepEqual(json.duplicates, ['ZZ-NEW-1']);
+
+  const after = (await call('GET', '/api/admin/inventory')).json.data;
+  assert.equal(after.length, before + 1, 'the duplicate was not inserted twice');
+  assert.equal(after.find((i) => i.sku === 'ZZ-NEW-1').qtyOnHand, 12, 'first row wins');
+  assert.equal(after.find((i) => i.sku === 'MD-0001').qtyOnHand, 4, 'existing SKU updated');
+});
+
+test('an unrecognisable import is refused with a readable message', async () => {
+  const { status, json } = await call('POST', '/api/admin/inventory/import', { payload: 'not inventory at all' });
+  assert.equal(status, 400);
+  assert.match(json.error, /No inventory rows/i);
+});
+
+/* ------------------------------------------------------------------ *
+ * Studio concept -> catalog
+ * ------------------------------------------------------------------ */
+
+test('a concept publishes into the catalog only when it is ready', async () => {
+  await call('POST', '/api/admin/concepts', {
+    slug: 'test-concept', name: 'Test Concept', territory: 'Renewal',
+    memory: 'A morning in April.', blueprintJson: JSON.stringify({ clusters: [] }),
+  });
+
+  const early = await call('POST', '/api/admin/concepts/test-concept/publish', { slug: 'published-design' });
+  assert.equal(early.status, 400, 'a draft cannot be published');
+
+  await call('PATCH', '/api/admin/concepts/test-concept', { status: 'approved' });
+  const done = await call('POST', '/api/admin/concepts/test-concept/publish', { slug: 'published-design' });
+  assert.equal(done.status, 201);
+  assert.equal(done.json.data.slug, 'published-design');
+  assert.equal(done.json.data.territory, 'Renewal', 'the territory comes from the concept');
+
+  const concept = (await call('GET', '/api/admin/concepts')).json.data.find((c) => c.slug === 'test-concept');
+  assert.equal(concept.status, 'published');
+  assert.equal(concept.productSlug, 'published-design');
+
+  const pub = await call('GET', '/api/public/products', null, { anon: true });
+  assert.ok(pub.json.data.some((p) => p.slug === 'published-design'), 'live on the storefront');
+
+  const again = await call('POST', '/api/admin/concepts/test-concept/publish', { slug: 'published-design' });
+  assert.equal(again.status, 400, 'a published concept is not re-publishable');
+});
+
+/* ------------------------------------------------------------------ *
+ * AI proxy
+ * ------------------------------------------------------------------ */
+
+test('the AI route reports its configuration rather than failing silently', async () => {
+  const status = await call('GET', '/api/ai/status', null, { anon: true });
+  assert.equal(status.status, 200);
+  assert.equal(typeof status.json.configured, 'boolean');
+
+  const empty = await call('POST', '/api/ai/complete', {}, { anon: true });
+  assert.equal(empty.status, 400, 'a missing prompt is a client error');
+
+  if (!process.env.ANTHROPIC_API_KEY) {
+    const res = await call('POST', '/api/ai/complete', { prompt: 'hello' }, { anon: true });
+    assert.equal(res.status, 503);
+    assert.equal(res.json.code, 'AI_NOT_CONFIGURED');
+    assert.match(res.json.error, /geometry/i, 'the message says what still works');
+  }
+});
+
+/* ------------------------------------------------------------------ *
+ * Static serving
+ * ------------------------------------------------------------------ */
+
+test('the site serves and refuses to serve outside its root', async () => {
+  for (const p of ['/', '/index.html', '/studio.html', '/evercrafted-engine.js',
+                   '/inventory.js', '/cart.js', '/moodoor-runtime.js', '/admin', '/admin/']) {
+    const r = await fetch(base + p);
+    assert.equal(r.status, 200, p);
+  }
+  for (const p of ['/../server/db.js', '/..%2fserver%2fdb.js', '/%2e%2e/package.json']) {
+    const r = await fetch(base + p, { redirect: 'manual' });
+    assert.ok(r.status === 403 || r.status === 404, `${p} must not be served (got ${r.status})`);
+  }
+});
+
+test('a missing page returns 404, not the homepage', async () => {
+  const r = await fetch(base + '/definitely-not-here.html', { headers: { Accept: 'text/html' } });
+  assert.equal(r.status, 404);
+});
+
+/* ------------------------------------------------------------------ *
+ * Session lifecycle
+ * ------------------------------------------------------------------ */
+
+test('signing out invalidates the session immediately', async () => {
+  assert.equal((await call('GET', '/api/admin/summary')).status, 200);
+  await call('POST', '/api/auth/logout');
+  const after = await fetch(base + '/api/admin/summary', { headers: { Cookie: cookie } });
+  assert.equal(after.status, 401, 'the old cookie is dead');
+});

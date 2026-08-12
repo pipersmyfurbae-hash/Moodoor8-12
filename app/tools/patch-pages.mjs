@@ -1,0 +1,235 @@
+/**
+ * patch-pages.mjs — the storefront edits, applied deterministically.
+ *
+ * The pages arrived as standalone HTML files with no shared layer. Rather than
+ * hand-editing ten files (and diverging them further), every change is scripted
+ * and idempotent, so it can be re-run against a fresh copy of the archive.
+ *
+ * Changes:
+ *   1. load moodoor-runtime.js on every page (supplies window.claude + hydration)
+ *   2. wrap each page's card list in a [data-hydrate] container
+ *   3. give every page the same navigation — "Drops" was missing from five of
+ *      eight, and nothing linked to the Studio or the Reveal at all
+ *   4. repoint links that pointed at files not in this build
+ *   5. add the run-state hook to the catalog grid
+ *
+ * Run: node tools/patch-pages.mjs
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const PUB = path.join(ROOT, 'public');
+
+const STOREFRONT = [
+  'index.html', 'signature-wreaths.html', 'collection-bundles.html',
+  'digital-blueprints.html', 'how-matching-works.html', 'territories.html',
+  'upcoming-drops.html', 'checkout.html', 'moodoor-product-page.html',
+];
+
+const changes = [];
+const note = (file, what) => changes.push(`${file}: ${what}`);
+
+function edit(file, fn) {
+  const p = path.join(PUB, file);
+  const before = fs.readFileSync(p, 'utf8');
+  const after = fn(before, file);
+  if (after !== before) fs.writeFileSync(p, after);
+  return after !== before;
+}
+
+/* ------------------------------------------------------------------ *
+ * 1. runtime script on every page
+ * ------------------------------------------------------------------ */
+const RUNTIME_TAG = '<script src="moodoor-runtime.js" defer></script>';
+
+for (const file of STOREFRONT.concat(['studio.html'])) {
+  edit(file, (html) => {
+    if (html.includes('moodoor-runtime.js')) return html;
+    note(file, 'load moodoor-runtime.js');
+    // studio.html needs window.claude before its own inline script runs, so it
+    // goes in <head>; everywhere else it may defer to the end of <body>.
+    if (file === 'studio.html') {
+      return html.replace('</head>', `${RUNTIME_TAG}\n</head>`);
+    }
+    return html.replace('</body>', `${RUNTIME_TAG}\n</body>`);
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. hydration containers
+ * ------------------------------------------------------------------ */
+
+/** Wrap the span from the first to the last <article class="cls"> in a div. */
+function wrapArticles(html, cls, kind) {
+  if (html.includes(`data-hydrate="${kind}"`)) return html;
+  const open = new RegExp(`<article class="${cls}[^"]*"`, 'g');
+  const first = open.exec(html);
+  if (!first) return html;
+  let last = first, m;
+  while ((m = open.exec(html))) last = m;
+
+  // Find the </article> that closes the last one.
+  const closeIdx = html.indexOf('</article>', last.index);
+  if (closeIdx < 0) return html;
+  const end = closeIdx + '</article>'.length;
+
+  return html.slice(0, first.index) +
+    `<div data-hydrate="${kind}">\n  ` +
+    html.slice(first.index, end) +
+    `\n</div>` +
+    html.slice(end);
+}
+
+edit('collection-bundles.html', (h) => {
+  const out = wrapArticles(h, 'bundle', 'bundles');
+  if (out !== h) note('collection-bundles.html', 'bundles list is now admin-driven');
+  return out;
+});
+edit('territories.html', (h) => {
+  const out = wrapArticles(h, 'terr', 'territories');
+  if (out !== h) note('territories.html', 'territories list is now admin-driven');
+  return out;
+});
+edit('upcoming-drops.html', (h) => {
+  const out = wrapArticles(h, 'drop', 'drops');
+  if (out !== h) note('upcoming-drops.html', 'drops list is now admin-driven');
+  return out;
+});
+
+/* ------------------------------------------------------------------ *
+ * 3. one navigation everywhere
+ *
+ * Every page ships the same <ul class="nav-links"> shape. Five of eight were
+ * missing Drops; none linked the Studio. Rewriting the list keeps each page's
+ * own CSS and its `nav-cta` styling untouched.
+ * ------------------------------------------------------------------ */
+
+const NAV_ITEMS = [
+  ['signature-wreaths.html', 'Wreaths'],
+  ['digital-blueprints.html', 'Blueprints'],
+  ['collection-bundles.html', 'Bundles'],
+  ['territories.html', 'Territories'],
+  ['upcoming-drops.html', 'Drops'],
+  ['how-matching-works.html', 'How it works'],
+];
+
+for (const file of STOREFRONT) {
+  edit(file, (html) => {
+    const re = /<ul class="nav-links">[\s\S]*?<\/ul>/;
+    const current = html.match(re);
+    if (!current) return html;
+
+    // Preserve whatever call-to-action the page already ends its nav with.
+    const cta = current[0].match(/<li><a class="nav-cta"[\s\S]*?<\/a><\/li>/);
+    const items = NAV_ITEMS.map(([href, label]) => {
+      const active = href === file ? ' class="is-current" aria-current="page"' : '';
+      return `      <li><a href="${href}"${active}>${label}</a></li>`;
+    }).join('\n');
+
+    const rebuilt = '<ul class="nav-links">\n' + items + '\n' +
+      (cta ? '      ' + cta[0] + '\n' : '') + '    </ul>';
+
+    if (rebuilt === current[0]) return html;
+    note(file, 'navigation unified' + (current[0].includes('upcoming-drops') ? '' : ' (Drops link added)'));
+    return html.replace(re, rebuilt);
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. links that pointed at files not in this build
+ * ------------------------------------------------------------------ */
+
+edit('checkout.html', (h) => {
+  if (!h.includes('moodoor-launch-site.html')) return h;
+  note('checkout.html', 'moodoor-launch-site.html -> index.html (same page, one canonical name)');
+  return h.replace(/moodoor-launch-site\.html/g, 'index.html');
+});
+
+// The three bundle CTAs all pointed at the product page with no ?w=, so every
+// one of them landed on September Porch. Point each at its own lead design.
+edit('collection-bundles.html', (h) => {
+  const LEAD = {
+    'Autumn Memories': 'september-porch',
+    'Gathered Grace': 'gathered-grace',
+    'Legacy Garden': 'legacy-garden',
+  };
+  let out = h;
+  let changed = false;
+  for (const [name, slug] of Object.entries(LEAD)) {
+    const re = new RegExp(
+      `(<h2>${name}</h2>[\\s\\S]*?class="b-cta" href=")moodoor-product-page\\.html(")`,
+    );
+    if (re.test(out)) { out = out.replace(re, `$1moodoor-product-page.html?w=${slug}$2`); changed = true; }
+  }
+  if (changed) note('collection-bundles.html', 'each bundle CTA now opens its own lead design');
+  return out;
+});
+
+// digital-blueprints.html has the same bare product link.
+edit('digital-blueprints.html', (h) => {
+  if (!/href="moodoor-product-page\.html"/.test(h)) return h;
+  note('digital-blueprints.html', 'product link now names a design');
+  return h.replace(/href="moodoor-product-page\.html"/g, 'href="moodoor-product-page.html?w=september-porch"');
+});
+
+/* ------------------------------------------------------------------ *
+ * 4b. the product page must not overwrite a curated price
+ *
+ * The page recomputed `w.price` from the engine's commerceListing on the
+ * grounds that a live figure beats hand-typed copy. That holds for the stem
+ * count and the grade, but not for price: across the ten shipped designs the
+ * real price barely tracks stem count — a 51-stem Remembrance piece lists at
+ * $425 while a 67-stem Comfort one lists at $315. Price is an editorial
+ * decision, and it is now an admin-editable field. The engine's number is kept
+ * as a cost estimate rather than shown as the sticker.
+ * ------------------------------------------------------------------ */
+
+edit('moodoor-product-page.html', (h) => {
+  const OLD = 'w.price = _listing.price_estimate;';
+  // The replacement text legitimately contains OLD as a substring, so the
+  // guard checks for the marker the replacement introduces, not for OLD.
+  if (h.includes('_estimatedPrice') || !h.includes(OLD)) return h;
+  note('moodoor-product-page.html', 'curated price kept; engine figure becomes a cost estimate');
+  return h.replace(OLD,
+    '/* The listed price is editorial and owner-set; the engine supplies the\n' +
+    '         cost floor beside it, not the sticker. */\n' +
+    '      w._estimatedPrice = _listing.price_estimate;\n' +
+    '      if (w.price == null) w.price = _listing.price_estimate;');
+});
+
+// cart.js builds the empty-cart message in JavaScript and links to
+// moodoor-launch-site.html, which is not a page in this build. Only the
+// rendered-DOM pass catches this one — it does not exist in any HTML file.
+edit('cart.js', (h) => {
+  if (!h.includes('moodoor-launch-site.html')) return h;
+  note('cart.js', 'empty-cart link pointed at a page that is not in this build');
+  return h.replace(/moodoor-launch-site\.html/g, 'index.html');
+});
+
+/* ------------------------------------------------------------------ *
+ * 5. run-state hook on the catalog cards
+ * ------------------------------------------------------------------ */
+
+edit('signature-wreaths.html', (h) => {
+  // Repair first: an earlier revision of this script used a stateful global
+  // regex for its own guard and could stamp the attribute twice.
+  let out = h.replace(/(\sdata-product="[a-z-]+")\1+/g, '$1');
+
+  if (!out.includes('data-product=')) {
+    out = out.replace(
+      /<a([^>]*?)href="moodoor-product-page\.html\?w=([a-z-]+)"/g,
+      (full, attrs, slug) => `<a${attrs}href="moodoor-product-page.html?w=${slug}" data-product="${slug}"`
+    );
+    if (out !== h) note('signature-wreaths.html', 'catalog cards read live run state');
+  } else if (out !== h) {
+    note('signature-wreaths.html', 'removed a duplicated data-product attribute');
+  }
+  return out;
+});
+
+/* ------------------------------------------------------------------ */
+
+console.log(changes.length ? changes.map((c) => '  ' + c).join('\n') : '  (nothing to change)');
+console.log(`\n${changes.length} edit(s) applied.`);

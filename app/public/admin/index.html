@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Moodoor — Owner Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+/* Evercrafted brand tokens — brand-tokens.md, identical to the storefront's. */
+:root{
+  --bg:#F9F7F4; --bg2:#FFFFFF; --bg3:#F4F1EC; --paper:#F2EFE9;
+  --border:#E4E0D8; --border2:#D0CBC0;
+  --green:#4A6741; --green-light:#6B8F67; --green-pale:#EEF2ED;
+  --amber:#C4922A; --amber-pale:rgba(196,146,42,.1); --amber-border:rgba(196,146,42,.32);
+  --error:#B94040; --error-pale:rgba(185,64,64,.08);
+  --info:#4A6785;
+  --text:#1A1A1A; --muted:#4A4A4A; --faint:#8A8A8A;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'DM Mono',ui-monospace,SFMono-Regular,monospace;
+  --r-sm:4px; --r-md:8px; --r-lg:14px; --r-full:9999px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.06); --sh-md:0 4px 16px rgba(0,0,0,.08);
+  --sh-lg:0 8px 32px rgba(0,0,0,.10); --sh-xl:0 24px 64px rgba(0,0,0,.14);
+  --t:200ms cubic-bezier(.22,.61,.36,1);
+  --rail:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:var(--r-sm)}
+.hide{display:none !important}
+.mono{font-family:var(--mono)}
+
+/* ---------- sign-in ---------- */
+#signin{min-height:100dvh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(ellipse at 50% 0%,#FFFFFF 0%,var(--bg) 55%,var(--bg3) 100%)}
+.card-auth{width:100%;max-width:390px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:38px 34px;box-shadow:var(--sh-xl)}
+.brand{font-family:var(--serif);font-size:34px;font-weight:300;letter-spacing:-.015em;line-height:1}
+.brand span{color:var(--green)}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.19em;text-transform:uppercase;color:var(--faint)}
+.card-auth .eyebrow{margin-bottom:16px;display:block}
+.card-auth p.sub{color:var(--muted);margin:8px 0 26px;font-size:13.5px}
+label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.field{margin-bottom:16px}
+input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{
+  width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--r-md);transition:border-color var(--t),box-shadow var(--t)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-pale)}
+textarea{resize:vertical;min-height:84px;font-family:var(--mono);font-size:12.5px;line-height:1.6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;
+  border:1px solid var(--green);background:var(--green);color:#fff;border-radius:var(--r-full);
+  font-size:13px;font-weight:600;cursor:pointer;transition:var(--t)}
+.btn:hover{background:#3C5635;border-color:#3C5635}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--muted);border-color:var(--border2)}
+.btn.ghost:hover{background:var(--bg3);color:var(--text)}
+.btn.danger{background:transparent;color:var(--error);border-color:rgba(185,64,64,.35)}
+.btn.danger:hover{background:var(--error-pale)}
+.btn.sm{padding:6px 12px;font-size:12px}
+.btn.block{width:100%}
+.msg{padding:10px 12px;border-radius:var(--r-md);font-size:12.5px;margin-bottom:16px}
+.msg.err{background:var(--error-pale);color:var(--error);border:1px solid rgba(185,64,64,.25)}
+.msg.ok{background:var(--green-pale);color:var(--green);border:1px solid rgba(74,103,65,.22)}
+.msg.warn{background:var(--amber-pale);color:#8A6415;border:1px solid var(--amber-border)}
+.hint{font-size:11.5px;color:var(--faint);margin-top:8px;line-height:1.5}
+
+/* ---------- shell ---------- */
+#app{display:grid;grid-template-columns:var(--rail) 1fr;min-height:100dvh}
+aside{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;
+  position:sticky;top:0;height:100dvh;overflow-y:auto}
+.rail-top{padding:22px 20px 16px;border-bottom:1px solid var(--border)}
+.rail-top .brand{font-size:24px}
+.rail-top .eyebrow{margin-top:5px;display:block}
+nav.rail{padding:12px 10px;flex:1}
+.nav-group{font-family:var(--mono);font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;
+  color:#B3AB9C;padding:14px 10px 6px}
+.nav-item{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;
+  padding:8px 10px;border:none;background:transparent;border-radius:var(--r-md);cursor:pointer;
+  font-size:13px;color:var(--muted);text-align:left;transition:var(--t)}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--green-pale);color:var(--green);font-weight:600}
+.nav-item .n{font-family:var(--mono);font-size:10.5px;color:var(--faint);
+  background:var(--bg3);border-radius:var(--r-full);padding:1px 7px;min-width:24px;text-align:center}
+.nav-item.active .n{background:rgba(74,103,65,.13);color:var(--green)}
+.rail-foot{padding:14px 16px;border-top:1px solid var(--border);font-size:12px;color:var(--faint)}
+.rail-foot b{display:block;color:var(--text);font-weight:600;font-size:12.5px}
+.rail-foot .row{display:flex;gap:8px;margin-top:10px}
+
+main{min-width:0;padding:26px 30px 80px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  flex-wrap:wrap;margin-bottom:22px}
+h1{font-family:var(--serif);font-size:32px;font-weight:300;letter-spacing:-.015em;line-height:1.1}
+.page-head p{color:var(--muted);font-size:13px;max-width:62ch;margin-top:5px}
+.head-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ---------- dashboard ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px;margin-bottom:26px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 17px;
+  cursor:pointer;transition:var(--t);text-align:left}
+.stat:hover{border-color:var(--green-light);box-shadow:var(--sh-md);transform:translateY(-1px)}
+.stat .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
+.stat .v{font-family:var(--serif);font-size:34px;font-weight:300;line-height:1.05;margin-top:6px}
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.panel h3{font-family:var(--serif);font-size:19px;font-weight:400;padding:16px 18px 12px;
+  border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.panel h3 small{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+.panel-body{padding:6px 18px 16px;max-height:340px;overflow:auto}
+.line{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--bg3);font-size:13px}
+.line:last-child{border-bottom:none}
+.line .r{color:var(--faint);font-family:var(--mono);font-size:11.5px;white-space:nowrap}
+.empty{padding:22px 4px;color:var(--faint);font-size:13px;text-align:center}
+
+/* ---------- table ---------- */
+.tablewrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.toolbar{display:flex;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.toolbar input[type=text]{max-width:280px;padding:7px 11px;font-size:13px}
+.toolbar .spacer{flex:1}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);padding:11px 14px;border-bottom:1px solid var(--border);white-space:nowrap;
+  background:var(--bg3);position:sticky;top:0;z-index:1}
+td{padding:11px 14px;border-bottom:1px solid var(--bg3);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background var(--t)}
+tbody tr:hover{background:#FCFBF9}
+td.cell-actions{text-align:right;white-space:nowrap}
+.trunc{display:block;max-width:44ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 9px;border-radius:var(--r-full);border:1px solid var(--border2);color:var(--muted);background:var(--bg3)}
+.pill.on{background:var(--green-pale);color:var(--green);border-color:rgba(74,103,65,.22)}
+.pill.off{background:var(--bg3);color:var(--faint)}
+.pill.amber{background:var(--amber-pale);color:#8A6415;border-color:var(--amber-border)}
+.pill.red{background:var(--error-pale);color:var(--error);border-color:rgba(185,64,64,.25)}
+
+/* ---------- drawer ---------- */
+.backdrop{position:fixed;inset:0;background:rgba(26,26,26,.34);backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;transition:opacity var(--t);z-index:40}
+.backdrop.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100dvh;width:min(560px,100vw);background:var(--bg2);
+  border-left:1px solid var(--border);box-shadow:var(--sh-xl);transform:translateX(100%);
+  transition:transform var(--t);z-index:41;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.drawer-head{padding:20px 24px 14px;border-bottom:1px solid var(--border);display:flex;
+  justify-content:space-between;align-items:flex-start;gap:12px}
+.drawer-head h2{font-family:var(--serif);font-size:24px;font-weight:400}
+.drawer-body{flex:1;overflow-y:auto;padding:20px 24px}
+.drawer-foot{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:8px;
+  justify-content:space-between;align-items:center;background:var(--bg2)}
+.x{background:none;border:none;cursor:pointer;color:var(--faint);font-size:22px;line-height:1;padding:2px 6px;border-radius:var(--r-sm)}
+.x:hover{color:var(--text);background:var(--bg3)}
+.toggle{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);cursor:pointer;
+  text-transform:none;letter-spacing:0;font-weight:400}
+.toggle input{width:16px;height:16px;accent-color:var(--green);cursor:pointer}
+
+#toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,80px);background:var(--text);color:#fff;
+  padding:11px 20px;border-radius:var(--r-full);font-size:13px;box-shadow:var(--sh-lg);
+  opacity:0;transition:var(--t);z-index:60;pointer-events:none;max-width:min(560px,92vw);text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.err{background:var(--error)}
+
+@media (max-width:900px){
+  #app{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  nav.rail{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px}
+  .nav-group{grid-column:1/-1}
+  main{padding:20px 16px 60px}
+  h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ SIGN IN ============ -->
+<section id="signin">
+  <form class="card-auth" id="loginForm" autocomplete="on">
+    <span class="eyebrow">Private</span>
+    <div class="brand">Mood<span>oor</span></div>
+    <p class="sub">The owner console. Everything the storefront shows is edited here.</p>
+    <div id="loginMsg"></div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn block" type="submit" id="loginBtn">Sign in</button>
+    <p class="hint">Signed-out visitors see the storefront only. Nothing here is linked from it.</p>
+  </form>
+</section>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hide">
+  <aside>
+    <div class="rail-top">
+      <div class="brand">Mood<span>oor</span></div>
+      <span class="eyebrow">Owner console</span>
+    </div>
+    <nav class="rail" id="rail"></nav>
+    <div class="rail-foot">
+      <b id="whoName">—</b>
+      <span id="whoEmail" class="mono" style="font-size:11px"></span>
+      <div class="row">
+        <button class="btn ghost sm" id="viewSite">View site</button>
+        <button class="btn ghost sm" id="logout">Sign out</button>
+      </div>
+    </div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <div class="drawer-head">
+    <div><h2 id="drawerTitle">Edit</h2><span class="eyebrow" id="drawerKey"></span></div>
+    <button class="x" id="drawerClose" aria-label="Close">&times;</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <button class="btn danger sm" id="drawerDelete">Delete</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn ghost" id="drawerCancel">Cancel</button>
+      <button class="btn" id="drawerSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  };
+
+  /* ---------------- API ---------------- */
+
+  function api(method, path, body) {
+    return fetch('/api' + path, {
+      method: method,
+      headers: body ? { 'Content-Type': 'application/json' } : {},
+      body: body ? JSON.stringify(body) : undefined,
+      credentials: 'same-origin',
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (payload) {
+        if (!r.ok) throw Object.assign(new Error(payload.error || ('Request failed (' + r.status + ')')), { status: r.status });
+        return payload;
+      });
+    });
+  }
+
+  var toastTimer;
+  function toast(message, isError) {
+    var el = $('toast');
+    el.textContent = message;
+    el.className = 'show' + (isError ? ' err' : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.className = ''; }, isError ? 5200 : 2600);
+  }
+
+  /* ---------------- collection definitions ----------------
+   * `columns` is what the table shows; the drawer is generated from the
+   * server's own `writable` list, so a field can never be edited here that
+   * the API would reject, and none is silently missed.
+   */
+  var LONG = { rows: 5 };
+  var COLLECTIONS = [
+    { id:'content', title:'Site copy', group:'Storefront', key:'contentKey',
+      blurb:'Editorial copy the storefront reads at load.',
+      columns:['contentKey','label','heading','body'],
+      fields:{ body:LONG, heading:{rows:2} } },
+    { id:'products', title:'Designs', group:'Storefront', key:'slug',
+      blurb:'The wreath catalog. Run counts here drive what the storefront shows as available.',
+      columns:['slug','name','territory','price','inventoryQuantity','runLimit','isPublished'],
+      fields:{ description:LONG, lede:{rows:2}, profileJson:LONG, anatomyJson:LONG,
+               storyJson:LONG, relatedJson:{rows:2}, motifSvg:LONG, blueprintJson:{rows:8} } },
+    { id:'bundles', title:'Bundles', group:'Storefront', key:'slug',
+      blurb:'Collection sets on the bundles page.',
+      columns:['slug','name','territory','price','saving','isPublished'],
+      fields:{ description:LONG, lede:{rows:2}, itemsJson:LONG, trioHtml:LONG } },
+    { id:'territories', title:'Territories', group:'Storefront', key:'slug',
+      blurb:'The six emotional territories.',
+      columns:['slug','name','overline','designCount','isPublished'],
+      fields:{ description:LONG, lede:{rows:2}, signatureJson:{rows:4}, visualSvg:LONG } },
+    { id:'drops', title:'Seasonal drops', group:'Storefront', key:'slug',
+      blurb:'Release timeline. Status drives the badge on the drops page.',
+      columns:['slug','title','timingLabel','status','isPublished'],
+      fields:{ description:LONG, lede:{rows:2}, tagsJson:{rows:3} },
+      enums:{ status:['planned','next','live','archived'] } },
+    { id:'stories', title:'Stories', group:'Storefront', key:'slug',
+      blurb:'Editorial pieces. Unpublished stories are invisible to the public API.',
+      columns:['slug','kind','title','isPublished','sortOrder'],
+      fields:{ body:{rows:12}, excerpt:LONG },
+      enums:{ kind:['lifestyle','studio','genesis','story','lookbook'] } },
+
+    { id:'concepts', title:'Studio concepts', group:'Studio', key:'slug',
+      blurb:'Designs in progress. An approved concept can be published into the catalog.',
+      columns:['slug','name','territory','status','productSlug'],
+      fields:{ memory:LONG, renderPrompt:{rows:8}, styleNotes:LONG, reviewNotes:LONG,
+               blueprintJson:{rows:8}, scoreJson:{rows:4} },
+      enums:{ status:['draft','generating','ready','approved','published','failed'] },
+      rowActions:[{ label:'Publish to catalog', run:publishConcept }] },
+    { id:'briefs', title:'Briefs', group:'Studio', key:'slug',
+      blurb:'Client and collection briefs feeding the Studio.',
+      columns:['slug','title','territory','season','status'],
+      fields:{ sourceMemory:LONG, materials:LONG, collectionInsight:LONG, collectionPlan:LONG },
+      enums:{ status:['draft','analyzed','approved','archived'] } },
+    { id:'quality', title:'Quality gate', group:'Studio', key:'slug',
+      blurb:'Composition, material and commerce checks before a design ships.',
+      columns:['slug','title','status','compositionScore','materialScore','commerceScore'],
+      fields:{ notes:LONG },
+      enums:{ status:['queued','in_review','passed','needs_revision'] } },
+    { id:'operations', title:'Operations', group:'Studio', key:'slug',
+      blurb:'Operator console, pipeline, experience and drop work.',
+      columns:['slug','title','module','status','dueAt'],
+      fields:{ summary:LONG, ownerNote:LONG },
+      enums:{ module:['operator','pipeline','experience','drop'], status:['planned','active','blocked','complete'] } },
+
+    { id:'inventory', title:'Inventory', group:'Materials', key:'sku',
+      blurb:'The EFS-1.0 canon. Import replaces quantities by SKU and reports duplicates.',
+      columns:['sku','species','colorName','primaryRole','qtyOnHand','unitPrice','isRegisterGap'],
+      fields:{ notes:LONG }, importable:true },
+  ];
+
+  var BY_ID = {};
+  COLLECTIONS.forEach(function (c) { BY_ID[c.id] = c; });
+
+  var state = { user:null, view:'dashboard', summary:null, rows:[], def:null, filter:'', editing:null };
+
+  /* ---------------- auth ---------------- */
+
+  $('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('loginBtn').disabled = true;
+    $('loginMsg').innerHTML = '';
+    api('POST', '/auth/login', { email: $('email').value.trim(), password: $('password').value })
+      .then(function (r) { state.user = r.user; enterApp(); })
+      .catch(function (err) {
+        $('loginMsg').innerHTML = '<div class="msg err">' + esc(err.message) + '</div>';
+      })
+      .finally(function () { $('loginBtn').disabled = false; });
+  });
+
+  $('logout').addEventListener('click', function () {
+    api('POST', '/auth/logout').then(function () { location.reload(); });
+  });
+  $('viewSite').addEventListener('click', function () { window.open('/', '_blank', 'noopener'); });
+
+  function enterApp() {
+    $('signin').classList.add('hide');
+    $('app').classList.remove('hide');
+    $('whoName').textContent = state.user.name || 'Owner';
+    $('whoEmail').textContent = state.user.email;
+    refreshSummary().then(function () { go(location.hash.slice(1) || 'dashboard'); });
+  }
+
+  function refreshSummary() {
+    return api('GET', '/admin/summary').then(function (s) { state.summary = s; renderRail(); });
+  }
+
+  /* ---------------- navigation ---------------- */
+
+  function renderRail() {
+    var counts = (state.summary && state.summary.counts) || {};
+    var html = '<button class="nav-item' + (state.view === 'dashboard' ? ' active' : '') +
+      '" data-go="dashboard">Overview</button>';
+    var group = null;
+    COLLECTIONS.forEach(function (c) {
+      if (c.group !== group) { group = c.group; html += '<div class="nav-group">' + esc(group) + '</div>'; }
+      html += '<button class="nav-item' + (state.view === c.id ? ' active' : '') + '" data-go="' + c.id + '">' +
+        '<span>' + esc(c.title) + '</span><span class="n">' + (counts[c.id] != null ? counts[c.id] : '·') + '</span></button>';
+    });
+    html += '<div class="nav-group">Account</div>' +
+      '<button class="nav-item' + (state.view === 'account' ? ' active' : '') + '" data-go="account">Password</button>';
+    $('rail').innerHTML = html;
+    Array.prototype.forEach.call($('rail').querySelectorAll('[data-go]'), function (b) {
+      b.addEventListener('click', function () { go(b.getAttribute('data-go')); });
+    });
+  }
+
+  function go(view) {
+    state.view = view;
+    state.filter = '';
+    location.hash = view;
+    renderRail();
+    if (view === 'dashboard') return renderDashboard();
+    if (view === 'account') return renderAccount();
+    var def = BY_ID[view];
+    if (!def) return renderDashboard();
+    renderCollection(def);
+  }
+  window.addEventListener('hashchange', function () {
+    var v = location.hash.slice(1) || 'dashboard';
+    if (v !== state.view) go(v);
+  });
+
+  /* ---------------- dashboard ---------------- */
+
+  function renderDashboard() {
+    var s = state.summary || { counts:{}, lowStock:[], soldOut:[], registerGaps:[] };
+    var stats = COLLECTIONS.map(function (c) {
+      return '<button class="stat" data-go="' + c.id + '">' +
+        '<div class="k">' + esc(c.title) + '</div>' +
+        '<div class="v">' + (s.counts[c.id] != null ? s.counts[c.id] : '—') + '</div></button>';
+    }).join('');
+
+    var soldOut = s.soldOut.length
+      ? s.soldOut.map(function (p) {
+          return '<div class="line"><span>' + esc(p.name) + '</span>' +
+            '<span class="r"><span class="pill red">run closed</span> 0 of ' + p.runLimit + '</span></div>';
+        }).join('')
+      : '<div class="empty">Every design still has stock in its run.</div>';
+
+    var low = s.lowStock.length
+      ? s.lowStock.map(function (i) {
+          return '<div class="line"><span>' + esc(i.species) +
+            (i.colorName ? ' <span class="r">· ' + esc(i.colorName) + '</span>' : '') + '</span>' +
+            '<span class="r">' + i.qtyOnHand + ' left <span class="pill amber">' + esc(i.sku) + '</span></span></div>';
+        }).join('')
+      : '<div class="empty">Nothing is at or below its low-stock threshold.</div>';
+
+    var gaps = s.registerGaps.length
+      ? '<div class="msg warn" style="margin:12px 18px 16px">' +
+        '<b>' + s.registerGaps.length + ' canon species carried at zero stock.</b><br>' +
+        esc(s.registerGaps.join(', ')) +
+        '<br><span style="opacity:.85">These are never offered to the Studio — a register gap is reported, not silently substituted.</span></div>'
+      : '<div class="empty">No register gaps.</div>';
+
+    $('main').innerHTML =
+      '<div class="page-head"><div><h1>Overview</h1>' +
+      '<p>Everything the public storefront reads comes from these records. Edits are live the moment they save.</p></div>' +
+      '<div class="head-actions"><button class="btn ghost" id="openStudio">Open Studio</button>' +
+      '<button class="btn" id="openSite">View storefront</button></div></div>' +
+      '<div class="stats">' + stats + '</div>' +
+      '<div class="panels">' +
+        '<div class="panel"><h3>Runs sold through <small>' + s.soldOut.length + '</small></h3><div class="panel-body">' + soldOut + '</div></div>' +
+        '<div class="panel"><h3>Low stock <small>' + s.lowStock.length + '</small></h3><div class="panel-body">' + low + '</div></div>' +
+        '<div class="panel"><h3>Register gaps <small>' + s.registerGaps.length + '</small></h3><div class="panel-body">' + gaps + '</div></div>' +
+      '</div>';
+
+    Array.prototype.forEach.call($('main').querySelectorAll('[data-go]'), function (b) {
+      b.addEventListener('click', function () { go(b.getAttribute('data-go')); });
+    });
+    $('openSite').addEventListener('click', function () { window.open('/', '_blank', 'noopener'); });
+    $('openStudio').addEventListener('click', function () { window.open('/studio.html', '_blank', 'noopener'); });
+  }
+
+  /* ---------------- collection table ---------------- */
+
+  function renderCollection(def) {
+    state.def = def;
+    $('main').innerHTML =
+      '<div class="page-head"><div><h1>' + esc(def.title) + '</h1><p>' + esc(def.blurb) + '</p></div>' +
+      '<div class="head-actions">' +
+        (def.importable ? '<button class="btn ghost" id="importBtn">Import</button>' : '') +
+        '<button class="btn" id="newBtn">New ' + esc(def.title.replace(/s$/, '').toLowerCase()) + '</button>' +
+      '</div></div>' +
+      '<div class="tablewrap"><div class="toolbar">' +
+        '<input type="text" id="filter" placeholder="Filter…" aria-label="Filter rows">' +
+        '<span class="spacer"></span><span class="eyebrow" id="rowCount"></span>' +
+      '</div><div class="scroll"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div></div>';
+
+    $('newBtn').addEventListener('click', function () { openDrawer(def, null); });
+    if (def.importable) $('importBtn').addEventListener('click', function () { openImport(def); });
+    $('filter').addEventListener('input', function () { state.filter = this.value.toLowerCase(); paint(); });
+
+    api('GET', '/admin/' + def.id).then(function (r) {
+      state.rows = r.data;
+      state.writable = r.writable;
+      paint();
+    }).catch(function (e) { toast(e.message, true); });
+  }
+
+  function cellFor(def, row, col) {
+    var v = row[col];
+    if (col === 'isPublished' || col === 'isRegisterGap') {
+      var on = Number(v) === 1;
+      var label = col === 'isPublished' ? (on ? 'live' : 'hidden') : (on ? 'gap' : 'stocked');
+      return '<span class="pill ' + (on && col === 'isPublished' ? 'on' : on ? 'amber' : 'off') + '">' + label + '</span>';
+    }
+    if (col === 'status' || col === 'kind' || col === 'module') {
+      return '<span class="pill' + (v === 'live' || v === 'passed' || v === 'complete' || v === 'approved' ? ' on' :
+        v === 'needs_revision' || v === 'blocked' || v === 'failed' ? ' red' :
+        v === 'next' || v === 'active' ? ' amber' : '') + '">' + esc(v) + '</span>';
+    }
+    if (v == null || v === '') return '<span style="color:var(--faint)">—</span>';
+    if (col === 'price' || col === 'unitPrice') return '$' + Number(v).toFixed(2).replace(/\.00$/, '');
+    if (col === 'qtyOnHand' && Number(v) <= 5) return '<span class="pill amber">' + esc(v) + '</span>';
+    return '<span class="trunc">' + esc(v) + '</span>';
+  }
+
+  function paint() {
+    var def = state.def;
+    var rows = state.rows.filter(function (r) {
+      if (!state.filter) return true;
+      return def.columns.some(function (c) {
+        return String(r[c] == null ? '' : r[c]).toLowerCase().indexOf(state.filter) !== -1;
+      });
+    });
+
+    $('thead').innerHTML = '<tr>' + def.columns.map(function (c) {
+      return '<th>' + esc(c) + '</th>';
+    }).join('') + '<th></th></tr>';
+
+    $('rowCount').textContent = rows.length + ' of ' + state.rows.length;
+
+    if (!rows.length) {
+      $('tbody').innerHTML = '<tr><td colspan="' + (def.columns.length + 1) + '">' +
+        '<div class="empty">' + (state.filter ? 'Nothing matches that filter.' : 'No records yet.') + '</div></td></tr>';
+      return;
+    }
+
+    $('tbody').innerHTML = rows.map(function (r, i) {
+      var actions = (def.rowActions || []).map(function (a, ai) {
+        return '<button class="btn ghost sm" data-action="' + ai + '" data-i="' + i + '">' + esc(a.label) + '</button>';
+      }).join(' ');
+      return '<tr>' + def.columns.map(function (c) { return '<td>' + cellFor(def, r, c) + '</td>'; }).join('') +
+        '<td class="cell-actions">' + actions +
+        ' <button class="btn ghost sm" data-edit="' + i + '">Edit</button></td></tr>';
+    }).join('');
+
+    Array.prototype.forEach.call($('tbody').querySelectorAll('[data-edit]'), function (b) {
+      b.addEventListener('click', function () { openDrawer(def, rows[Number(b.getAttribute('data-edit'))]); });
+    });
+    Array.prototype.forEach.call($('tbody').querySelectorAll('[data-action]'), function (b) {
+      b.addEventListener('click', function () {
+        def.rowActions[Number(b.getAttribute('data-action'))].run(rows[Number(b.getAttribute('data-i'))]);
+      });
+    });
+  }
+
+  /* ---------------- drawer ---------------- */
+
+  function closeDrawer() {
+    $('drawer').classList.remove('open');
+    $('backdrop').classList.remove('open');
+    state.editing = null;
+  }
+  $('drawerClose').addEventListener('click', closeDrawer);
+  $('drawerCancel').addEventListener('click', closeDrawer);
+  $('backdrop').addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrawer(); });
+
+  function openDrawer(def, row) {
+    var creating = !row;
+    state.editing = { def: def, row: row, creating: creating };
+
+    $('drawerTitle').textContent = creating ? 'New ' + def.title.replace(/s$/, '').toLowerCase()
+      : (row.name || row.title || row[def.key]);
+    $('drawerKey').textContent = creating ? def.title : def.key + ' · ' + row[def.key];
+    $('drawerDelete').classList.toggle('hide', creating);
+
+    var fields = state.writable || [];
+    $('drawerBody').innerHTML = fields.map(function (f) {
+      var v = row ? row[f] : '';
+      var enums = (def.enums && def.enums[f]) || null;
+
+      if (f === 'isPublished' || f === 'isRegisterGap') {
+        var on = row ? Number(v) === 1 : (f === 'isPublished');
+        return '<div class="field"><label class="toggle"><input type="checkbox" data-f="' + f + '"' +
+          (on ? ' checked' : '') + '> ' + esc(f) + '</label></div>';
+      }
+      if (enums) {
+        return '<div class="field"><label for="fld-' + f + '">' + esc(f) + '</label>' +
+          '<select id="fld-' + f + '" data-f="' + f + '">' + enums.map(function (o) {
+            return '<option' + (String(v) === o ? ' selected' : '') + '>' + esc(o) + '</option>';
+          }).join('') + '</select></div>';
+      }
+      var cfg = (def.fields && def.fields[f]) || null;
+      if (cfg) {
+        return '<div class="field"><label for="fld-' + f + '">' + esc(f) + '</label>' +
+          '<textarea id="fld-' + f + '" data-f="' + f + '" rows="' + cfg.rows + '">' + esc(v == null ? '' : v) + '</textarea></div>';
+      }
+      var numeric = /Quantity|Limit|Count|Order|price|Price|qty|Qty|Score|Threshold/.test(f);
+      return '<div class="field"><label for="fld-' + f + '">' + esc(f) + '</label>' +
+        '<input type="' + (numeric ? 'number' : 'text') + '" step="any" id="fld-' + f + '" data-f="' + f +
+        '" value="' + esc(v == null ? '' : v) + '"></div>';
+    }).join('');
+
+    $('drawer').classList.add('open');
+    $('backdrop').classList.add('open');
+    var first = $('drawerBody').querySelector('input,select,textarea');
+    if (first) first.focus();
+  }
+
+  $('drawerSave').addEventListener('click', function () {
+    var ed = state.editing;
+    if (!ed) return;
+    var payload = {};
+    Array.prototype.forEach.call($('drawerBody').querySelectorAll('[data-f]'), function (el) {
+      var f = el.getAttribute('data-f');
+      if (el.type === 'checkbox') payload[f] = el.checked ? 1 : 0;
+      else if (el.type === 'number') payload[f] = el.value === '' ? null : Number(el.value);
+      else payload[f] = el.value;
+    });
+
+    // Anything named *Json must round-trip as JSON, or the storefront that
+    // parses it would silently fall back to an empty list.
+    var bad = Object.keys(payload).filter(function (f) {
+      if (!/Json$/.test(f) || !payload[f]) return false;
+      try { JSON.parse(payload[f]); return false; } catch (e) { return true; }
+    });
+    if (bad.length) return toast(bad.join(', ') + ' is not valid JSON.', true);
+
+    var def = ed.def;
+    var req = ed.creating
+      ? api('POST', '/admin/' + def.id, payload)
+      : api('PATCH', '/admin/' + def.id + '/' + encodeURIComponent(ed.row[def.key]), payload);
+
+    $('drawerSave').disabled = true;
+    req.then(function () {
+      toast(ed.creating ? 'Created.' : 'Saved.');
+      closeDrawer();
+      return refreshSummary().then(function () { renderCollection(def); });
+    }).catch(function (e) { toast(e.message, true); })
+      .finally(function () { $('drawerSave').disabled = false; });
+  });
+
+  $('drawerDelete').addEventListener('click', function () {
+    var ed = state.editing;
+    if (!ed || ed.creating) return;
+    var id = ed.row[ed.def.key];
+    if (!confirm('Delete "' + id + '"? This cannot be undone.')) return;
+    api('DELETE', '/admin/' + ed.def.id + '/' + encodeURIComponent(id)).then(function () {
+      toast('Deleted.');
+      closeDrawer();
+      return refreshSummary().then(function () { renderCollection(ed.def); });
+    }).catch(function (e) { toast(e.message, true); });
+  });
+
+  /* ---------------- inventory import ---------------- */
+
+  function openImport(def) {
+    state.editing = null;
+    $('drawerTitle').textContent = 'Import inventory';
+    $('drawerKey').textContent = 'CSV, a flat JSON array, or the EFS-1.0 canon';
+    $('drawerDelete').classList.add('hide');
+    $('drawerBody').innerHTML =
+      '<div class="field"><label for="impFile">Choose a file</label>' +
+      '<input type="file" id="impFile" accept=".json,.csv,.txt"></div>' +
+      '<div class="field"><label for="impText">…or paste it</label>' +
+      '<textarea id="impText" rows="14" placeholder=\'sku,species,colorName,qtyOnHand,unitPrice&#10;MD-0001,Amber Dahlia,Rust,31,14.26\'></textarea></div>' +
+      '<p class="hint">Matching is by SKU: existing rows have their quantity, price, colour and role updated; ' +
+      'new SKUs are created. Repeated SKUs inside one file are reported rather than applied twice.</p>' +
+      '<div id="impResult"></div>';
+
+    $('impFile').addEventListener('change', function () {
+      var f = this.files[0];
+      if (!f) return;
+      f.text().then(function (t) { $('impText').value = t; toast('Loaded ' + f.name); });
+    });
+
+    $('drawer').classList.add('open');
+    $('backdrop').classList.add('open');
+
+    $('drawerSave').onclick = function () {
+      var raw = $('impText').value.trim();
+      if (!raw) return toast('Nothing to import.', true);
+      $('drawerSave').disabled = true;
+      api('POST', '/admin/inventory/import', { payload: raw }).then(function (r) {
+        $('impResult').innerHTML = '<div class="msg ok"><b>' + r.created + ' created, ' + r.updated + ' updated</b>' +
+          ' from ' + r.total + ' rows.' +
+          (r.duplicates.length ? '<br>' + r.duplicates.length + ' duplicate SKU(s) skipped: ' +
+            esc(r.duplicates.slice(0, 12).join(', ')) : '') + '</div>';
+        toast('Imported ' + (r.created + r.updated) + ' items.');
+        return refreshSummary();
+      }).catch(function (e) {
+        $('impResult').innerHTML = '<div class="msg err">' + esc(e.message) + '</div>';
+      }).finally(function () {
+        $('drawerSave').disabled = false;
+        $('drawerSave').onclick = null;
+      });
+    };
+  }
+
+  /* ---------------- publish a concept ---------------- */
+
+  function publishConcept(row) {
+    if (row.status !== 'approved' && row.status !== 'ready') {
+      return toast('Set the concept to ready or approved first.', true);
+    }
+    var slug = prompt('Publish "' + row.name + '" to the catalog as which slug?', row.productSlug || row.slug);
+    if (!slug) return;
+    api('POST', '/admin/concepts/' + encodeURIComponent(row.slug) + '/publish', { slug: slug })
+      .then(function () {
+        toast('Published to the catalog as ' + slug + '.');
+        return refreshSummary().then(function () { renderCollection(BY_ID.concepts); });
+      })
+      .catch(function (e) { toast(e.message, true); });
+  }
+
+  /* ---------------- account ---------------- */
+
+  function renderAccount() {
+    $('main').innerHTML =
+      '<div class="page-head"><div><h1>Password</h1>' +
+      '<p>Changing it signs out every session, including this one.</p></div></div>' +
+      '<div class="panel" style="max-width:440px"><div class="panel-body" style="padding:20px">' +
+      '<div id="pwMsg"></div>' +
+      '<div class="field"><label for="pwOld">Current password</label><input type="password" id="pwOld" autocomplete="current-password"></div>' +
+      '<div class="field"><label for="pwNew">New password</label><input type="password" id="pwNew" autocomplete="new-password"></div>' +
+      '<button class="btn" id="pwSave">Change password</button>' +
+      '<p class="hint">At least 8 characters.</p>' +
+      '</div></div>';
+
+    $('pwSave').addEventListener('click', function () {
+      api('POST', '/auth/password', { currentPassword: $('pwOld').value, newPassword: $('pwNew').value })
+        .then(function (r) {
+          $('pwMsg').innerHTML = '<div class="msg ok">' + esc(r.message) + '</div>';
+          setTimeout(function () { location.reload(); }, 1400);
+        })
+        .catch(function (e) { $('pwMsg').innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
+    });
+  }
+
+  /* ---------------- boot ---------------- */
+
+  api('GET', '/auth/me').then(function (r) {
+    if (r.user && r.user.role === 'admin') { state.user = r.user; enterApp(); }
+    else $('email').focus();
+  }).catch(function () { $('email').focus(); });
+})();
+</script>
+</body>
+</html>

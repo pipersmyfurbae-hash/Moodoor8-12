@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#8FA6B5"></stop><stop offset="1" stop-color="#C7D2D8"></stop></linearGradient></defs>
+  <rect width="400" height="400" fill="url(#g)"></rect>
+  <g fill="none" opacity=".92">
+    <circle cx="200" cy="200" r="150" stroke="#A8916F" stroke-width="6" opacity=".5" stroke-dasharray="50 16 68 14"></circle>
+    <circle cx="196" cy="204" r="140" stroke="#8A7458" stroke-width="4" opacity=".4" stroke-dasharray="70 14 30 18"></circle>
+    <circle cx="128" cy="150" r="44" fill="#EAF0F2" stroke="#5F7B8A" stroke-width="4"></circle>
+    <circle cx="128" cy="150" r="15" fill="#EAF0F2" stroke="#5F7B8A" stroke-width="2.4"></circle>
+    <circle cx="272" cy="252" r="32" fill="#EAF0F2" stroke="#5F7B8A" stroke-width="3.6"></circle>
+    <circle cx="186" cy="92" r="24" fill="#EAF0F2" stroke="#6B8F67" stroke-width="3.2"></circle>
+    <circle cx="96" cy="250" r="20" fill="#EAF0F2" stroke="#5F7B8A" stroke-width="3"></circle>
+    <path d="M92 186 C68 158 58 128 58 98" stroke="#6B8F67" stroke-width="4"></path>
+    <path d="M300 244 C322 262 332 286 336 312" stroke="#6B8F67" stroke-width="3.6"></path>
+    <circle cx="250" cy="118" r="9" fill="#F4F1EB"></circle>
+    <circle cx="286" cy="300" r="7" fill="#F4F1EB"></circle>
+    <circle cx="150" cy="300" r="6" fill="#F4F1EB"></circle>
+  </g>
+  <text x="200" y="384" text-anchor="middle" font-family="monospace" font-size="12" letter-spacing="1.5" fill="#ffffff" opacity=".55">ILLUSTRATION · DROP YOUR RENDER</text>
+</svg>

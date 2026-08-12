@@ -1,0 +1,139 @@
+# Merge report
+
+What was in the three archives, what was taken, what was rejected, and how
+confident each decision is.
+
+## 1. What arrived
+
+3 zips → 4 nested zips → 275 files. They contain **four different Moodoor
+codebases** at different stages, heavily duplicated.
+
+| Archive | Contains |
+|---|---|
+| `Website HTML and JavaScript File List (1).zip` | The newest storefront (11 HTML pages, `cart.js`, `wreaths-data.js`), plus the client half of a tRPC/React app, plus `Moodoorprojectfiles.zip` and `moodoorstudiosrc.zip` |
+| `Evercrafted Web Builder Project Files 2.zip` | The server half of that same tRPC app, an older storefront copy, a Firebase/Gemini Moodoor variant, `Moodoor-Botanical-Ledger-static.zip` |
+| `Finish Building the Placement Engine.zip` | The Placement Engine (vanilla ESM, tests, spec, canon documents) |
+
+Duplication measured: `moodoor-launch-site.html` appears **7 times** in 2
+versions; `collection-bundles.html` **6 times** in 2; `Moodoorprojectfiles.zip`
+is byte-identical in two archives. In every case the largest copy was the newest
+and was the one taken.
+
+## 2. The decisive finding
+
+`studio.html` and `moodoor-product-page.html` both load:
+
+```html
+<script src="../inventory.js"></script>
+<script src="../evercrafted-engine.js"></script>
+```
+
+`grep -rl` across all 275 extracted files: **neither file exists anywhere.**
+
+Consequence: `window.EC` was undefined, so the Studio's blueprint composition,
+scoring, diagram, MJ prompt and catalog export were all dead — the page guards
+with `if (!window.EC)` and shows placeholders, so it *looked* like a working app
+while doing nothing. The product page fell back to a flat decorative motif and
+hand-typed anatomy.
+
+A second missing global: `studio.html` calls `window.claude.complete()`, provided
+by the environment the page was authored in and absent everywhere else.
+
+Both are now supplied. See §5.
+
+## 3. Decisions
+
+### Taken
+
+| Decision | Confidence | Basis |
+|---|---|---|
+| Storefront = the newest copy from archive 1 | **High** | Largest of every duplicate set; `index.html` and `moodoor-launch-site.html` are byte-identical, so one canonical name |
+| Geometry ported from `placement-engine/src/core/geometry.js` | **High** | Complete, unit-tested source; angle convention preserved verbatim |
+| `EC_WR_V2` schema from the ten real blueprints in `wreaths-data.js` | **High** | Actual engine output — field names, ranges, band assignment all measured, not inferred |
+| `base_width_in = Ø/4 − 1` | **High** | Fits all three shipped diameters exactly *and* reproduces studio.html's own 4.5 fallback for 22" |
+| Admin data model ported from `schema.ts` | **High** | 11 tables, all column names preserved; only the SQL dialect changed |
+| Inventory from the EFS-1.0 canon | **High** | Real file, 43 species / 551 SKUs |
+| Species→role derived, not read from `primary_role` | **High** | The canon's per-SKU roles are uniformly random; the archive's own README instructs deriving from species |
+| Hex derived from `color_name`, not from `hex` | **High** | `color_name:"Ivory"` carries `#9e4fbf`, `#37aea8`, `#c74375` — the column is noise |
+| 12 legacy `WW-*` ids aliased from blueprint `stems[].name` | **Medium-high** | 9 of 12 carry a real name in the data; 3 foliage ids carry none and use studio.html's own generic fallback label |
+| Anchor angles for 8 of 12 formulas | **High** | Read off the real blueprints |
+| Anchor angles for the other 4 | **Medium** | Not in the sample; follow the Spec's 7–9 o'clock reserved zone, which `TICKET.FLEX` explicitly permits |
+| `EC.degToClock` returns a string | **Medium-high** | Both call sites concatenate it into prose; the numeric form is exposed as `degToClockNum` |
+| Price model recalibrated | **Medium** | Fitted to the ten real prices, 10.5% mean error — but real price is editorial, so this is a cost floor, not a sticker (see below) |
+
+### Rejected
+
+**The tRPC/Drizzle/React application.** The largest body of code in the archives.
+Not revived, for reasons that are structural rather than effort-related:
+
+- It is split across two archives with **two conflicting versions** of
+  `routers.ts` (112 vs 324 lines), `db.ts` (237 vs 296) and `schema.ts` (74 vs 288).
+- ~15 imported modules exist in **no** archive: `@/components/ui/*` (button,
+  input, textarea, sidebar, dropdown-menu, avatar, tooltip, sonner),
+  `@/contexts/CartContext`, `@/components/WreathArt`, `@/pages/NotFound`,
+  `./_core/llm`, `./localAuth`, `./vite`, `./storageProxy`,
+  `./types/manusTypes`, `./components/ErrorBoundary`, `./contexts/ThemeContext`,
+  `@/lib/utils`, `@shared/_core/errors`, `@/hooks/*`.
+- It requires MySQL, a platform OAuth provider, a proprietary presigned-URL
+  storage API, and three private Vite plugins (`vite-plugin-manus-runtime`,
+  `@builder.io/vite-plugin-jsx-loc`, a Manus debug collector).
+
+Reviving it would have meant **inventing fifteen modules and a hosting
+platform**. Its data model was ported instead, which preserves what it actually
+specified.
+
+**The Firebase/Gemini variant** (`moodoor (1)`). A complete, smaller React app,
+but a parallel product line — Firebase auth, Firestore, `@google/genai`, its own
+`wreaths.ts`. It duplicates the storefront at lower fidelity and needs external
+credentials. Superseded.
+
+## 4. Storefront defects found and fixed
+
+| Defect | Detected by |
+|---|---|
+| `evercrafted-engine.js` and `inventory.js` referenced but absent | source audit |
+| `window.claude` referenced but absent | source audit |
+| "Drops" missing from the nav on 5 of 8 pages | nav audit |
+| `checkout.html` → `moodoor-launch-site.html`, not in this build | link checker |
+| `cart.js` empty-cart link → `moodoor-launch-site.html` | **rendered-DOM pass only** — it is built in JavaScript and appears in no HTML file |
+| All 3 bundle CTAs → the product page with no `?w=`, so every one opened September Porch | link audit |
+| `digital-blueprints.html` had the same bare product link | link audit |
+| Product page overwrote the curated price with the engine estimate | screenshot review — $1190 shown beside $365 related designs |
+| Engine price model 3.4× too high | calibration against the ten real prices |
+| Bundles / territories / drops pages had no data layer at all, so the admin could not affect them | architecture review |
+
+## 5. What was built new
+
+Only where something referenced was missing, or where the admin had nothing to
+edit:
+
+- `public/evercrafted-engine.js` — the missing `window.EC` (geometry ported,
+  schema measured, canon cited)
+- `public/inventory.js` — generated from the canon
+- `public/moodoor-runtime.js` — `window.claude` over a server route, plus
+  storefront hydration
+- `server/` — the HTTP layer, SQLite schema ported from `schema.ts`, seeding
+- `public/admin/` — the owner console
+- `tools/` — inventory build, seed extraction, page patching, link checking,
+  browser verification
+- `test/` — 43 tests
+
+## 6. Verification
+
+| Gate | Result |
+|---|---|
+| `npm test` | 43/43 |
+| `npm run check:links` | 21 pages, 0 broken references |
+| `npm run verify` | every page renders clean, hydration confirmed, engine draws, admin edit reaches the storefront |
+
+The engine test suite asserts against the **ten real blueprints** — they must
+score, cost, list, prompt and draw without error — and against all 12 formulas ×
+3 tiers for schema conformance, range conformance, determinism, and a grade of C
+or better.
+
+## 7. Open items
+
+Listed in the README under *Known limits*. In brief: no payment processing, no
+image uploads, the Studio's job queue is still `localStorage` as shipped, and
+the canon's `hex` / `primary_role` columns are synthetic in the source (worked
+around and documented rather than silently consumed).

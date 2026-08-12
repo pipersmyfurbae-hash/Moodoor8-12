@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collection Bundles — Moodoor</title>
+<meta name="description" content="Curated blueprint sets built around a single emotional thread — three designs that belong together, priced $89–$149.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Dancing+Script:wght@600&family=Inter:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--ec-white:#FFFFFF;--ec-off-white:#F9F7F4;--ec-paper:#F2EFE9;--ec-black:#1A1A1A;--ec-ink:#4A4A4A;--ec-green:#4A6741;--ec-green-light:#6B8F67;--ec-green-pale:#EEF2ED;--ec-green-dim:rgba(74,103,65,.12);--ec-gray-100:#F5F5F5;--ec-gray-200:#E8E8E8;--ec-gray-400:#A8A8A8;--ec-gray-500:#787878;--ec-warning:#C4922A;--ec-border:var(--ec-gray-200);--ec-text:var(--ec-black);--ec-text-muted:var(--ec-ink);--ec-text-faint:var(--ec-gray-500);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--script:'Dancing Script',cursive;--mono:'DM Mono',monospace;--sh-md:0 4px 16px rgba(0,0,0,.08);--sh-lg:0 8px 32px rgba(0,0,0,.10);--r-lg:14px;--r-xl:20px;--r-full:9999px;--tr:200ms ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16.5px;line-height:1.65;color:var(--ec-text);background:var(--ec-off-white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")}
+::selection{background:var(--ec-green-dim);color:var(--ec-green)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+h1,h2,h3{font-family:var(--serif);font-weight:400}
+.overline{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ec-green)}
+.script-accent{font-family:var(--script);color:var(--ec-green)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease-out,transform .6s ease-out}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.12s}.reveal-d2{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(249,247,244,.92);border-bottom:1px solid var(--ec-border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.wordmark{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ec-text);text-decoration:none}
+.wordmark span{color:var(--ec-green)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--ec-text-muted);text-decoration:none;transition:color var(--tr)}
+.nav-links a:hover{color:var(--ec-green)}
+.nav-cta{color:var(--ec-off-white)!important;background:var(--ec-green);padding:9px 20px;border-radius:var(--r-full);font-weight:600!important}
+@media (max-width:768px){.nav-links li:not(:last-child){display:none}}
+.page-hero{padding:88px 0 64px;background:radial-gradient(ellipse 800px 460px at 88% 0%,rgba(196,146,42,.10),transparent 60%),var(--ec-off-white)}
+.page-hero h1{font-size:clamp(40px,5.4vw,62px);line-height:1.16;padding-bottom:.08em;overflow-wrap:break-word;letter-spacing:-.03em;margin-top:16px;max-width:780px}
+.page-hero h1 .script-accent{line-height:1.3;display:inline-block;padding-bottom:.06em}
+.page-hero p.sub{font-size:17.5px;color:var(--ec-text-muted);max-width:580px;margin-top:18px}
+main{padding:24px 0 0}
+/* bundle rows */
+.bundle{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:80px 0;border-bottom:1px solid var(--ec-border)}
+.bundle:last-of-type{border-bottom:none}
+.bundle:nth-child(even) .b-visual{order:2}
+.b-visual{border-radius:var(--r-xl);border:1px solid var(--ec-border);min-height:340px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.b-visual.v1{background:linear-gradient(150deg,var(--ec-paper),rgba(196,146,42,.14))}
+.b-visual.v2{background:linear-gradient(150deg,var(--ec-off-white),rgba(196,146,42,.09))}
+.b-visual.v3{background:linear-gradient(160deg,var(--ec-white),var(--ec-paper))}
+.b-visual .b-price{position:absolute;top:20px;left:20px;font-family:var(--mono);font-size:12px;color:var(--ec-green);background:var(--ec-white);border:1px solid var(--ec-green-pale);padding:6px 14px;border-radius:var(--r-full);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.b-visual .save{position:absolute;top:20px;right:20px;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--ec-warning);background:rgba(196,146,42,.1);border:1px solid rgba(196,146,42,.3);padding:6px 14px;border-radius:var(--r-full)}
+.trio{display:flex;align-items:center}
+.trio .t{width:148px;height:178px;background:var(--ec-white);border:1px solid var(--ec-border);border-radius:12px;box-shadow:var(--sh-md);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:transform .35s ease}
+.trio .t span{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--ec-text-muted)}
+.trio .t:nth-child(1){transform:rotate(-6deg) translateX(18px)}
+.trio .t:nth-child(2){transform:translateY(-12px);z-index:2}
+.trio .t:nth-child(3){transform:rotate(6deg) translateX(-18px)}
+.bundle:hover .trio .t:nth-child(1){transform:rotate(-8deg) translateX(10px)}
+.bundle:hover .trio .t:nth-child(3){transform:rotate(8deg) translateX(-10px)}
+.b-copy h2{font-size:clamp(30px,3.8vw,42px);letter-spacing:-.02em;margin:12px 0 6px}
+.b-copy .b-lede{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ec-text-muted)}
+.b-copy p.desc{font-size:15px;color:var(--ec-text-muted);margin-top:16px;max-width:460px}
+.b-list{list-style:none;margin-top:20px;display:grid;gap:9px}
+.b-list li{display:flex;gap:11px;align-items:baseline;font-size:14px;color:var(--ec-text-muted)}
+.b-list li::before{content:'';flex-shrink:0;width:13px;height:1.5px;background:var(--ec-green-light);transform:translateY(-4px)}
+.b-list b{font-weight:600;color:var(--ec-text)}
+.b-cta{display:inline-flex;align-items:center;gap:10px;margin-top:26px;font-size:14px;font-weight:600;color:var(--ec-green);text-decoration:none;border-bottom:1.5px solid var(--ec-green-light);padding-bottom:3px;transition:gap var(--tr),color var(--tr)}
+.b-cta:hover{gap:16px;color:var(--ec-text)}
+@media (max-width:900px){.bundle{grid-template-columns:1fr;gap:32px;padding:56px 0}.bundle:nth-child(even) .b-visual{order:0}}
+/* why bundles */
+.why{background:var(--ec-paper);border-radius:var(--r-xl);padding:52px 56px;margin:80px 0;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.why h2{font-size:clamp(27px,3.4vw,38px);letter-spacing:-.02em}
+.why p{color:var(--ec-text-muted);margin-top:12px}
+.why ul{list-style:none;display:grid;gap:12px}
+.why li{display:flex;gap:11px;align-items:baseline;font-size:14.5px;color:var(--ec-text-muted)}
+.why li::before{content:'';flex-shrink:0;width:13px;height:1.5px;background:var(--ec-green-light);transform:translateY(-4px)}
+@media (max-width:860px){.why{grid-template-columns:1fr;padding:36px}}
+footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:44px 0}
+.foot-base{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ec-text-faint);flex-wrap:wrap;gap:12px}
+.foot-base a{color:var(--ec-text-muted);text-decoration:none}
+.foot-base a:hover{color:var(--ec-green)}
+.powered{display:inline-flex;align-items:center;gap:8px}
+.powered b{color:var(--ec-green);font-weight:600}
+
+/* preview-host override: keep reveal content visible (host hijacks opacity:0 transitions) */
+.reveal{opacity:1 !important;transform:none !important;transition:none !important}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="index.html">Mood<span>oor</span></a>
+    <ul class="nav-links">
+      <li><a href="signature-wreaths.html">Wreaths</a></li>
+      <li><a href="digital-blueprints.html">Blueprints</a></li>
+      <li><a href="collection-bundles.html" class="is-current" aria-current="page">Bundles</a></li>
+      <li><a href="territories.html">Territories</a></li>
+      <li><a href="upcoming-drops.html">Drops</a></li>
+      <li><a href="how-matching-works.html">How it works</a></li>
+      <li><a class="nav-cta" href="index.html#memory">Begin a memory</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <span class="overline reveal">Collection bundles · $89 – $149</span>
+    <h1 class="reveal reveal-d1">Three designs that <span class="script-accent">belong together</span></h1>
+    <p class="sub reveal reveal-d2">Blueprint sets curated around a single emotional thread — shared palette, shared movement, three distinct silhouettes. One story, told three ways through a home.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- AUTUMN MEMORIES -->
+  <div data-hydrate="bundles">
+  <article class="bundle reveal">
+    <div class="b-visual v1">
+      <span class="b-price">$129 · 3 blueprints</span>
+      <span class="save">Save $27 vs. single</span>
+      <div class="trio">
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#8A7458" stroke-width="1.4" opacity=".6" stroke-dasharray="12 4 8 3"/><circle cx="28" cy="26" r="8" fill="#F2EFE9" stroke="#4A6741" stroke-width="1"/><circle cx="54" cy="54" r="4.5" fill="#EEF2ED" stroke="#C4922A" stroke-width=".9"/></svg><span>September Porch</span></div>
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#A8916F" stroke-width="1.4" opacity=".6" stroke-dasharray="10 4 14 3"/><circle cx="52" cy="28" r="7.5" fill="#F2EFE9" stroke="#C4922A" stroke-width="1"/><circle cx="26" cy="52" r="4.5" fill="#F9F7F4" stroke="#4A6741" stroke-width=".9"/></svg><span>Cider House</span></div>
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#8A7458" stroke-width="1.4" opacity=".6" stroke-dasharray="14 5"/><circle cx="52" cy="52" r="8" fill="#EEF2ED" stroke="#4A6741" stroke-width="1"/><circle cx="28" cy="26" r="4" fill="#F2EFE9" stroke="#C4922A" stroke-width=".9"/></svg><span>Last Bonfire</span></div>
+      </div>
+    </div>
+    <div class="b-copy">
+      <span class="overline">Seasonal Nostalgia</span>
+      <h2>Autumn Memories</h2>
+      <p class="b-lede">The whole season, front door to mantel to table.</p>
+      <p class="desc">Three autumn compositions that share a toffee-and-amber palette and a low, warm center of gravity — sized and weighted differently so they read as one season moving through a house, not the same wreath three times.</p>
+      <ul class="b-list">
+        <li><b>September Porch</b> — 18", the front door anchor</li>
+        <li><b>Cider House</b> — 20", fuller, for the gathering room</li>
+        <li><b>Last Bonfire</b> — 20", darker, for the late season</li>
+        <li>Shared palette card + styling guide for placing all three</li>
+      </ul>
+      <a class="b-cta" href="moodoor-product-page.html?w=september-porch">Get the collection <span>&rarr;</span></a>
+    </div>
+  </article>
+
+  <!-- GATHERED GRACE -->
+  <article class="bundle reveal">
+    <div class="b-visual v2">
+      <span class="b-price">$119 · 3 blueprints</span>
+      <span class="save">Save $25 vs. single</span>
+      <div class="trio">
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#A8916F" stroke-width="1.4" opacity=".6" stroke-dasharray="12 4"/><circle cx="50" cy="50" r="8.5" fill="#F2EFE9" stroke="#C4922A" stroke-width="1"/><circle cx="26" cy="28" r="4.5" fill="#EEF2ED" stroke="#6B8F67" stroke-width=".9"/></svg><span>Gathered Grace</span></div>
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#8A7458" stroke-width="1.4" opacity=".6" stroke-dasharray="8 3 12 4"/><circle cx="30" cy="24" r="7.5" fill="#fff" stroke="#C4922A" stroke-width="1"/><circle cx="54" cy="54" r="4" fill="#F9F7F4" stroke="#4A6741" stroke-width=".9"/></svg><span>First Light</span></div>
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#A8916F" stroke-width="1.4" opacity=".6" stroke-dasharray="10 4"/><circle cx="28" cy="44" r="6.5" fill="#EEF2ED" stroke="#4A6785" stroke-width=".9"/><circle cx="50" cy="50" r="6.5" fill="#F9F7F4" stroke="#4A6741" stroke-width=".9"/></svg><span>The Long Table</span></div>
+      </div>
+    </div>
+    <div class="b-copy">
+      <span class="overline">Celebration &amp; Connection</span>
+      <h2>Gathered Grace</h2>
+      <p class="b-lede">For the house where everyone ends up.</p>
+      <p class="desc">Built around the celebration design of the same name, this set pairs lifted, bright focal energy with the paired-cluster intimacy of The Long Table — a collection for arrivals, milestones, and full chairs.</p>
+      <ul class="b-list">
+        <li><b>Gathered Grace</b> — 20", the celebration centerpiece</li>
+        <li><b>First Light</b> — 18", brighter and simpler, for mornings</li>
+        <li><b>The Long Table</b> — 18", the quiet connective thread</li>
+        <li>Shared palette card + hosting-season styling guide</li>
+      </ul>
+      <a class="b-cta" href="moodoor-product-page.html?w=gathered-grace">Get the collection <span>&rarr;</span></a>
+    </div>
+  </article>
+
+  <!-- LEGACY GARDEN -->
+  <article class="bundle reveal">
+    <div class="b-visual v3">
+      <span class="b-price">$149 · 3 blueprints</span>
+      <span class="save">Save $31 vs. single</span>
+      <div class="trio">
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#8A7458" stroke-width="1.3" opacity=".55" stroke-dasharray="16 6"/><path d="M34 24 C38 31 38 39 34 45 C30 39 30 31 34 24Z" stroke="#4A6741" stroke-width=".9" fill="#F9F7F4"/></svg><span>Legacy Garden</span></div>
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#A8916F" stroke-width="1.3" opacity=".55" stroke-dasharray="18 7"/><circle cx="50" cy="28" r="7" fill="#fff" stroke="#4A4A4A" stroke-width=".9"/></svg><span>White Hour</span></div>
+        <div class="t"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" stroke="#8A7458" stroke-width="1.3" opacity=".55" stroke-dasharray="12 5 18 4"/><circle cx="40" cy="56" r="6" fill="#F2EFE9" stroke="#4A6741" stroke-width=".9"/><circle cx="26" cy="32" r="3.5" fill="#EEF2ED" stroke="#6B8F67" stroke-width=".8"/></svg><span>Kept Letters</span></div>
+      </div>
+    </div>
+    <div class="b-copy">
+      <span class="overline">Remembrance</span>
+      <h2>Legacy Garden</h2>
+      <p class="b-lede">What she grew, kept growing.</p>
+      <p class="desc">The most restrained set in the library — three compositions with deliberate negative space, built to honor rather than decorate. Often built together by families, one design per household.</p>
+      <ul class="b-list">
+        <li><b>Legacy Garden</b> — 18", the anchor design</li>
+        <li><b>White Hour</b> — 16", quieter still, half the vine bare</li>
+        <li><b>Kept Letters</b> — 18", the soft, paper-toned companion</li>
+        <li>Shared palette card + a guide to building it as a family</li>
+      </ul>
+      <a class="b-cta" href="moodoor-product-page.html?w=legacy-garden">Get the collection <span>&rarr;</span></a>
+    </div>
+  </article>
+</div>
+
+  <!-- WHY BUNDLES -->
+  <div class="why reveal">
+    <div>
+      <span class="overline">Why collections</span>
+      <h2>One feeling shouldn't stop <span class="script-accent">at the front door</span></h2>
+      <p>A collection carries a single emotional thread through a home — same palette family, same movement language, three silhouettes that talk to each other across rooms.</p>
+    </div>
+    <ul>
+      <li>Designed as a family: shared palette, distinct compositions</li>
+      <li>One consolidated shopping list across all three builds</li>
+      <li>Styling guide for door, mantel, and interior wall placement</li>
+      <li>Always cheaper than buying the three blueprints separately</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-base">
+    <span>&copy; 2026 Evercrafted, Inc. · <a href="upcoming-drops.html">New collections drop seasonally &rarr;</a></span>
+    <span class="powered"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" style="color:var(--ec-green)"><path d="M16 28 C16 28 8 20 8 12 C8 7.6 11.6 4 16 4 C20.4 4 24 7.6 24 12 C24 20 16 28 16 28Z" stroke="currentColor" stroke-width="1.8"/></svg>Powered by <b>Evercrafted</b></span>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+requestAnimationFrame(()=>document.querySelectorAll('.page-hero .reveal').forEach(el=>el.classList.add('in')));
+</script>
+<script src="cart.js" defer></script>
+<script src="moodoor-runtime.js" defer></script>
+</body>
+</html>
