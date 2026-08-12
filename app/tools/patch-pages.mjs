@@ -209,6 +209,166 @@ edit('cart.js', (h) => {
 });
 
 /* ------------------------------------------------------------------ *
+ * 4c. the Studio's geometry-only path
+ *
+ * The Studio's only route to a blueprint was `window.claude.complete()`, so with
+ * no ANTHROPIC_API_KEY the whole page did nothing. But the AI never places
+ * anything — the page's own comment says so: "AI interprets, geometry decides.
+ * EC.composeDreamBlueprint owns every coordinate." The model picks content
+ * (formula, florals, density, tags); the engine does the rest, and the engine is
+ * entirely local.
+ *
+ * This adds a second button that picks that content deterministically from the
+ * memory text — seeded, so the same memory always yields the same design — and
+ * hands it to the same renderResult() the AI path uses. It is labelled as
+ * geometry-only and does not pretend to be an emotional reading.
+ * ------------------------------------------------------------------ */
+
+edit('studio.html', (h) => {
+  if (h.includes('id="composeBtn"')) return h;
+
+  const BUTTON = `      <button class="btn-analyse" id="composeBtn" disabled
+        style="margin-top:10px;background:transparent;color:var(--green);border:1px solid var(--border2)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+        Compose without AI &mdash; geometry only
+      </button>
+`;
+  const anchor = '        Run EVS analysis &amp; generate prompt\n      </button>\n';
+  if (!h.includes(anchor)) return h;
+
+  const SCRIPT = `
+/* ---- geometry-only composition -------------------------------------------
+   Same engine, same renderResult(); only the CONTENT choice differs. Where the
+   AI path asks a model to choose formula, florals and density, this derives
+   them from a seed seeded by the memory itself, so it is deterministic and
+   needs no network. Everything downstream — coordinates, silence arcs, score,
+   prompt, catalog record — is identical, because none of it was ever the AI's
+   to decide. ------------------------------------------------------------- */
+var composeBtn = $i('composeBtn');
+
+function composeLocally(){
+  var memory = mem.value.trim();
+  if (!memory || memory.split(/\\s+/).length < 5) return;
+  var client = $i('clientName').value.trim() || 'Client';
+
+  wireInventory();
+  var shortlist = floralShortlist();
+  var seed = (window.EC && window.EC.seedFromText) ? window.EC.seedFromText(memory + client) : 1;
+  var rand = (window.EC && window.EC.rngFrom) ? window.EC.rngFrom(seed) : Math.random;
+  var pickOne = function(list){ return list.length ? list[Math.floor(rand() * list.length)].split(' ')[0] : null; };
+
+  var FORMULAS = Object.keys((window.EC && window.EC.FORMULAS) || {});
+  var EMOTIONS = (window.EC && window.EC.WGS_EMOTIONS) || ['peace'];
+  var TERRS = ['Comfort','Celebration','Remembrance','Renewal','Connection','Seasonal Nostalgia'];
+  var DIMS = ['Nostalgia','Warmth','Intimacy','Valence','Restraint','Energy'];
+
+  var dims = {};
+  DIMS.forEach(function(d){ dims[d] = Math.round((0.28 + rand() * 0.62) * 100) / 100; });
+
+  var densities = ['light','medium','lush'];
+  var density = densities[Math.floor(rand() * 3)];
+
+  renderResult({
+    dims: dims,
+    territory: TERRS[Math.floor(rand() * TERRS.length)],
+    matchScore: 0,
+    narrative: 'Composed by geometry alone \\u2014 the engine placed every stem from a seed taken '
+      + 'from this memory, so the same words always produce the same design. No emotional '
+      + 'reading was made; add an API key to the server for the EVS analysis.',
+    palette: [],
+    diameter_in: [16,18,20,24][Math.floor(rand() * 4)],
+    coverage_tier: ['EDITORIAL','GARDEN','LUSH'][Math.floor(rand() * 3)],
+    formula: FORMULAS[Math.floor(rand() * FORMULAS.length)] || 'Crescent',
+    emotional_tags: [EMOTIONS[Math.floor(rand() * EMOTIONS.length)]],
+    florals: {
+      focal:     { item_id: pickOne(shortlist.focal),     density: density },
+      secondary: { item_id: pickOne(shortlist.secondary), density: density },
+      filler:    { item_id: pickOne(shortlist.filler),    density: density },
+      accent:    { item_id: pickOne(shortlist.accent),    density: density }
+    },
+    foliage: [pickOne(shortlist.foliage)].filter(Boolean)
+  }, client, $i('clientEmail').value.trim(), $i('orderType').value,
+     parseInt($i('deadline').value) || 510, memory);
+
+  toast('Composed by geometry \\u2014 no model involved.');
+}
+
+composeBtn.addEventListener('click', composeLocally);
+
+/* The engine needs no key; keep this button in step with the memory field. */
+mem.addEventListener('input', function(){
+  composeBtn.disabled = mem.value.trim().split(/\\s+/).filter(Boolean).length < 5;
+});
+composeBtn.disabled = mem.value.trim().split(/\\s+/).filter(Boolean).length < 5;
+
+/* Say up front whether a live analysis is even possible. */
+if (window.claude && window.claude.status) {
+  window.claude.status().then(function(s){
+    if (!s.configured) {
+      btn.title = 'The server has no ANTHROPIC_API_KEY, so the EVS analysis is unavailable. '
+        + 'Compose without AI still runs the full geometry engine.';
+      composeBtn.style.background = 'var(--green)';
+      composeBtn.style.color = '#fff';
+      composeBtn.style.borderColor = 'var(--green)';
+    }
+  }).catch(function(){});
+}
+</script>`;
+
+  note('studio.html', 'added a geometry-only composition path (the engine needs no API key)');
+  return h.replace(anchor, anchor + BUTTON).replace(/<\/script>\s*<\/body>/, SCRIPT + '\n</body>');
+});
+
+/* ------------------------------------------------------------------ *
+ * 4c-ii. bound the Studio's output panels
+ *
+ * `.out-box` sets a min-height and no max-height. That was harmless while the
+ * engine was missing and every panel held a one-line placeholder. Now that the
+ * catalog record carries a full EC_WR_V2 blueprint — 33 clusters, pretty-printed
+ * — the panel runs to tens of thousands of pixels and the page becomes
+ * unscrollable in practice. The neighbouring `.bp-json` block already solves
+ * this the same way; this brings `.out-box` in line with it.
+ * ------------------------------------------------------------------ */
+
+edit('studio.html', (h) => {
+  const OLD = 'white-space:pre-wrap;word-break:break-word}';
+  if (!h.includes(OLD) || h.includes('max-height:420px')) return h;
+  note('studio.html', 'output panels scroll instead of running to 27,000px');
+  return h.replace(OLD, 'white-space:pre-wrap;word-break:break-word;max-height:420px;overflow-y:auto}');
+});
+
+/* ------------------------------------------------------------------ *
+ * 4d. footer links that went nowhere, and the new pages
+ * ------------------------------------------------------------------ */
+
+for (const file of STOREFRONT) {
+  edit(file, (html) => {
+    let out = html;
+    // "Evercrafted Studio" and "Become a beta maker" were both href="#".
+    out = out.replace('<li><a href="#">Evercrafted Studio</a></li>',
+      '<li><a href="studio.html">Moodoor Studio</a></li>');
+    out = out.replace('<li><a href="#">Become a beta maker</a></li>',
+      '<li><a href="index.html#memory">Begin a memory</a></li>');
+    // Surface the story archive, which had no public entry point at all.
+    if (!out.includes('stories.html')) {
+      out = out.replace('<li><a href="upcoming-drops.html">Upcoming drops</a></li>',
+        '<li><a href="upcoming-drops.html">Upcoming drops</a></li>\n          <li><a href="stories.html">Stories</a></li>');
+    }
+    // Most pages carry a one-line footer with no link columns, so the story
+    // archive would only ever be reachable from the homepage. Give those a link
+    // too, in the same compact style they already use.
+    if (!out.includes('stories.html')) {
+      out = out.replace(
+        /(<span>&copy; 2026 Evercrafted, Inc\.)( &middot;| ·)?/,
+        '$1 &middot; <a href="stories.html">Stories</a>$2'
+      );
+    }
+    if (out !== html) note(file, 'footer links resolved (Studio, memory intake, Stories)');
+    return out;
+  });
+}
+
+/* ------------------------------------------------------------------ *
  * 5. run-state hook on the catalog cards
  * ------------------------------------------------------------------ */
 

@@ -27,6 +27,10 @@ npm run build         # regenerate inventory.js, seed.json, and the page patches
 npm run reset         # delete the database and start over
 ```
 
+Current state: **43/43 tests, 0 broken references across 22 pages, 38/38 browser
+checks.** `npm run verify` needs Playwright (`npm i -D playwright`); it finds an
+already-installed Chromium rather than downloading one.
+
 ---
 
 ## What this is
@@ -99,9 +103,16 @@ coverage tiers by the test suite.
 
 `studio.html` also called `window.claude.complete()`, a host-provided global that
 exists only in the environment the page was authored in. It now posts to
-`/api/ai/complete`, with the key held server-side. Without a key the Studio still
-runs: the geometry engine is fully local, and the route says so instead of
-failing silently.
+`/api/ai/complete`, with the key held server-side.
+
+**The Studio works with no API key at all.** Its own comment says why: *"AI
+interprets. Geometry places. `EC.composeDreamBlueprint` owns every coordinate."*
+The model only chooses content — formula, florals, density, emotional tags — and
+the engine that does everything else is entirely local. A second button,
+**Compose without AI**, picks that content deterministically from a seed taken
+from the memory text and hands it to the same pipeline, producing the same
+blueprint, score, diagram, Midjourney prompt and catalog record. It is labelled
+as geometry-only and does not pretend to be an emotional reading.
 
 ---
 

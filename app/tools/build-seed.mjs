@@ -162,6 +162,37 @@ const drops = articles(dropsHtml, 'drop').map((b, i) => {
 });
 
 /* ------------------------------------------------------------------ *
+ * Stories — from the editorial each design already carries
+ *
+ * The stories table had no seed, so /stories opened empty and the admin's
+ * story tools had nothing to show. Every design in wreaths-data.js carries a
+ * real `story` block — a quote, its attribution, and two paragraphs of studio
+ * copy. That is genuine Moodoor editorial from the archive, so it is lifted
+ * here rather than inventing filler. Each story links back to its design.
+ *
+ * Note the archive's own instruction (moodoor_inventory_audit.md): the public
+ * surfaces must avoid "invented product claims or customer content". Nothing
+ * here is written; it is all moved.
+ * ------------------------------------------------------------------ */
+const stories = Object.entries(WREATHS)
+  .filter(([, w]) => w.story && w.story.p1)
+  .map(([slug, w], i) => ({
+    slug: `${slug}-story`,
+    kind: 'story',
+    title: `How ${w.name} came to be`,
+    eyebrow: w.territory,
+    excerpt: w.story.quote || w.lede,
+    body: [w.story.quote ? `“${w.story.quote}”` : null,
+           w.story.cite ? `— ${w.story.cite}` : null,
+           w.story.p1, w.story.p2].filter(Boolean).join('\n\n'),
+    linkedProductSlug: slug,
+    linkedDropSlug: null,
+    isPublished: 1,
+    sortOrder: i,
+    createdBy: 1,
+  }));
+
+/* ------------------------------------------------------------------ *
  * Inventory — the EFS-1.0 canon, flattened as the importer would
  * ------------------------------------------------------------------ */
 const canon = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/moodoor-inventory.json'), 'utf8'));
@@ -209,7 +240,7 @@ const siteContent = [
 ];
 
 /* ------------------------------------------------------------------ */
-const seed = { products, bundles, territories, drops, inventory, siteContent };
+const seed = { products, bundles, territories, drops, stories, inventory, siteContent };
 fs.writeFileSync(path.join(ROOT, 'data/seed.json'), JSON.stringify(seed, null, 1));
 
 const counts = Object.fromEntries(Object.entries(seed).map(([k, v]) => [k, v.length]));

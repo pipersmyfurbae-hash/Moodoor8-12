@@ -159,7 +159,12 @@ for (const sp of canon.species || []) {
     if (!hex) throw new Error(`No palette entry for color_name "${k.color_name}"`);
     items.push({
       id: k.sku,
-      name: `${k.color_name} ${sp.species}`.replace(/^(\w+) \1/, '$1'),
+      // "Blue Cedar" in the colourway "Rust" is not a "Rust Blue Cedar" — many
+      // canon species names already carry a colour word, and the SKU colourway
+      // is assigned independently of it. Naming the species first and the
+      // colourway in parentheses avoids the doubled-up colour and keeps it
+      // clear which of the two is the SKU attribute.
+      name: `${sp.species} (${k.color_name})`,
       species: sp.species,
       mjSpecies: sp.species.toLowerCase(),
       hex,

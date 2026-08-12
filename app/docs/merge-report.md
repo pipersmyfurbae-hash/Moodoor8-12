@@ -131,6 +131,31 @@ score, cost, list, prompt and draw without error — and against all 12 formulas
 3 tiers for schema conformance, range conformance, determinism, and a grade of C
 or better.
 
+## 6b. Second pass — gaps found reviewing my own work
+
+After the first commit, a self-audit against the goal ("no broken links, fully
+working apps") turned up four more:
+
+| Gap | Severity | Resolution |
+|---|---|---|
+| `server/index.js` served a `404.html` that **did not exist**, so a missing page returned a JSON blob to a browser | Real | `public/404.html`, in the storefront's own language |
+| The AI-unavailable message told the operator to *"use Compose without AI"* — **a button that did not exist**. My own error text promised a feature I had not built | Real, and self-inflicted | Built it. The Studio now composes a full blueprint with no API key at all |
+| Stories were authorable in the admin with **no public surface anywhere** | Real | `public/stories.html`, linked from every footer |
+| The footer's "Evercrafted Studio" and "Become a beta maker" links were both `href="#"` | Real | Point at the Studio and the memory intake |
+| The product page's six `href="#"` | **Not** a defect | They are add-to-cart anchors wired by `cart.js` with `preventDefault()` — correct progressive enhancement |
+
+The second of these is the one worth naming. The Studio's whole architecture is
+"AI interprets, geometry decides", and the geometry half is local — so gating the
+entire page behind an API key was never necessary. `Compose without AI` seeds the
+content choice from the memory text and runs the identical pipeline. Verified end
+to end: it produces a graded blueprint, the diagram, the Midjourney prompt, the
+blueprint JSON and the catalog record with no key configured.
+
+The stories table was also seeded, from the editorial each design already carries
+in `wreaths-data.js` (quote, attribution, two paragraphs) rather than from
+invented copy — the archive's own audit requires public surfaces to avoid
+"invented product claims or customer content".
+
 ## 7. Open items
 
 Listed in the README under *Known limits*. In brief: no payment processing, no

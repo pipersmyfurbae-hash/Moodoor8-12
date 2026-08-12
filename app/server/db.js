@@ -367,6 +367,7 @@ function seed(db, opts = {}) {
   for (const r of stamp(data.bundles)) insertRow(db, 'catalog_bundles', r);
   for (const r of stamp(data.territories)) insertRow(db, 'catalog_territories', r);
   for (const r of stamp(data.drops)) insertRow(db, 'seasonal_drops', r);
+  for (const r of stamp(data.stories || [])) insertRow(db, 'moodoor_stories', { ...r, createdBy: owner.id });
 
   const invCount = db.prepare('SELECT COUNT(*) AS n FROM moodoor_inventory_items').get().n;
   if (!invCount) {
@@ -381,6 +382,7 @@ function seed(db, opts = {}) {
       bundles: db.prepare('SELECT COUNT(*) AS n FROM catalog_bundles').get().n,
       territories: db.prepare('SELECT COUNT(*) AS n FROM catalog_territories').get().n,
       drops: db.prepare('SELECT COUNT(*) AS n FROM seasonal_drops').get().n,
+      stories: db.prepare('SELECT COUNT(*) AS n FROM moodoor_stories').get().n,
       inventory: db.prepare('SELECT COUNT(*) AS n FROM moodoor_inventory_items').get().n,
     },
   };

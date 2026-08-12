@@ -419,6 +419,138 @@
    "sortOrder": 2
   }
  ],
+ "stories": [
+  {
+   "slug": "september-porch-story",
+   "kind": "story",
+   "title": "How September Porch came to be",
+   "eyebrow": "Seasonal Nostalgia",
+   "excerpt": "My grandmother's porch in late September — cedar, cold coffee, and the screen door that never quite closed.",
+   "body": "“My grandmother's porch in late September — cedar, cold coffee, and the screen door that never quite closed.”\n\n— The memory behind September Porch\n\nSeptember Porch began with a memory submitted during the EVS calibration period — seven sentences about a grandmother's screened porch, the particular smell of cedar and cooling coffee, and a door that rattled in the frame when anyone walked past. The feeling it scored for: high nostalgia, high seasonal affinity, moderate warmth, low energy. A memory inseparable from its month.\n\nThe design reflects it literally: the asymmetric amber-and-cedar composition, the low center of gravity, the exposed grapevine running open between 1:00 and 3:30 — space that holds as much meaning as the stems that fill it.",
+   "linkedProductSlug": "september-porch",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 0,
+   "createdBy": 1
+  },
+  {
+   "slug": "cider-house-story",
+   "kind": "story",
+   "title": "How Cider House came to be",
+   "eyebrow": "Seasonal Nostalgia",
+   "excerpt": "The whole house smelled like apples and woodsmoke. You could feel October before you opened the door.",
+   "body": "“The whole house smelled like apples and woodsmoke. You could feel October before you opened the door.”\n\n— The memory behind Cider House\n\nCider House scored warmer and fuller than its neighbors in the territory — less about a single quiet object, more about a room full of heat and smell. The EVS read high warmth alongside the seasonal signal, so the composition carries more mass and a brighter amber lead.\n\nWhere September Porch leaves the vine open, Cider House fills it — a deliberate counterpoint within the same territory. The two are often matched to memories that sit only a season apart.",
+   "linkedProductSlug": "cider-house",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 1,
+   "createdBy": 1
+  },
+  {
+   "slug": "linen-cedar-story",
+   "kind": "story",
+   "title": "How Linen & Cedar came to be",
+   "eyebrow": "Comfort",
+   "excerpt": "Nothing happened that day. That's exactly why I keep it.",
+   "body": "“Nothing happened that day. That's exactly why I keep it.”\n\n— The memory behind Linen & Cedar\n\nLinen & Cedar came from a memory with almost no event in it — a soft afternoon, line-dried sheets, the smell of a cedar closet. The EVS scored it very high on comfort and restraint, very low on energy, and the design follows: low contrast, low center of gravity, nothing demanding attention.\n\nIt is the design we point people to when a memory is about safety rather than a moment — the feeling of being unremarkably, completely at home.",
+   "linkedProductSlug": "linen-cedar",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 2,
+   "createdBy": 1
+  },
+  {
+   "slug": "quiet-hearth-story",
+   "kind": "story",
+   "title": "How Quiet Hearth came to be",
+   "eyebrow": "Comfort",
+   "excerpt": "The fire was always going. You'd fall asleep in the chair and nobody woke you.",
+   "body": "“The fire was always going. You'd fall asleep in the chair and nobody woke you.”\n\n— The memory behind Quiet Hearth\n\nQuiet Hearth is the heaviest-bottomed design in Comfort — its weight deliberately collected near 6:00 so the whole piece reads as settled. The memory behind it was about warmth and permission to rest, and the composition keeps that low, steady center.\n\nIt pairs naturally with Linen & Cedar; together they cover most of what people mean when they say a memory simply felt safe.",
+   "linkedProductSlug": "quiet-hearth",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 3,
+   "createdBy": 1
+  },
+  {
+   "slug": "first-light-story",
+   "kind": "story",
+   "title": "How First Light came to be",
+   "eyebrow": "Celebration",
+   "excerpt": "We stood in the parking lot at sunrise and just knew everything was about to change.",
+   "body": "“We stood in the parking lot at sunrise and just knew everything was about to change.”\n\n— The memory behind First Light\n\nFirst Light scored high on valence and energy with low restraint — a forward-leaning, optimistic feeling. The composition lifts everything toward 11:00 and lets the greenery climb past the silhouette, so the eye travels upward and out.\n\nIt is the design most often matched to thresholds: a first apartment, a yes, a morning that started something.",
+   "linkedProductSlug": "first-light",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 4,
+   "createdBy": 1
+  },
+  {
+   "slug": "gathered-grace-story",
+   "kind": "story",
+   "title": "How Gathered Grace came to be",
+   "eyebrow": "Celebration",
+   "excerpt": "Every chair was taken and somebody was still bringing more food. The table just kept growing.",
+   "body": "“Every chair was taken and somebody was still bringing more food. The table just kept growing.”\n\n— The memory behind Gathered Grace\n\nGathered Grace carries the highest stem count and the least negative space in the library — a deliberate refusal of restraint. The memory was about fullness: a holiday table that outgrew the room, warmth and noise and abundance.\n\nIts final run is nearly gone. When the fifth sells, the design rests until the next season calls for that much fullness.",
+   "linkedProductSlug": "gathered-grace",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 5,
+   "createdBy": 1
+  },
+  {
+   "slug": "legacy-garden-story",
+   "kind": "story",
+   "title": "How Legacy Garden came to be",
+   "eyebrow": "Remembrance",
+   "excerpt": "I kept the cuttings from her garden. They're still alive on my windowsill.",
+   "body": "“I kept the cuttings from her garden. They're still alive on my windowsill.”\n\n— The memory behind Legacy Garden\n\nLegacy Garden scored highest in the library on restraint and remembrance — a grief that is steady rather than sharp. The design uses a leaf-form focal instead of a bloom, and keeps most of the upper vine deliberately bare.\n\nIt is the slowest design to build and the one we most often make to order. The high open space is not minimalism — it is the part of the memory that stays empty.",
+   "linkedProductSlug": "legacy-garden",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 6,
+   "createdBy": 1
+  },
+  {
+   "slug": "white-hour-story",
+   "kind": "story",
+   "title": "How White Hour came to be",
+   "eyebrow": "Remembrance",
+   "excerpt": "The room was exactly the same. He just wasn't in it.",
+   "body": "“The room was exactly the same. He just wasn't in it.”\n\n— The memory behind White Hour\n\nWhite Hour carries the fewest stems and the most open vine of any design — over half the circle left bare. The EVS scored it at the top of the restraint axis, and the composition refuses to fill the space the memory left empty.\n\nIt is intentionally hard to look at as decoration. It was never meant to be decoration.",
+   "linkedProductSlug": "white-hour",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 7,
+   "createdBy": 1
+  },
+  {
+   "slug": "long-table-story",
+   "kind": "story",
+   "title": "How The Long Table came to be",
+   "eyebrow": "Connection",
+   "excerpt": "We sat at opposite ends and somehow talked all night anyway.",
+   "body": "“We sat at opposite ends and somehow talked all night anyway.”\n\n— The memory behind The Long Table\n\nThe Long Table is the only design built around two clusters of equal weight — a structural choice that reads as relationship. The EVS scored it high on connection and intimacy, and the composition holds two centers in deliberate balance.\n\nIt is the design most often given between two people rather than kept for oneself.",
+   "linkedProductSlug": "long-table",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 8,
+   "createdBy": 1
+  },
+  {
+   "slug": "green-morning-story",
+   "kind": "story",
+   "title": "How Green Morning came to be",
+   "eyebrow": "Renewal",
+   "excerpt": "I had almost nothing that spring. But the mornings felt like they were going somewhere.",
+   "body": "“I had almost nothing that spring. But the mornings felt like they were going somewhere.”\n\n— The memory behind Green Morning\n\nGreen Morning scored high on renewal and energy with a light, forward feeling. The design is mostly greenery — a single small bloom and a long climbing sweep — built to read as momentum rather than arrival.\n\nIt is our entry design: the least expensive, the lightest, and the one most often chosen for someone starting again.",
+   "linkedProductSlug": "green-morning",
+   "linkedDropSlug": null,
+   "isPublished": 1,
+   "sortOrder": 9,
+   "createdBy": 1
+  }
+ ],
  "inventory": [
   {
    "sku": "MD-0001",

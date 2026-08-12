@@ -80,6 +80,7 @@ const PAGES = [
   ['digital-blueprints.html', 'Blueprints'],
   ['how-matching-works.html', 'How it works'],
   ['checkout.html', 'Checkout'],
+  ['stories.html', 'Stories'],
   ['studio.html', 'Studio'],
 ];
 
@@ -378,6 +379,57 @@ for (const [url, kind, expect] of [
   await page.close();
 }
 
+/* the 404 page must be a page, not a JSON blob */
+{
+  const page = await context.newPage();
+  const res = await page.goto(BASE + '/no-such-page-here.html', { waitUntil: 'load' });
+  if (res.status() !== 404) fail('404', `expected 404, got ${res.status()}`);
+  const heading = await page.textContent('h1').catch(() => null);
+  if (!heading) fail('404', 'the 404 response is not a rendered page');
+  else ok(`404 renders a real page ("${heading.trim().replace(/\s+/g, ' ')}")`);
+  await page.screenshot({ path: path.join(SHOTS, '404.png') });
+  await page.close();
+}
+
+/* the Studio must compose with no API key configured */
+{
+  const page = await visit('/studio.html', 'Studio geometry-only path');
+  const btn = await page.$('#composeBtn');
+  if (!btn) {
+    fail('Studio geometry-only path', 'no geometry-only button — the Studio is unusable without a key');
+  } else {
+    await page.fill('#memoryInput',
+      'My grandmother kept a cutting garden behind the kitchen, and in late September ' +
+      'it smelled of cedar and cold coffee and the screen door never quite closed.');
+    await page.waitForTimeout(300);
+    if (await btn.isDisabled()) fail('Studio geometry-only path', 'the button stayed disabled with a valid memory');
+    await btn.click();
+    await page.waitForTimeout(1200);
+
+    const result = await page.evaluate(() => ({
+      svgs: document.querySelectorAll('#bpStage svg').length,
+      grade: (document.getElementById('gradeBadge') || {}).textContent || '',
+      prompt: ((document.getElementById('mjBox') || {}).textContent || '').length,
+      json: ((document.getElementById('bpJson') || {}).textContent || '').length,
+      catalog: ((document.getElementById('catalogBox') || {}).textContent || '').length,
+      legend: document.querySelectorAll('#bpLegend .lg-item').length,
+    }));
+
+    if (!result.svgs) fail('Studio geometry-only path', 'no blueprint was drawn');
+    if (!/GRADE/i.test(result.grade)) fail('Studio geometry-only path', 'the quality gate did not score it');
+    if (result.prompt < 200) fail('Studio geometry-only path', 'no Midjourney prompt was compiled');
+    if (result.json < 500) fail('Studio geometry-only path', 'no blueprint JSON was emitted');
+    if (result.catalog < 200) fail('Studio geometry-only path', 'no catalog record was produced');
+    if (!result.legend) fail('Studio geometry-only path', 'the material legend is empty');
+    if (result.svgs && result.prompt > 200 && result.catalog > 200) {
+      ok(`Studio composes with no API key: ${result.grade.trim()}, ` +
+         `${result.legend} materials, prompt + JSON + catalog record all produced`);
+    }
+    await page.screenshot({ path: path.join(SHOTS, 'studio-composed.png'), fullPage: true });
+  }
+  await page.close();
+}
+
 /* ------------------------------------------------------------------ *
  * 5. mobile
  * ------------------------------------------------------------------ */
@@ -385,7 +437,8 @@ for (const [url, kind, expect] of [
 {
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   await blockExternal(mobile);
-  for (const [url, label] of [['index.html', 'Homepage'], ['signature-wreaths.html', 'Catalog'], ['admin', 'Admin console']]) {
+  for (const [url, label] of [['index.html', 'Homepage'], ['signature-wreaths.html', 'Catalog'],
+                              ['stories.html', 'Stories'], ['admin', 'Admin console']]) {
     const page = await mobile.newPage();
     await page.goto(BASE + '/' + url, { waitUntil: 'load', timeout: 20000 });
     await page.waitForTimeout(700);
