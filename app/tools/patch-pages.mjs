@@ -338,6 +338,39 @@ edit('studio.html', (h) => {
 });
 
 /* ------------------------------------------------------------------ *
+ * 4c-iii. stop the engine blocking first paint
+ *
+ * `inventory.js` (226 KB) and `evercrafted-engine.js` sat in <head> with no
+ * defer, so the browser stopped parsing and painted nothing until both had
+ * downloaded and executed. Measured on the product page: five scripts ahead of
+ * first paint, FCP 388ms, of which these two were ~145ms.
+ *
+ * They cannot simply be deferred, because each page's own inline <script> is
+ * not deferred and would then run first, before window.EC existed. Moving them
+ * down to immediately before that consumer keeps execution order identical
+ * while letting the head-parsed CSS paint.
+ * ------------------------------------------------------------------ */
+
+const ENGINE_TAGS = '<script src="inventory.js"></script>\n<script src="evercrafted-engine.js"></script>';
+const HEAD_TAGS = /<script src="\.\.\/inventory\.js"><\/script>\s*<script src="\.\.\/evercrafted-engine\.js"><\/script>\s*/;
+
+for (const [file, anchor] of [
+  // The product page's own script reads MOODOOR_WREATHS, so the engine goes
+  // immediately before the catalog data it is paired with.
+  ['moodoor-product-page.html', '<script src="wreaths-data.js"></script>'],
+  // The Studio has one inline script, opening with its queue key.
+  ['studio.html', "<script>\nvar QUEUE_KEY = 'moodoor_studio_queue_v1';"],
+]) {
+  edit(file, (h) => {
+    if (!HEAD_TAGS.test(h)) return h;
+    if (!h.includes(anchor)) return h;
+    const stripped = h.replace(HEAD_TAGS, '');
+    note(file, 'engine scripts moved out of <head> so they no longer block first paint');
+    return stripped.replace(anchor, `${ENGINE_TAGS}\n${anchor}`);
+  });
+}
+
+/* ------------------------------------------------------------------ *
  * 4d. footer links that went nowhere, and the new pages
  * ------------------------------------------------------------------ */
 
@@ -358,11 +391,27 @@ for (const file of STOREFRONT) {
     // archive would only ever be reachable from the homepage. Give those a link
     // too, in the same compact style they already use.
     if (!out.includes('stories.html')) {
+      // Some compact footers style their link inline rather than in CSS, so a
+      // bare <a> next to one of those falls back to the browser's underline and
+      // reads as a different kind of link. Carry the neighbour's style across.
+      const sibling = out.match(/<div class="wrap foot-base">[\s\S]{0,400}?<a [^>]*?(style="[^"]*")/);
+      const styleAttr = sibling ? ' ' + sibling[1] : '';
       out = out.replace(
         /(<span>&copy; 2026 Evercrafted, Inc\.)( &middot;| ·)?/,
-        '$1 &middot; <a href="stories.html">Stories</a>$2'
+        `$1 &middot; <a href="stories.html"${styleAttr}>Stories</a>$2`
       );
     }
+    // Repair pass, for pages patched before the styling rule above existed.
+    const footBase = out.match(/<div class="wrap foot-base">[\s\S]{0,500}?<\/span>/);
+    if (footBase && /<a href="stories\.html">/.test(footBase[0])) {
+      const styled = footBase[0].match(/<a [^>]*?(style="[^"]*")/);
+      if (styled) {
+        const fixed = footBase[0].replace('<a href="stories.html">', `<a href="stories.html" ${styled[1]}>`);
+        out = out.replace(footBase[0], fixed);
+        note(file, 'Stories link now matches its neighbour instead of falling back to a default underline');
+      }
+    }
+
     if (out !== html) note(file, 'footer links resolved (Studio, memory intake, Stories)');
     return out;
   });

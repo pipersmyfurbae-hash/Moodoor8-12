@@ -22,6 +22,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const zlib = require('node:zlib');
 const { open, seed, verifyPassword, hashPassword } = require('./db');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -42,14 +43,111 @@ const MIME = {
  * Helpers
  * ================================================================== */
 
+/* ------------------------------------------------------------------ *
+ * Compression
+ *
+ * Everything this app serves is text — HTML, JS, JSON, CSS, SVG — and some of
+ * it is large: the generated inventory is 226 KB, the catalog 91 KB. Brotli and
+ * gzip both come from node:zlib, so this costs no dependency.
+ *
+ * Compressed results are cached in memory keyed by (path, mtime, encoding).
+ * Static files are read from disk on every request anyway, and re-compressing
+ * a 226 KB file per request is the expensive part, not the read.
+ * ------------------------------------------------------------------ */
+
+const COMPRESSIBLE = /^(text\/|application\/(json|javascript|xml)|image\/svg)/;
+const MIN_COMPRESS_BYTES = 1024;
+const compressCache = new Map();
+const COMPRESS_CACHE_MAX = 64;
+
+/** The best encoding the client accepts, or null. Brotli wins where offered. */
+function negotiateEncoding(req) {
+  const accept = String(req.headers['accept-encoding'] || '').toLowerCase();
+  if (/\bbr\b/.test(accept)) return 'br';
+  if (/\bgzip\b/.test(accept)) return 'gzip';
+  return null;
+}
+
+function compressSync(buf, encoding) {
+  if (encoding === 'br') {
+    return zlib.brotliCompressSync(buf, {
+      params: {
+        // Quality 5 is the knee of the curve for text served from disk: within a
+        // few percent of the maximum ratio at a small fraction of the CPU.
+        [zlib.constants.BROTLI_PARAM_QUALITY]: 5,
+        [zlib.constants.BROTLI_PARAM_SIZE_HINT]: buf.length,
+      },
+    });
+  }
+  return zlib.gzipSync(buf, { level: 6 });
+}
+
+/**
+ * Compress if the client asked, the type benefits, and the body is big enough
+ * to be worth it. Returns the body to send plus any headers to add.
+ */
+function maybeCompress(req, buf, contentType, cacheKey) {
+  const encoding = negotiateEncoding(req);
+  if (!encoding || buf.length < MIN_COMPRESS_BYTES || !COMPRESSIBLE.test(contentType || '')) {
+    return { body: buf, headers: {} };
+  }
+
+  const key = cacheKey ? `${cacheKey}:${encoding}` : null;
+  if (key && compressCache.has(key)) {
+    return { body: compressCache.get(key), headers: { 'Content-Encoding': encoding, Vary: 'Accept-Encoding' } };
+  }
+
+  let out;
+  try {
+    out = compressSync(buf, encoding);
+  } catch {
+    return { body: buf, headers: {} };          // never fail a request over this
+  }
+
+  // If compression did not actually help, send the original.
+  if (out.length >= buf.length) return { body: buf, headers: {} };
+
+  if (key) {
+    if (compressCache.size >= COMPRESS_CACHE_MAX) {
+      compressCache.delete(compressCache.keys().next().value);
+    }
+    compressCache.set(key, out);
+  }
+  return { body: out, headers: { 'Content-Encoding': encoding, Vary: 'Accept-Encoding' } };
+}
+
+/**
+ * Answer a HEAD like the matching GET but write no body, keeping the
+ * Content-Length the GET would have reported. Handlers stay unaware of it.
+ */
+function suppressBody(res) {
+  res.end = function (...args) {
+    const cb = args.find((a) => typeof a === 'function');
+    return http.ServerResponse.prototype.end.call(res, cb);
+  };
+}
+
 function send(res, status, body, headers = {}) {
   const buf = Buffer.isBuffer(body) ? body : Buffer.from(String(body));
   res.writeHead(status, { 'Content-Length': buf.length, ...headers });
   res.end(buf);
 }
 
+/** send(), with compression negotiated against the request. */
+function sendCompressed(req, res, status, body, headers = {}, cacheKey) {
+  const buf = Buffer.isBuffer(body) ? body : Buffer.from(String(body));
+  const { body: out, headers: extra } = maybeCompress(req, buf, headers['Content-Type'], cacheKey);
+  res.writeHead(status, { 'Content-Length': out.length, ...headers, ...extra });
+  res.end(out);
+}
+
 function json(res, status, obj, headers = {}) {
-  send(res, status, JSON.stringify(obj), { 'Content-Type': 'application/json; charset=utf-8', ...headers });
+  const req = res.req;
+  const body = JSON.stringify(obj);
+  const withType = { 'Content-Type': 'application/json; charset=utf-8', ...headers };
+  // API responses change per request, so they are compressed but never cached.
+  if (req) return sendCompressed(req, res, status, body, withType, null);
+  send(res, status, body, withType);
 }
 
 function readBody(req, limit = 8 * 1024 * 1024) {
@@ -609,11 +707,32 @@ function createApp(options = {}) {
     const etag = `W/"${stat.size}-${Number(stat.mtimeMs).toString(16)}"`;
     if (req.headers['if-none-match'] === etag) { res.writeHead(304); return res.end(); }
 
-    send(res, 200, fs.readFileSync(target), {
-      'Content-Type': MIME[ext] || 'application/octet-stream',
-      ETag: etag,
-      'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=300',
-    });
+    const contentType = MIME[ext] || 'application/octet-stream';
+
+    /* HTML must revalidate — an admin edit has to show up on the next load.
+     * Everything else may sit in the browser cache for a day, because the ETag
+     * still catches a rebuild and these files change only when tools/ is re-run. */
+    const cacheControl = ext === '.html'
+      ? 'no-cache'
+      : 'public, max-age=86400, stale-while-revalidate=604800';
+
+    const headers = { 'Content-Type': contentType, ETag: etag, 'Cache-Control': cacheControl };
+    const cacheKey = `${target}:${stat.mtimeMs}`;
+
+    /* On a cache hit the compressed bytes are already in memory, so the file
+     * never has to be read. That matters most for exactly the file it matters
+     * most for: inventory.js is 226 KB on disk and 12 KB compressed. */
+    const encoding = negotiateEncoding(req);
+    if (encoding) {
+      const hit = compressCache.get(`${cacheKey}:${encoding}`);
+      if (hit) {
+        return send(res, 200, hit, {
+          ...headers, 'Content-Encoding': encoding, Vary: 'Accept-Encoding',
+        });
+      }
+    }
+
+    sendCompressed(req, res, 200, fs.readFileSync(target), headers, cacheKey);
   }
 
   function notFound(req, res, rel) {
@@ -635,8 +754,15 @@ function createApp(options = {}) {
       // in the browser already; this handles any that arrive un-normalised.
       const normalised = pathname.replace(/\/\.\.\//g, '/');
 
+      /* HEAD must answer exactly as GET does, minus the body — it is how a
+       * client checks a resource without downloading it, and how `curl -I`
+       * reads headers. Routing it separately meant every API route 404'd on
+       * HEAD while returning 200 on GET. */
+      const method = req.method === 'HEAD' ? 'GET' : req.method;
+      if (req.method === 'HEAD') suppressBody(res);
+
       for (const r of routes) {
-        if (r.method !== req.method) continue;
+        if (r.method !== method) continue;
         const m = normalised.match(r.pattern);
         if (m) return await r.handler(req, res, m, url);
       }

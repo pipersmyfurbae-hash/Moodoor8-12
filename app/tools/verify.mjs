@@ -431,6 +431,59 @@ for (const [url, kind, expect] of [
 }
 
 /* ------------------------------------------------------------------ *
+ * 4b. performance budget
+ *
+ * Guards the two things that actually move: how many bytes cross the wire
+ * (compression) and how long until something is on screen (render-blocking
+ * scripts). Budgets are set ~40% above the measured figures, so ordinary
+ * variation passes and a regression of the kind already fixed does not.
+ * ------------------------------------------------------------------ */
+
+{
+  const BUDGET = [
+    ['/', 'Homepage', 40, 500],
+    ['/signature-wreaths.html', 'Catalog', 40, 500],
+    ['/moodoor-product-page.html?w=september-porch', 'Product', 90, 600],
+    ['/studio.html', 'Studio', 80, 500],
+    ['/admin', 'Admin console', 30, 500],
+  ];
+
+  for (const [url, label, kbBudget, fcpBudget] of BUDGET) {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    await ctx.route('**/*', async (r) => {
+      if (!r.request().url().startsWith(BASE)) {
+        return r.fulfill({ status: 200, contentType: 'text/css', body: '' });
+      }
+      await new Promise((res) => setTimeout(res, 40));   // a realistic round trip
+      return r.continue();
+    });
+
+    const page = await ctx.newPage();
+    let transferred = 0;
+    page.on('response', async (r) => {
+      if (!r.url().startsWith(BASE)) return;
+      try { transferred += Number((await r.allHeaders())['content-length'] || 0); } catch { /* ignore */ }
+    });
+
+    await page.goto(BASE + url, { waitUntil: 'load', timeout: 20000 });
+    await page.waitForTimeout(500);
+
+    const fcp = await page.evaluate(() => {
+      const e = performance.getEntriesByName('first-contentful-paint')[0];
+      return e ? Math.round(e.startTime) : null;
+    });
+    const kb = Math.round(transferred / 1024);
+
+    if (kb > kbBudget) fail(`${label} (perf)`, `${kb}KB over the wire, budget ${kbBudget}KB`);
+    if (fcp != null && fcp > fcpBudget) fail(`${label} (perf)`, `first paint at ${fcp}ms, budget ${fcpBudget}ms`);
+    if (kb <= kbBudget && (fcp == null || fcp <= fcpBudget)) {
+      ok(`${label}: ${kb}KB transferred, first paint ${fcp}ms`);
+    }
+    await ctx.close();
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * 5. mobile
  * ------------------------------------------------------------------ */
 

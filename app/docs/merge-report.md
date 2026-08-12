@@ -156,6 +156,24 @@ in `wreaths-data.js` (quote, attribution, two paragraphs) rather than from
 invented copy — the archive's own audit requires public surfaces to avoid
 "invented product claims or customer content".
 
+## 6c. Third pass — performance
+
+Measured, not guessed.
+
+| Finding | Fix | Result |
+|---|---|---|
+| **Nothing was compressed.** Every asset is text; `inventory.js` alone was 226 KB on the wire | brotli/gzip via `node:zlib`, with compressed output cached by (path, mtime, encoding) | inventory −95%, catalog −89%, API −89%, HTML −69–76% |
+| **The engine blocked first paint.** `inventory.js` + `evercrafted-engine.js` in `<head>` with no `defer`; five scripts ahead of first paint on the product page | moved to immediately before the inline script that consumes them, preserving execution order (they cannot be deferred — the consuming inline script isn't) | Product FCP 388→**248 ms**, Studio 232→**164 ms** |
+| **`HEAD` 404'd on every API route** while `GET` returned 200 — found because `curl -I` reported a 51-byte body for a 92 KB resource | route `HEAD` as `GET`, suppress the body | `HEAD` now mirrors `GET` with the correct `Content-Length` and no body |
+| Assets had a 5-minute `max-age` and no long-lived policy | one-day `max-age` + `stale-while-revalidate`, ETag revalidation; HTML stays `no-cache` so admin edits appear immediately | 304 on unchanged assets |
+
+Locked in by tests rather than left to drift: `npm test` asserts the compression
+ratio per asset, that an `identity` request gets no encoding, that small
+responses are *not* compressed, that `HEAD` matches `GET`, that assets revalidate
+to 304 while HTML does not cache, and that the engine scripts are out of `<head>`
+but still ahead of the code reading `window.EC`. `npm run verify` enforces a
+per-page byte and first-paint budget in a real browser.
+
 ## 7. Open items
 
 Listed in the README under *Known limits*. In brief: no payment processing, no

@@ -343,6 +343,104 @@ test('a missing page returns 404, not the homepage', async () => {
 });
 
 /* ------------------------------------------------------------------ *
+ * Transport
+ * ------------------------------------------------------------------ */
+
+test('text assets are compressed, and compression actually pays', async () => {
+  for (const [path, floor] of [['/inventory.js', 0.85], ['/wreaths-data.js', 0.8],
+                               ['/index.html', 0.6], ['/api/public/products', 0.8]]) {
+    const raw = await fetch(base + path, { headers: { 'Accept-Encoding': 'identity' } });
+    const rawBytes = (await raw.arrayBuffer()).byteLength;
+
+    const br = await fetch(base + path, { headers: { 'Accept-Encoding': 'br' } });
+    assert.equal(br.headers.get('content-encoding'), 'br', `${path} should be brotli`);
+    assert.equal(br.headers.get('vary'), 'Accept-Encoding', `${path} must vary on encoding`);
+    const brBytes = Number(br.headers.get('content-length'));
+
+    const saved = 1 - brBytes / rawBytes;
+    assert.ok(saved >= floor,
+      `${path}: only ${Math.round(saved * 100)}% saved, expected at least ${floor * 100}%`);
+  }
+});
+
+test('a cached compressed response still decodes to the file on disk', async () => {
+  // The second request takes a shortcut that skips reading the file from disk
+  // entirely, so it has to produce exactly what the first one did.
+  //
+  // Note this goes through fetch, which decompresses the body for us — so a
+  // corrupt cached payload surfaces as a decode error rather than a mismatch,
+  // and either way this fails. The raw byte counts are checked via the
+  // content-length header, which fetch leaves alone.
+  const original = fs.readFileSync(new URL('../public/inventory.js', import.meta.url), 'utf8');
+
+  const first = await fetch(base + '/inventory.js', { headers: { 'Accept-Encoding': 'br' } });
+  const firstBody = await first.text();
+  const second = await fetch(base + '/inventory.js', { headers: { 'Accept-Encoding': 'br' } });
+  const secondBody = await second.text();
+
+  assert.equal(first.headers.get('content-encoding'), 'br');
+  assert.equal(second.headers.get('content-encoding'), 'br');
+  assert.equal(second.headers.get('content-length'), first.headers.get('content-length'),
+    'the cached response is a different size from the one that produced it');
+  assert.equal(secondBody, firstBody, 'the cached response differs from the first one');
+  assert.equal(secondBody, original, 'the cached response does not decode back to the file on disk');
+});
+
+test('a client that asks for no encoding gets none', async () => {
+  const r = await fetch(base + '/inventory.js', { headers: { 'Accept-Encoding': 'identity' } });
+  assert.equal(r.headers.get('content-encoding'), null);
+});
+
+test('small responses are not compressed — the header would cost more than it saves', async () => {
+  const r = await fetch(base + '/api/health', { headers: { 'Accept-Encoding': 'br' } });
+  assert.equal(r.status, 200);
+  assert.equal(r.headers.get('content-encoding'), null);
+});
+
+test('HEAD mirrors GET on every route, with no body', async () => {
+  for (const path of ['/api/public/products', '/api/health', '/index.html', '/inventory.js']) {
+    const get = await fetch(base + path, { headers: { 'Accept-Encoding': 'identity' } });
+    const head = await fetch(base + path, { method: 'HEAD', headers: { 'Accept-Encoding': 'identity' } });
+
+    assert.equal(head.status, get.status, `HEAD ${path} status should match GET`);
+    assert.equal(head.headers.get('content-length'), get.headers.get('content-length'),
+      `HEAD ${path} should report the length GET would send`);
+    assert.equal((await head.arrayBuffer()).byteLength, 0, `HEAD ${path} must send no body`);
+  }
+});
+
+test('static assets carry a validator and a cache policy', async () => {
+  const asset = await fetch(base + '/inventory.js');
+  const etag = asset.headers.get('etag');
+  assert.ok(etag, 'assets need an ETag');
+  assert.match(asset.headers.get('cache-control'), /max-age=\d{4,}/, 'assets should be cacheable');
+
+  const revalidated = await fetch(base + '/inventory.js', { headers: { 'If-None-Match': etag } });
+  assert.equal(revalidated.status, 304, 'an unchanged asset revalidates to 304');
+
+  // HTML must not be cached, or an admin edit would not appear on the next load.
+  const page = await fetch(base + '/index.html');
+  assert.match(page.headers.get('cache-control'), /no-cache/);
+});
+
+test('the engine no longer blocks first paint from <head>', async () => {
+  // Moving these below the fold cut the product page's FCP from 388ms to 248ms.
+  // Order still matters: they must precede the script that reads window.EC.
+  for (const page of ['/moodoor-product-page.html', '/studio.html']) {
+    const html = await (await fetch(base + page)).text();
+    const head = html.slice(0, html.indexOf('</head>'));
+    assert.ok(!/evercrafted-engine\.js/.test(head), `${page}: engine is back in <head>`);
+    assert.ok(!/src="[^"]*inventory\.js"/.test(head), `${page}: inventory is back in <head>`);
+
+    const enginePos = html.indexOf('evercrafted-engine.js');
+    assert.ok(enginePos > 0, `${page}: engine script is missing entirely`);
+    const consumerPos = html.indexOf('window.EC');
+    assert.ok(consumerPos > enginePos,
+      `${page}: window.EC is read before the engine is loaded`);
+  }
+});
+
+/* ------------------------------------------------------------------ *
  * Session lifecycle
  * ------------------------------------------------------------------ */
 

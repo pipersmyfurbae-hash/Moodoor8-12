@@ -165,6 +165,54 @@ studio concepts, briefs, quality gate, operations, inventory. Plus inventory
 import (CSV, flat JSON, or the nested EFS-1.0 canon — all three shapes the
 archive's own audit calls for) and concept → catalog publishing.
 
+### Performance
+
+Two things were costing real time, both measured rather than assumed.
+
+**Nothing was compressed.** Everything served is text, and some of it is large.
+Brotli and gzip come from `node:zlib`, so this cost no dependency. Compressed
+output is cached in memory by (path, mtime, encoding), because re-compressing a
+226 KB file per request is the expensive part, not the disk read.
+
+| | raw | brotli | |
+|---|---|---|---|
+| `inventory.js` | 226 KB | 12 KB | −95% |
+| `wreaths-data.js` | 91 KB | 10 KB | −89% |
+| `/api/public/products` | 92 KB | 10 KB | −89% |
+| `index.html` | 57 KB | 14 KB | −76% |
+| `studio.html` | 58 KB | 18 KB | −69% |
+
+**The engine blocked first paint.** `inventory.js` and `evercrafted-engine.js`
+sat in `<head>` with no `defer`, so the browser painted nothing until both had
+downloaded and run. They cannot simply be deferred — each page's own inline
+script is not deferred and would then run before `window.EC` existed — so they
+moved down to immediately before that consumer, which keeps execution order
+identical.
+
+| | before | after |
+|---|---|---|
+| Product page FCP | 388 ms | **248 ms** |
+| Studio FCP | 232 ms | **164 ms** |
+
+Where it lands now, on a 40 ms-per-request connection:
+
+| page | over the wire | decoded | first paint |
+|---|---|---|---|
+| Homepage | 21 KB | 82 KB | 300 ms |
+| Catalog | 22 KB | 138 KB | — |
+| Product | 57 KB | 436 KB | 248 ms |
+| Studio | 50 KB | 345 KB | 164 ms |
+| Admin | 10 KB | 37 KB | — |
+
+Static assets carry an ETag and a one-day `max-age`; HTML is `no-cache` so an
+admin edit shows on the next load. `npm run verify` enforces a byte and
+first-paint budget per page, and `npm test` asserts the compression ratios,
+the cache headers and the script ordering directly.
+
+Fixing this also surfaced a bug: `HEAD` requests were routed separately from
+`GET`, so every API route answered 404 to a `HEAD` while returning 200 to a
+`GET`. `HEAD` now mirrors `GET` exactly, minus the body.
+
 ### Configuration
 
 | Variable | Default | |
