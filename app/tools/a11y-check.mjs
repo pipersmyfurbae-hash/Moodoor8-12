@@ -42,9 +42,14 @@ function findChromium() {
 }
 const b = await chromium.launch({ executablePath: findChromium() });
 const ctx = await b.newContext({ viewport:{width:1440,height:1000} });
-await ctx.route('**/*', r => r.request().url().startsWith('http://localhost:3000') ? r.continue() : r.fulfill({status:200,contentType:'text/css',body:''}));
 
 const BASE = (process.argv[2] || 'http://localhost:3000').replace(/\/+$/, '');
+await ctx.route('**/*', r => {
+  const u = r.request().url();
+  return (u.startsWith(BASE) || u.startsWith('data:') || u.startsWith('blob:'))
+    ? r.continue()
+    : r.fulfill({ status:200, contentType:'text/css', body:'' });
+});
 const PAGES = ['/', '/signature-wreaths.html', '/moodoor-product-page.html?w=september-porch',
   '/collection-bundles.html', '/territories.html', '/upcoming-drops.html',
   '/digital-blueprints.html', '/how-matching-works.html', '/checkout.html',
