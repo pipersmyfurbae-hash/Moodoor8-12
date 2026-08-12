@@ -193,6 +193,48 @@ for (const [url, kind, expect] of [
   const svgs = await page.$$eval(`[data-hydrate="${kind}"] svg`, (n) => n.length);
   if (kind !== 'drops' && svgs === 0) fail(`Hydrate ${kind}`, 'illustrations were lost in hydration');
   await page.close();
+
+  /* The hydrated DOM must have the same shape as the markup it replaced.
+   *
+   * Counting cards is not enough. A fragment stored with one unclosed <div> is
+   * auto-closed by the parser, which then absorbs the *following sibling* into
+   * it — the card count stays right while the layout collapses. That is
+   * precisely what happened to the bundles page: `.b-copy` ended up nested
+   * inside `.b-visual`, rendering 170px wide in a 536px grid column. So this
+   * compares the real structure, with JavaScript off and on. */
+  const shape = async (javaScriptEnabled) => {
+    const c = await browser.newContext({ viewport: { width: 1440, height: 1000 }, javaScriptEnabled });
+    await blockExternal(c);
+    const pg = await c.newPage();
+    await pg.goto(BASE + '/' + url, { waitUntil: 'load', timeout: 20000 });
+    await pg.waitForTimeout(javaScriptEnabled ? 1200 : 250);
+    const out = await pg.evaluate(() => {
+      const first = document.querySelector('article');
+      if (!first) return null;
+      return {
+        children: [...first.children].map((el) => el.className.trim()),
+        widths: [...first.children].map((el) => Math.round(el.getBoundingClientRect().width)),
+      };
+    });
+    await c.close();
+    return out;
+  };
+
+  const staticShape = await shape(false);
+  const liveShape = await shape(true);
+
+  if (!staticShape || !liveShape) {
+    fail(`Hydrate ${kind}`, 'could not read the card structure');
+  } else if (JSON.stringify(staticShape.children) !== JSON.stringify(liveShape.children)) {
+    fail(`Hydrate ${kind}`,
+      `hydrated card structure differs from the markup: static [${staticShape.children}] ` +
+      `vs hydrated [${liveShape.children}]`);
+  } else if (staticShape.widths.some((w, i) => Math.abs(w - liveShape.widths[i]) > 4)) {
+    fail(`Hydrate ${kind}`,
+      `hydrated card lays out differently: static ${staticShape.widths} vs hydrated ${liveShape.widths}`);
+  } else {
+    ok(`${kind} hydrates to the same structure and layout as the static markup`);
+  }
 }
 
 /* an admin edit reaches the storefront */

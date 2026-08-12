@@ -320,7 +320,16 @@
     'Diagonal Flow':    { anchor: 225, arc: 104, echo: 45,  model: 'diagonal',   silence: 1 },
     'Twin Cluster':     { anchor: 180, arc: 76,  echo: 0,   model: 'triangular', silence: 2 },
     'Corner Cluster':   { anchor: 240, arc: 64,  echo: 60,  model: 'diagonal',   silence: 2 },
-    'Wild Asymmetry':   { anchor: 232, arc: 118, echo: 40,  model: 'diagonal',   silence: 3 },
+    // The only formula anchored outside the Spec's reserved 7-9 o'clock zone,
+    // and deliberately so. At 232 deg it rendered indistinguishably from
+    // Diagonal Flow and Corner Cluster — same focal position, same balance
+    // direction, within 12 deg of both — which defeats the name. A search over
+    // the whole reserved zone found no anchor/arc/echo that is both distinct
+    // from the other eleven and still grade A: the zone is saturated. Moving
+    // the anchor past 9 o'clock is what TICKET.FLEX allows for exactly this
+    // case, and it gives the set its second-highest asymmetry (mag .387,
+    // behind only Crescent) with the nearest other formula 36 deg away.
+    'Wild Asymmetry':   { anchor: 276, arc: 120, echo: 45,  model: 'diagonal',   silence: 3 },
     'Half Ring':        { anchor: 135, arc: 168, echo: 315, model: 'triangular', silence: 2 },
     'Top Cluster':      { anchor: 165, arc: 84,  echo: 340, model: 'triangular', silence: 2 },
     'Spiral Flow':      { anchor: 216, arc: 132, echo: 72,  model: 'diagonal',   silence: 2 },

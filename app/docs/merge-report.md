@@ -57,7 +57,7 @@ Both are now supplied. See §5.
 | Hex derived from `color_name`, not from `hex` | **High** | `color_name:"Ivory"` carries `#9e4fbf`, `#37aea8`, `#c74375` — the column is noise |
 | 12 legacy `WW-*` ids aliased from blueprint `stems[].name` | **Medium-high** | 9 of 12 carry a real name in the data; 3 foliage ids carry none and use studio.html's own generic fallback label |
 | Anchor angles for 8 of 12 formulas | **High** | Read off the real blueprints |
-| Anchor angles for the other 4 | **Medium** | Not in the sample; follow the Spec's 7–9 o'clock reserved zone, which `TICKET.FLEX` explicitly permits |
+| Anchor angles for the other 4 | **High**, after validation | Extrapolated, then checked over 40 seeds each for grade and pairwise distinctness — see 6d. One collision found and fixed |
 | `EC.degToClock` returns a string | **Medium-high** | Both call sites concatenate it into prose; the numeric form is exposed as `degToClockNum` |
 | Price model recalibrated | **Medium** | Fitted to the ten real prices, 10.5% mean error — but real price is editorial, so this is a cost floor, not a sticker (see below) |
 
@@ -116,14 +116,14 @@ edit:
 - `public/admin/` — the owner console
 - `tools/` — inventory build, seed extraction, page patching, link checking,
   browser verification
-- `test/` — 43 tests
+- `test/` — 52 tests
 
 ## 6. Verification
 
 | Gate | Result |
 |---|---|
-| `npm test` | 43/43 |
-| `npm run check:links` | 21 pages, 0 broken references |
+| `npm test` | 52/52 |
+| `npm run check:links` | 22 pages, 0 broken references |
 | `npm run verify` | every page renders clean, hydration confirmed, engine draws, admin edit reaches the storefront |
 
 The engine test suite asserts against the **ten real blueprints** — they must
@@ -174,9 +174,70 @@ to 304 while HTML does not cache, and that the engine scripts are out of `<head>
 but still ahead of the code reading `window.EC`. `npm run verify` enforces a
 per-page byte and first-paint budget in a real browser.
 
+## 6d. Fourth pass — validating the one thing that was extrapolated
+
+The four formula anchor angles not present in the sample were the only values in
+the engine not read off real data, so they were checked rather than trusted:
+each formula composed over 40 seeds, scored, and every pair compared for whether
+it actually renders a different design.
+
+All twelve hold grade C or better on every seed, ten hold grade A on every seed
+— the extrapolated four are not weaker than the measured eight.
+
+The check did find a defect. `Wild Asymmetry` at 232 deg rendered
+indistinguishably from both `Diagonal Flow` and `Corner Cluster` (same focal
+position, same balance direction, within 12 deg of each). A search over the
+entire reserved 7-9 o'clock zone found no parameters that are both distinct and
+still grade A — with eleven compositions already placed there, the zone is
+saturated. `Wild Asymmetry` is now the single formula anchored outside it, at
+276 deg, which is precisely the case `TICKET.FLEX` exists for. Two new tests
+prevent a recurrence. Full table in docs/calibration.md.
+
+## 6e. Fifth pass — a layout bug the tests could not see
+
+Reviewing the bundles screenshot: the copy column was clipped mid-word, headings
+cut off ("Autumn Memori…"), the whole card squeezed into a third of its width.
+Every gate was green at the time — 52 tests, no broken links, 43 browser checks.
+
+Measured cause: `.b-copy` rendered **170 px wide inside a 536 px grid column**.
+Comparing the page with JavaScript off and on isolated it immediately —
+
+```
+static    article children: b-visual[536]  b-copy[536]
+hydrated  article children: b-visual[536]
+```
+
+— hydration was producing a card with one child instead of two.
+
+The extraction was at fault. `tools/build-seed.mjs` lifted the bundle's trio
+markup with a non-greedy regex:
+
+```js
+/<div class="trio">([\s\S]*?)<\/div>\s*<\/div>/
+```
+
+With three nested children that matches the *last child's* closing tag as the
+first half of the terminator, so the capture ends one `</div>` short: 3 opens,
+2 closes. The browser auto-closes the tag and absorbs the following sibling into
+it — `.b-copy` ended up nested inside `.b-visual`.
+
+Fixed by counting nesting instead of pattern-matching it (the same balanced walk
+already used for `<article>`), and `build-seed.mjs` now **fails the build** on
+any extracted fragment whose tags do not balance.
+
+**Why nothing caught it.** Every existing check was satisfied by broken output:
+the card count was right (3), the SVGs were present, the links resolved, the
+page returned 200 and logged no console error. The card count in particular
+stays correct precisely *because* the parser recovers.
+
+The new check compares the rendered structure — child classes and widths — with
+JavaScript off against on. Hydration now has to reproduce the markup it
+replaces, not merely produce something that has the right number of cards.
+
 ## 7. Open items
 
-Listed in the README under *Known limits*. In brief: no payment processing, no
+The extrapolated formula angles are no longer open — see 6d. What remains is
+listed in the README under *Known limits*. In brief: no payment processing, no
 image uploads, the Studio's job queue is still `localStorage` as shipped, and
 the canon's `hex` / `primary_role` columns are synthetic in the source (worked
 around and documented rather than silently consumed).

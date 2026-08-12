@@ -44,6 +44,43 @@ function articles(html, cls) {
 }
 
 const grab = (block, re) => { const m = block.match(re); return m ? m[1] : null; };
+
+/**
+ * Inner HTML of the first <div class="cls">, found by counting nesting rather
+ * than by regex.
+ *
+ * A non-greedy `<div class="trio">([\s\S]*?)</div>\s*</div>` looks like it
+ * works and does not: with three nested children it matches the last child's
+ * closing tag as the first half of the terminator, so the capture ends one
+ * `</div>` short. The browser then auto-closes the tag and the *following*
+ * sibling gets absorbed into it — which is exactly what happened to `.b-copy`
+ * on the bundles page. Balanced counting is the only correct way to do this.
+ */
+function innerDiv(html, cls) {
+  const open = new RegExp(`<div class="${cls}"[^>]*>`);
+  const start = html.match(open);
+  if (!start) return null;
+
+  const from = start.index + start[0].length;
+  const scan = /<div\b[^>]*>|<\/div>/g;
+  scan.lastIndex = from;
+
+  let depth = 1;
+  let m;
+  while (depth > 0 && (m = scan.exec(html))) {
+    depth += m[0] === '</div>' ? -1 : 1;
+  }
+  if (depth !== 0) return null;                    // unbalanced source markup
+  return html.slice(from, scan.lastIndex - '</div>'.length);
+}
+
+/** Every tag in `html` closes. Cheap, and it catches truncated extractions. */
+function isBalanced(html, tag = 'div') {
+  if (!html) return true;
+  const open = (html.match(new RegExp(`<${tag}\\b`, 'g')) || []).length;
+  const close = (html.match(new RegExp(`</${tag}>`, 'g')) || []).length;
+  return open === close;
+}
 const slugify = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
 /* ------------------------------------------------------------------ *
@@ -99,7 +136,7 @@ const bundles = articles(bundlesHtml, 'bundle').map((b, i) => {
       }))
     ),
     visualClass: grab(b, /class="b-visual (v\d)"/) || 'v1',
-    trioHtml: grab(b, /<div class="trio">([\s\S]*?)<\/div>\s*<\/div>/),
+    trioHtml: innerDiv(b, 'trio'),
     ctaHref: grab(b, /class="b-cta" href="([^"]+)"/) || 'signature-wreaths.html',
     tone: 'olive',
     isPublished: 1,
@@ -249,7 +286,20 @@ console.log('seed.json', counts);
 for (const [k, v] of Object.entries(seed)) {
   if (!v.length) throw new Error(`seed extraction produced no ${k} — the page markup changed`);
 }
-for (const b of bundles) if (!b.name || !b.trioHtml) throw new Error(`bundle "${b.slug}" incomplete`);
-for (const t of territories) if (!t.name || !t.visualSvg) throw new Error(`territory "${t.slug}" incomplete`);
+for (const b of bundles) {
+  if (!b.name || !b.trioHtml) throw new Error(`bundle "${b.slug}" incomplete`);
+  // Unbalanced markup here does not fail loudly at seed time — it fails much
+  // later, in the browser, by absorbing the next sibling into the unclosed tag.
+  if (!isBalanced(b.trioHtml)) throw new Error(`bundle "${b.slug}" trioHtml has unbalanced <div> tags`);
+  for (const item of JSON.parse(b.itemsJson)) {
+    if (!isBalanced(item.html, 'b')) throw new Error(`bundle "${b.slug}" list item has unbalanced markup`);
+  }
+}
+for (const t of territories) {
+  if (!t.name || !t.visualSvg) throw new Error(`territory "${t.slug}" incomplete`);
+  if (!isBalanced(t.visualSvg, 'svg') || !isBalanced(t.visualSvg, 'g')) {
+    throw new Error(`territory "${t.slug}" visualSvg has unbalanced tags`);
+  }
+}
 for (const d of drops) if (!d.title || !d.timingLabel) throw new Error(`drop "${d.slug}" incomplete`);
 console.log('all extracted records complete');

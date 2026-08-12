@@ -42,11 +42,52 @@ original engine before it was lost. They are the specification.
 Eight of the twelve canonical formulas appear in the sample, and their anchor
 angle is taken from the first focal cluster and the focal arc. The four that do
 not appear — **Spiral Flow, Corner Cluster, Wild Asymmetry, Garden Scatter** —
-follow the Placement Engine Spec's reserved 7–9 o'clock anchor zone (210–270°)
-with the variation their names describe. `TICKET.FLEX` explicitly authorises
-this: *"the 7-9 anchor and 5 o'clock echo are the first canonical test
-composition… the architecture must remain flexible enough for later composition
-formulas."*
+were extrapolated. `TICKET.FLEX` authorises this: *"the 7-9 anchor and 5 o'clock
+echo are the first canonical test composition… the architecture must remain
+flexible enough for later composition formulas."*
+
+Because those four were the only values in the engine not read off real data,
+they were then checked empirically rather than left on trust. Each formula was
+composed over 40 seeds and scored, and every pair was compared for whether it
+actually produces a different design.
+
+| formula | source | worst of 40 | focal @ | balance dir | balance mag |
+|---|---|---|---|---|---|
+| Crescent | measured | 117 | 226° | 181° | .405 |
+| Side Sweep | measured | 117 | 186° | 126° | .176 |
+| Bottom Heavy | measured | 117 | 191° | 142° | .169 |
+| Diagonal Flow | measured | 117 | 226° | 292° | .154 |
+| Twin Cluster | measured | 117 | 181° | 238° | .196 |
+| Half Ring | measured | 104 | 136° | 217° | .167 |
+| Top Cluster | measured | 117 | 166° | 227° | .218 |
+| Classic Balanced | measured | 117 | 151° | 217° | .181 |
+| Corner Cluster | inferred | 117 | 241° | 300° | .166 |
+| Spiral Flow | inferred | 117 | 217° | 155° | .255 |
+| Wild Asymmetry | inferred | 117 | 277° | 336° | .387 |
+| Garden Scatter | inferred | 104 | 211° | 291° | .144 |
+
+All twelve hold grade C or better on **every** seed; ten hold grade A on every
+seed. So the extrapolated four are not weaker than the measured eight.
+
+**The check did find one real defect.** At its original 232°, `Wild Asymmetry`
+rendered indistinguishably from both `Diagonal Flow` and `Corner Cluster` —
+same focal position, same balance direction, within 12° of each. Twelve names
+that render as ten designs is a lie in the UI, and it is worst on the formula
+whose entire purpose is to look unlike the others.
+
+A search across the whole reserved 7–9 o'clock zone found **no** anchor/arc/echo
+that is both distinct from the other eleven and still grade A: with eleven
+compositions already placed there, the zone is saturated. So `Wild Asymmetry` is
+now the one formula anchored outside it, at 276° — which is the case
+`TICKET.FLEX` exists for. It gives the set its second-highest asymmetry (.387,
+behind only Crescent) with the nearest other formula 36° away.
+
+Two tests keep this from coming back: one asserts every formula holds its grade
+across 40 seeds, the other asserts no two formulas collide in both focal
+position and balance direction.
+
+Changing the formula table does not touch the ten shipped designs — they carry
+their own coordinates and still grade A A A A A A B B B B.
 
 ## Pricing
 

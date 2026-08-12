@@ -251,6 +251,54 @@ test('every composed design passes the composition gate it is scored against', (
   assert.deepEqual(failures, [], 'the engine must not ship its own designs below grade C');
 });
 
+test('all twelve formulas hold their grade across many seeds', () => {
+  // Not one lucky seed: 40 each. A formula that only composes well sometimes is
+  // a formula that will embarrass someone in the Studio.
+  const weak = [];
+  for (const formula of Object.keys(EC.FORMULAS)) {
+    let worst = Infinity;
+    for (let s = 0; s < 40; s++) {
+      const { blueprint } = EC.composeDreamBlueprint(
+        sampleSpec({ formula, seed: s * 7919 }), { diameter_in: 24, tier: 'GARDEN' }
+      );
+      worst = Math.min(worst, EC.scoreBlueprint(blueprint).overall_score);
+    }
+    if (worst < 84) weak.push(`${formula}: worst ${worst}/120 over 40 seeds`);
+  }
+  assert.deepEqual(weak, [], 'every formula must stay at grade C or better on every seed');
+});
+
+test('every formula composes to a visually distinct design', () => {
+  // Twelve names that render as eight designs is a lie in the UI. This caught
+  // Wild Asymmetry sitting on top of Diagonal Flow and Corner Cluster.
+  const angleGap = (a, b) => Math.abs(((a - b + 540) % 360) - 180);
+
+  const signatures = Object.keys(EC.FORMULAS).map((formula) => {
+    const { blueprint } = EC.composeDreamBlueprint(
+      sampleSpec({ formula, seed: 0 }), { diameter_in: 24, tier: 'GARDEN' }
+    );
+    const focal = blueprint.clusters.filter((c) => c.type === 'focal');
+    return {
+      formula,
+      focalAt: focal.length ? focal[Math.floor(focal.length / 2)].angle_deg : 0,
+      balanceDir: blueprint.balance.deg,
+    };
+  });
+
+  const collisions = [];
+  for (let i = 0; i < signatures.length; i++) {
+    for (let j = i + 1; j < signatures.length; j++) {
+      const a = signatures[i], b = signatures[j];
+      // Two formulas are the same design if the focal mass sits in the same
+      // place AND the weight leans the same way.
+      if (angleGap(a.focalAt, b.focalAt) < 12 && angleGap(a.balanceDir, b.balanceDir) < 12) {
+        collisions.push(`${a.formula} is indistinguishable from ${b.formula}`);
+      }
+    }
+  }
+  assert.deepEqual(collisions, []);
+});
+
 test('coverage tier changes density in the direction it claims', () => {
   const stems = (tier) => {
     const { blueprint } = EC.composeDreamBlueprint(sampleSpec(), { diameter_in: 24, tier });

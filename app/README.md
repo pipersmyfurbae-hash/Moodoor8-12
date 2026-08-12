@@ -20,14 +20,14 @@ The database is created and seeded on first boot, and an owner account is
 printed to the console.
 
 ```bash
-npm test              # 43 tests: engine, geometry, API, authorisation
+npm test              # 52 tests: engine, geometry, API, authorisation, transport
 npm run check:links   # crawls the site, fails on any dead reference
 npm run verify        # drives a real browser: renders, hydration, engine, admin
 npm run build         # regenerate inventory.js, seed.json, and the page patches
 npm run reset         # delete the database and start over
 ```
 
-Current state: **43/43 tests, 0 broken references across 22 pages, 38/38 browser
+Current state: **52/52 tests, 0 broken references across 22 pages, 43/43 browser
 checks.** `npm run verify` needs Playwright (`npm i -D playwright`); it finds an
 already-installed Chromium rather than downloading one.
 
