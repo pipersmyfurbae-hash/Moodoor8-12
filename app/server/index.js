@@ -170,6 +170,22 @@ async function readJson(req) {
   try { return JSON.parse(raw); } catch { throw Object.assign(new Error('Invalid JSON body'), { status: 400 }); }
 }
 
+/**
+ * The session cookie's attributes.
+ *
+ * `Secure` is set only when the request actually arrived over TLS — hard-coding
+ * it would make the cookie silently fail on a plain-HTTP dev server, and
+ * omitting it would let a proxied deployment send the session in clear. The
+ * forwarded header is honoured because this is expected to sit behind one.
+ */
+function sessionCookie(req, value, expires) {
+  const forwarded = String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim();
+  const secure = forwarded === 'https' || Boolean(req.socket && req.socket.encrypted);
+  return `moodoor_session=${value}; HttpOnly; SameSite=Lax; Path=/` +
+    (secure ? '; Secure' : '') +
+    (expires ? `; Expires=${expires}` : '; Max-Age=0');
+}
+
 function parseCookies(req) {
   const out = {};
   for (const part of String(req.headers.cookie || '').split(';')) {
@@ -411,14 +427,14 @@ function createApp(options = {}) {
     db.prepare("UPDATE users SET lastSignedIn = datetime('now') WHERE id = ?").run(user.id);
     const { token, expires } = createSession(user.id);
     json(res, 200, { user: { id: user.id, name: user.name, email: user.email, role: user.role } }, {
-      'Set-Cookie': `moodoor_session=${token}; HttpOnly; SameSite=Lax; Path=/; Expires=${new Date(expires).toUTCString()}`,
+      'Set-Cookie': sessionCookie(req, token, new Date(expires).toUTCString()),
     });
   });
 
   route('POST', /^\/api\/auth\/logout$/, async (req, res) => {
     const token = parseCookies(req).moodoor_session;
     if (token) db.prepare('DELETE FROM sessions WHERE token = ?').run(token);
-    json(res, 200, { ok: true }, { 'Set-Cookie': 'moodoor_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0' });
+    json(res, 200, { ok: true }, { 'Set-Cookie': sessionCookie(req, '', null) });
   });
 
   route('GET', /^\/api\/auth\/me$/, async (req, res) => {
@@ -439,7 +455,7 @@ function createApp(options = {}) {
       .run(hashPassword(newPassword), user.id);
     db.prepare('DELETE FROM sessions WHERE userId = ?').run(user.id);
     json(res, 200, { ok: true, message: 'Password changed. Sign in again.' },
-      { 'Set-Cookie': 'moodoor_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0' });
+      { 'Set-Cookie': sessionCookie(req, '', null) });
   });
 
   /* ---- public reads ---- */
@@ -621,13 +637,29 @@ function createApp(options = {}) {
   /* ---- AI proxy: what makes window.claude work ---- */
 
   route('GET', /^\/api\/ai\/status$/, async (req, res) => {
+    const user = currentUser(req);
     json(res, 200, {
       configured: Boolean(process.env.ANTHROPIC_API_KEY),
+      authenticated: Boolean(user && user.role === 'admin'),
       model: process.env.MOODOOR_AI_MODEL || 'claude-opus-5',
     });
   });
 
+  /**
+   * This route spends money. It forwards to the Anthropic API using a key held
+   * in the server's environment, so leaving it open lets anyone who can reach
+   * the host run inference on the owner's account, unmetered.
+   *
+   * It is owner-only for that reason. The Studio is an operator console — the
+   * archive's own studio_integration_notes.md describes it as using "the
+   * project's protected server procedures, authenticated owner role" — and its
+   * geometry pipeline is entirely client-side, so an unauthenticated visitor
+   * can still compose a full blueprint via "Compose without AI".
+   */
   route('POST', /^\/api\/ai\/complete$/, async (req, res) => {
+    const user = requireAdmin(req, res);
+    if (!user) return;
+
     const key = process.env.ANTHROPIC_API_KEY;
     const { prompt, maxTokens } = await readJson(req);
     if (!prompt || typeof prompt !== 'string') {

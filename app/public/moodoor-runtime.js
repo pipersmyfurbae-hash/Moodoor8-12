@@ -38,6 +38,17 @@
       }).then(function (r) {
         return r.json().then(function (body) {
           if (!r.ok) {
+            // The AI route spends the owner's API credits, so it is owner-only.
+            // Say so plainly rather than surfacing a bare 401.
+            if (r.status === 401) {
+              var authErr = new Error(
+                'The EVS analysis runs on the studio account, so it needs the owner signed in — ' +
+                'open /admin in another tab and sign in, then run it again. ' +
+                '"Compose without AI" works either way; the geometry engine is entirely local.');
+              authErr.code = 'AI_NOT_SIGNED_IN';
+              authErr.status = 401;
+              throw authErr;
+            }
             var err = new Error(body.error || ('Model request failed (' + r.status + ')'));
             err.code = body.code;
             err.status = r.status;

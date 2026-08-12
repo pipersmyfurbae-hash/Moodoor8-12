@@ -235,6 +235,29 @@ faults in the checker, not the pages. It looked for a literal `<main>` and misse
 `role="main"`, counted a hidden success-state `<h1>` as a duplicate, and read
 heading tags while ignoring `aria-level`.
 
+### Security
+
+- Every write and the AI route require a signed-in owner. A test enumerates the
+  server's declared routes and fails if any non-GET route lacks its
+  authorisation check, so an unguarded route cannot be added quietly.
+- **`/api/ai/complete` is owner-only** because it spends the owner's API
+  credits. It was public in an earlier revision, and an earlier version of the
+  test asserted that anonymous behaviour — which is how it survived. The Studio
+  is unaffected structurally: its geometry pipeline is client-side, so *Compose
+  without AI* works with no session.
+- Session cookies are `HttpOnly; SameSite=Lax`, and `Secure` when the request
+  arrived over TLS (directly or via `X-Forwarded-Proto`).
+- Writes go through a per-resource allow-list, so `id`, `createdAt` and
+  `updatedBy` are never client-writable.
+- Passwords are scrypt-hashed; changing one invalidates every session.
+- **Set `MOODOOR_ADMIN_PASSWORD` before exposing the server.** The development
+  default is printed on first boot.
+
+One accepted risk: an owner can store HTML (bundle trios, territory
+illustrations, story bodies) that the storefront renders with `innerHTML`. That
+is inherent to letting an owner author markup; no unauthenticated path can write
+those fields.
+
 ### Configuration
 
 | Variable | Default | |

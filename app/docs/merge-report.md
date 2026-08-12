@@ -427,6 +427,51 @@ overlap probe).
 `npm run check:a11y` is now a gate, and it was verified to fail by reintroducing
 a regression rather than assumed to work.
 
+## 6j. Tenth pass — security
+
+The test suite covered authorisation on admin routes, path traversal and the
+write allow-list from early on, so this pass enumerated *every* declared route
+rather than sampling. One was wrong:
+
+```
+POST /api/ai/complete    *** PUBLIC ***
+```
+
+That route forwards to the Anthropic API using a key from the server's
+environment. Open, it lets anyone who can reach the host run inference on the
+owner's account, unmetered — as sensitive as an admin write, and it costs money
+rather than just leaking.
+
+**It survived because a test asserted it.** The original AI test called the
+route with `{ anon: true }` and checked for a 503, so the suite encoded the
+vulnerability as expected behaviour. A test can pin a bug in place as firmly as
+it pins a feature.
+
+Fixed: the route is owner-only. The Studio loses nothing structural — its
+geometry pipeline is entirely client-side, so "Compose without AI" still
+produces a full graded blueprint with no session at all, and the runtime now
+explains that the analysis needs the owner signed in rather than surfacing a
+bare 401.
+
+Also from this pass:
+
+- The session cookie was `HttpOnly; SameSite=Lax` but never `Secure`, so behind
+  a TLS proxy it would travel in clear. It is now `Secure` when the request
+  arrived over TLS (directly or via `X-Forwarded-Proto`) and not otherwise,
+  because hard-coding it breaks a plain-HTTP dev server silently.
+
+- Two new tests. One asserts the AI route rejects anonymous callers before it
+  reads the body. The other **enumerates every route the server declares** and
+  fails if any non-GET route lacks `requireAdmin`, excepting the login/logout
+  handshake — so a future route cannot be added unguarded without the suite
+  noticing. Both were verified by removing the guard and watching them fail.
+
+Known and accepted: an admin can store HTML (`trioHtml`, `visualSvg`, story
+bodies) that the storefront inserts with `innerHTML`, so a hostile owner could
+script their own site. That is inherent to letting an owner author markup, the
+data is admin-authored by construction, and no unauthenticated path writes those
+fields — the enumerator above is what keeps that true.
+
 ## 7. Open items
 
 The extrapolated formula angles are no longer open — see 6d. What remains is

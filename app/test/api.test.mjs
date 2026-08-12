@@ -305,20 +305,75 @@ test('a concept publishes into the catalog only when it is ready', async () => {
  * AI proxy
  * ------------------------------------------------------------------ */
 
+test('the AI route is owner-only — it spends the owner\'s API credits', async () => {
+  // This was public in an earlier revision, and an earlier version of this very
+  // test asserted the anonymous behaviour, which is how it survived: anyone who
+  // could reach the host could run inference on the owner's account. The route
+  // forwards to Anthropic with a key from the server environment, so it is
+  // exactly as sensitive as an admin write.
+  const anon = await call('POST', '/api/ai/complete', { prompt: 'hello' }, { anon: true });
+  assert.equal(anon.status, 401, 'an anonymous caller must not reach the model');
+
+  const anonEmpty = await call('POST', '/api/ai/complete', {}, { anon: true });
+  assert.equal(anonEmpty.status, 401, 'authorisation is checked before the body');
+});
+
 test('the AI route reports its configuration rather than failing silently', async () => {
   const status = await call('GET', '/api/ai/status', null, { anon: true });
   assert.equal(status.status, 200);
   assert.equal(typeof status.json.configured, 'boolean');
+  assert.equal(status.json.authenticated, false, 'status tells the Studio whether it may call');
 
-  const empty = await call('POST', '/api/ai/complete', {}, { anon: true });
-  assert.equal(empty.status, 400, 'a missing prompt is a client error');
+  const empty = await call('POST', '/api/ai/complete', {});
+  assert.equal(empty.status, 400, 'a missing prompt is a client error for the owner');
 
   if (!process.env.ANTHROPIC_API_KEY) {
-    const res = await call('POST', '/api/ai/complete', { prompt: 'hello' }, { anon: true });
+    const res = await call('POST', '/api/ai/complete', { prompt: 'hello' });
     assert.equal(res.status, 503);
     assert.equal(res.json.code, 'AI_NOT_CONFIGURED');
     assert.match(res.json.error, /geometry/i, 'the message says what still works');
   }
+});
+
+test('the session cookie is HttpOnly, SameSite, and Secure only over TLS', async () => {
+  const res = await fetch(base + '/api/auth/login', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'test@moodoor.test', password: 'test-password-123' }),
+  });
+  const setCookie = res.headers.getSetCookie()[0];
+  assert.match(setCookie, /HttpOnly/, 'the session must not be readable from JavaScript');
+  assert.match(setCookie, /SameSite=Lax/);
+  assert.ok(!/Secure/.test(setCookie), 'Secure would break the cookie on a plain-HTTP dev server');
+
+  const proxied = await fetch(base + '/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Forwarded-Proto': 'https' },
+    body: JSON.stringify({ email: 'test@moodoor.test', password: 'test-password-123' }),
+  });
+  assert.match(proxied.headers.getSetCookie()[0], /Secure/,
+    'behind a TLS proxy the session must not travel in clear');
+});
+
+test('no unauthenticated route can write anything', async () => {
+  // Enumerated rather than sampled: every route the server declares is either a
+  // read, an auth handshake, or admin-guarded.
+  const server = fs.readFileSync(new URL('../server/index.js', import.meta.url), 'utf8');
+  const blocks = server.split('\n  route(').slice(1);
+  const open = [];
+  for (const b of blocks) {
+    const m = b.match(/^'(\w+)', (\/\^.*?\$\/)/s);
+    if (!m) continue;
+    const [, method, pattern] = m;
+    const body = b.split('\n  });')[0];
+    const guarded = body.includes('requireAdmin');
+    const isRead = method === 'GET';
+    // `pattern` is source text, so its slashes arrive escaped as \/ .
+    // De-escaping once is clearer than matching backslashes in a regex.
+    const route = pattern.split('\\/').join('/');
+    const isAuthHandshake = /[/]api[/]auth[/](login|logout|me)/.test(route);
+    if (!guarded && !isRead && !isAuthHandshake) open.push(`${method} ${route}`);
+  }
+  assert.deepEqual(open, [], 'these write/spend routes have no authorisation check');
 });
 
 /* ------------------------------------------------------------------ *

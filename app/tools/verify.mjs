@@ -341,10 +341,20 @@ for (const [url, kind, expect] of [
     try { await window.claude.complete('ping', { maxTokens: 8 }); return { ok: true }; }
     catch (e) { return { code: e.code, message: e.message }; }
   });
+  /* This browser context has no session, so the expected outcome is a refusal.
+   * The AI route spends the owner's API credits — an anonymous visitor reaching
+   * the model would be the defect, not the error. Both refusals are good; a
+   * success here would mean the route is open again. */
   if (claude.error) fail('Studio engine', claude.error);
-  else if (claude.ok) ok('window.claude reached the model service');
-  else if (claude.code === 'AI_NOT_CONFIGURED') ok('window.claude exists and reports the missing key clearly');
-  else fail('Studio engine', 'window.claude failed unexpectedly: ' + claude.message);
+  else if (claude.ok) {
+    fail('Studio engine', 'an anonymous visitor reached the model — /api/ai/complete is not owner-only');
+  } else if (claude.code === 'AI_NOT_SIGNED_IN') {
+    ok('window.claude refuses an anonymous caller and says how to sign in');
+  } else if (claude.code === 'AI_NOT_CONFIGURED') {
+    ok('window.claude exists and reports the missing key clearly');
+  } else {
+    fail('Studio engine', 'window.claude failed unexpectedly: ' + claude.message);
+  }
 
   await page.close();
 }
