@@ -234,6 +234,47 @@ The new check compares the rendered structure — child classes and widths — w
 JavaScript off against on. Hydration now has to reproduce the markup it
 replaces, not merely produce something that has the right number of cards.
 
+## 6f. Sixth pass — links that resolved but lied
+
+Reviewing the blueprints screenshot: thirteen cards, and **every one linked to
+`?w=september-porch`**. Clicking "Legacy Garden" showed September Porch — right
+price, right story, right URL bar, no error.
+
+This was mine. An earlier revision of `patch-pages.mjs` replaced the page's bare
+`moodoor-product-page.html` links with a single named slug, which is worse than
+leaving them bare: a generic link is honest about being generic, a wrong
+specific link is not.
+
+**Why every gate passed it.** The link checker asks whether a URL returns 200 —
+all thirteen did. `verify.mjs` re-checked every rendered-DOM link — all thirteen
+resolved. Neither asks the only question that matters here: *does the page that
+opens show the design the card named?*
+
+The root cause is what made it invisible. The product page did:
+
+```js
+if (!slug || !DB[slug]) slug = 'september-porch';
+```
+
+so **any** wrong or stale link rendered a real wreath rather than an error. Now
+a bare link still defaults, but a slug naming nothing goes to the 404 page,
+which names the design it could not find.
+
+Fixes:
+
+- each blueprint card links to its own design, matched on the card's own `<h3>`
+- three of the thirteen — Kept Letters, Last Bonfire, Sunday Bread — have no
+  catalog entry at all, which is not an error: the page says the library holds
+  far more designs than are sold finished. They link to the catalog instead of
+  to somebody else's product page.
+- `verify.mjs` now opens every product link across the catalog, blueprints and
+  bundles pages and asserts the design shown is the design named, and that an
+  unknown slug renders no wreath at all.
+
+Three passes, three defects that a green test suite reported as fine, all three
+found by looking at a screenshot. Worth stating plainly: on this codebase the
+visual pass is load-bearing, not decorative.
+
 ## 7. Open items
 
 The extrapolated formula angles are no longer open — see 6d. What remains is

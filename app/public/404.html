@@ -40,6 +40,21 @@
     </p>
   </div>
 </div>
+
+<script>
+(function () {
+  // A product link that names a design we do not carry lands here. Saying which
+  // one is more use than a generic 404 — it tells the visitor their link was not
+  // nonsense, the design simply isn't in the library.
+  var design = new URLSearchParams(location.search).get('design');
+  if (!design) return;
+  var p = document.querySelector('.page-hero p');
+  if (!p) return;
+  var name = design.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  p.textContent = 'We do not carry a design called \u201C' + name + '\u201D. ' +
+    'Runs sell through and designs rest, and the library moves on \u2014 but it is still here.';
+})();
+</script>
 </main>
 <footer>
   <div class="wrap">

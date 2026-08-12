@@ -167,11 +167,46 @@ edit('collection-bundles.html', (h) => {
   return out;
 });
 
-// digital-blueprints.html has the same bare product link.
+/**
+ * digital-blueprints.html carried the same bare product link on all thirteen of
+ * its cards.
+ *
+ * An earlier revision of this script pointed every one of them at
+ * `?w=september-porch`, which was worse than leaving them bare: clicking
+ * "Legacy Garden" silently showed a different wreath. Each card now links to
+ * its own design, matched on the card's own <h3>.
+ *
+ * Three of the thirteen — Kept Letters, Last Bonfire, Sunday Bread — have no
+ * entry in the catalog at all. That is not an error: the page says the library
+ * holds far more designs than are available finished, so these are
+ * blueprint-only. They link to the catalog rather than to a product page that
+ * would show somebody else's wreath.
+ */
 edit('digital-blueprints.html', (h) => {
-  if (!/href="moodoor-product-page\.html"/.test(h)) return h;
-  note('digital-blueprints.html', 'product link now names a design');
-  return h.replace(/href="moodoor-product-page\.html"/g, 'href="moodoor-product-page.html?w=september-porch"');
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/seed.json'), 'utf8'))
+    .products.reduce((map, p) => ((map[p.name.replace(/&/g, '&amp;')] = p.slug), map), {});
+
+  let out = h;
+  let mapped = 0;
+  let blueprintOnly = [];
+
+  // Each card is <a class="bp-card" … href="…"> … <h3>Name</h3>
+  out = out.replace(
+    /(<a class="bp-card[^"]*"[^>]*?href=")([^"]*)("[^>]*>[\s\S]*?<h3>([^<]+)<\/h3>)/g,
+    (full, before, href, after, name) => {
+      const slug = catalog[name.trim()];
+      const target = slug ? `moodoor-product-page.html?w=${slug}` : 'signature-wreaths.html';
+      if (slug) mapped += 1; else blueprintOnly.push(name.trim());
+      return before + target + after;
+    }
+  );
+
+  if (out !== h) {
+    note('digital-blueprints.html',
+      `${mapped} blueprint cards link to their own design; ` +
+      `${blueprintOnly.length} with no finished product (${blueprintOnly.join(', ')}) link to the catalog`);
+  }
+  return out;
 });
 
 /* ------------------------------------------------------------------ *
@@ -317,6 +352,29 @@ if (window.claude && window.claude.status) {
 
   note('studio.html', 'added a geometry-only composition path (the engine needs no API key)');
   return h.replace(anchor, anchor + BUTTON).replace(/<\/script>\s*<\/body>/, SCRIPT + '\n</body>');
+});
+
+/* ------------------------------------------------------------------ *
+ * 4b-ii. an unknown design must not silently become September Porch
+ *
+ * The product page did `if (!slug || !DB[slug]) slug = 'september-porch'`, so
+ * any wrong or stale link rendered a different wreath under the requested
+ * name's URL — with the right price, the right story, and no indication
+ * anything was wrong. That is what hid thirteen mis-pointed blueprint links:
+ * every one of them "worked".
+ *
+ * No slug at all still defaults, which is reasonable for a bare link. A slug
+ * that names nothing now goes to the 404 page, which already says the right
+ * thing for a design that isn't there and offers the library.
+ * ------------------------------------------------------------------ */
+
+edit('moodoor-product-page.html', (h) => {
+  const OLD = "if (!slug || !DB[slug]) slug = 'september-porch';";
+  if (!h.includes(OLD)) return h;
+  note('moodoor-product-page.html', 'an unknown ?w= no longer renders a different design under its name');
+  return h.replace(OLD,
+    "if (!slug) slug = 'september-porch';\n" +
+    "  if (!DB[slug]) { location.replace('404.html?design=' + encodeURIComponent(slug)); return; }");
 });
 
 /* ------------------------------------------------------------------ *

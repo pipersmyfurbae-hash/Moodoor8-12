@@ -486,7 +486,8 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
   var DB = window.MOODOOR_WREATHS || {};
   var params = new URLSearchParams(location.search);
   var slug = params.get('w');
-  if (!slug || !DB[slug]) slug = 'september-porch';
+  if (!slug) slug = 'september-porch';
+  if (!DB[slug]) { location.replace('404.html?design=' + encodeURIComponent(slug)); return; }
   var w = DB[slug];
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };

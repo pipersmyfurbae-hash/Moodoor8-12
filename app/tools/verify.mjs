@@ -472,6 +472,85 @@ for (const [url, kind, expect] of [
   await page.close();
 }
 
+/* every product link must open the design it names ------------------
+ *
+ * The product page used to fall back to September Porch for any unrecognised
+ * ?w=, so a wrong link rendered a different wreath under the requested name —
+ * with the right price and story, and nothing to show it was wrong. Thirteen
+ * mis-pointed blueprint links hid behind that for exactly this reason: every
+ * one of them returned 200 and rendered a wreath. A link checker cannot see
+ * this; only opening the page and reading the name can. */
+{
+  const page = await context.newPage();
+  const links = new Map();
+
+  for (const src of ['/signature-wreaths.html', '/digital-blueprints.html', '/collection-bundles.html']) {
+    await page.goto(BASE + src, { waitUntil: 'load', timeout: 20000 });
+    await page.waitForTimeout(400);
+    const found = await page.$$eval('a[href*="moodoor-product-page.html?w="]', (as) =>
+      as.map((a) => {
+        const heading = a.querySelector('h2, h3');
+        if (heading) {
+          // A card link: the heading is the design the visitor thinks they clicked.
+          return { href: a.getAttribute('href'), expect: [heading.textContent.trim()], kind: 'card' };
+        }
+        // A call-to-action inside a card — "Get the collection" on a bundle. Its
+        // own text names no design, so the promise it makes is the enclosing
+        // card's: the link must open one of the designs that card lists.
+        const card = a.closest('article');
+        const listed = card
+          ? [...card.querySelectorAll('.b-list b, li b')].map((b) => b.textContent.trim())
+          : [];
+        return {
+          href: a.getAttribute('href'),
+          expect: listed,
+          kind: 'cta',
+          card: card && card.querySelector('h2') ? card.querySelector('h2').textContent.trim() : '(unknown)',
+        };
+      }));
+    for (const f of found) links.set(`${src} ${f.href}`, { ...f, src });
+  }
+
+  const norm = (s) => s.replace(/\s+/g, ' ').replace(/^the /i, '').trim().toLowerCase();
+  let cards = 0;
+  let ctas = 0;
+
+  for (const link of links.values()) {
+    const { href, expect, kind, src, card } = link;
+    await page.goto(new URL(href, BASE + src).href, { waitUntil: 'load', timeout: 20000 });
+    await page.waitForTimeout(300);
+    const shown = await page.evaluate(() =>
+      (document.getElementById('phName') || {}).textContent || null);
+
+    const where = kind === 'card' ? `"${expect[0]}" on ${src}` : `"Get the collection" on ${card}`;
+
+    if (!shown) {
+      fail('Product links', `${where} did not open a design page`);
+      continue;
+    }
+    if (!expect.length) {
+      fail('Product links', `${where} promises no particular design, so it cannot be checked`);
+      continue;
+    }
+    if (!expect.some((e) => norm(e) === norm(shown))) {
+      fail('Product links', `${where} opens "${shown.trim()}", not ${expect.map((e) => `"${e}"`).join(' or ')}`);
+      continue;
+    }
+    if (kind === 'card') cards += 1; else ctas += 1;
+  }
+  ok(`${cards} card links open the design they name; ${ctas} bundle CTAs open a design that bundle lists`);
+
+  // And a slug that names nothing must not quietly render somebody else's wreath.
+  await page.goto(BASE + '/moodoor-product-page.html?w=not-a-real-design', { waitUntil: 'load' });
+  await page.waitForTimeout(500);
+  const stillAProduct = await page.evaluate(() =>
+    Boolean((document.getElementById('phName') || {}).textContent));
+  if (stillAProduct) fail('Product links', 'an unknown design slug still renders a wreath');
+  else ok('an unknown design slug does not render a different wreath under its name');
+
+  await page.close();
+}
+
 /* ------------------------------------------------------------------ *
  * 4b. performance budget
  *
