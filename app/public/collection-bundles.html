@@ -104,6 +104,16 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
   .nav-links .nav-cta { padding: 7px 13px; }
 }
 </style>
+<style id="moodoor-bundle-mobile">
+/* See tools/patch-pages.mjs — the bundle card carried desktop-only sizes. */
+@media (max-width: 560px) {
+  /* Selectors match the page's own `.b-visual .save` specificity (0,2,0) —
+     a bare `.save` loses to it however late it appears. */
+  .b-visual .b-price { left: 12px; top: 12px; right: auto; font-size: 11px; padding: 5px 11px; }
+  .b-visual .save { top: auto; bottom: 12px; right: 12px; left: auto; font-size: 10px; padding: 5px 11px; }
+  .b-visual .trio { transform: scale(0.7); transform-origin: center center; }
+}
+</style>
 </head>
 <body>
 

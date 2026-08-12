@@ -646,6 +646,74 @@ for (const [url, kind, expect] of [
         reachable: ul.scrollWidth <= ul.clientWidth + 2 || getComputedStyle(ul).overflowX === 'auto',
       };
     });
+    /* Content clipped by, or colliding inside, its own container.
+     *
+     * Two things bit the bundle cards at 390px and neither is visible in the
+     * source of any single rule: `.trio` was 444px wide inside a 326px box with
+     * `overflow: hidden`, so the outer two designs lost their names; and the
+     * price and savings pills, pinned to opposite top corners, overlapped by
+     * 45px once the box was narrow enough. Both come from desktop sizes that no
+     * media query ever revisited.
+     *
+     * Checked narrowly to stay free of false positives: only elements actually
+     * clipped by an `overflow: hidden` ancestor, and only absolutely-positioned
+     * siblings that genuinely intersect on both axes. */
+    const layout = await page.evaluate(() => {
+      const clipped = [];
+      const colliding = [];
+      const label = (el) => el.tagName.toLowerCase() +
+        (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : '');
+
+      for (const el of document.querySelectorAll('body *')) {
+        const r = el.getBoundingClientRect();
+        if (r.width < 2 || r.height < 2) continue;
+
+        // Only content losses count. A textless graphic running off an edge
+        // inside an `overflow: hidden` box is a deliberate editorial bleed —
+        // the territory cards do exactly that, and the part cut off is the
+        // outer curve of a decorative wreath outline, not anything to read.
+        // Losing a *word* is the failure this is looking for.
+        if (!el.textContent.trim()) continue;
+        if (el.querySelector('*') && !el.matches('a, button, li, span, p, h1, h2, h3, h4, h5')) continue;
+
+        // painted outside an ancestor that clips
+        let a = el.parentElement;
+        while (a && a !== document.body) {
+          const cs = getComputedStyle(a);
+          if (cs.overflow === 'hidden' || cs.overflowX === 'hidden') {
+            const ar = a.getBoundingClientRect();
+            const over = Math.round(Math.max(ar.left - r.left, r.right - ar.right));
+            if (over > 4) clipped.push(`${label(el)} ("${el.textContent.trim().slice(0, 24)}") clipped ${over}px by ${label(a)}`);
+            break;
+          }
+          a = a.parentElement;
+        }
+      }
+
+      // absolutely-positioned siblings that overlap on both axes
+      for (const parent of document.querySelectorAll('body *')) {
+        const abs = [...parent.children].filter((c) => getComputedStyle(c).position === 'absolute');
+        for (let i = 0; i < abs.length; i++) {
+          for (let j = i + 1; j < abs.length; j++) {
+            const x = abs[i].getBoundingClientRect(), y = abs[j].getBoundingClientRect();
+            if (!x.width || !y.width) continue;
+            const ox = Math.min(x.right, y.right) - Math.max(x.left, y.left);
+            const oy = Math.min(x.bottom, y.bottom) - Math.max(x.top, y.top);
+            if (ox > 4 && oy > 4 && abs[i].textContent.trim() && abs[j].textContent.trim()) {
+              colliding.push(`${label(abs[i])} overlaps ${label(abs[j])} by ${Math.round(ox)}x${Math.round(oy)}px`);
+            }
+          }
+        }
+      }
+      return { clipped: [...new Set(clipped)].slice(0, 5), colliding: [...new Set(colliding)].slice(0, 5) };
+    });
+
+    for (const c of layout.clipped) fail(`${label} (mobile)`, c);
+    for (const c of layout.colliding) fail(`${label} (mobile)`, c);
+    if (!layout.clipped.length && !layout.colliding.length) {
+      ok(`${label}: nothing clipped or overlapping at 390px`);
+    }
+
     if (nav) {
       if (nav.visible < nav.total) {
         fail(`${label} (mobile)`, `${nav.total - nav.visible} of ${nav.total} navigation items are hidden`);

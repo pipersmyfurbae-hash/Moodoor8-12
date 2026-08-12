@@ -310,6 +310,86 @@ asserted).
 
 `verify.mjs` now checks the mobile menu on eight pages rather than three.
 
+## 6h. Eighth pass — the bundle cards on a phone
+
+Continuing through the mobile screenshots. At 390px the bundle cards showed two
+faults, measured:
+
+```
+.b-price and .save overlap 45 x 33px   (both absolute, pinned to opposite
+                                        top corners of a 326px box that has
+                                        ~330px of pills to place)
+.trio is 444px wide in a 326px box     (3 x 148px cards; .b-visual clips, so
+                                        the outer two designs lost their names)
+```
+
+`grep` for a media query touching `.trio`, `.b-price` or `.save`: **none**. They
+carry desktop sizes at every width. Pre-existing.
+
+The trio is *scaled* rather than re-laid-out, because the fan — the rotation and
+overlap of the three cards — is the design; scaling keeps it exactly and makes it
+fit. The badges move to opposite corners vertically instead of horizontally.
+
+Two things worth recording about getting there:
+
+**A first fix silently did nothing.** The page's rule is `.b-visual .save`
+(specificity 0,2,0); mine was `.save` (0,1,0), so it lost regardless of source
+order — and because `top: 20px` survived alongside my `bottom: 12px`, the badge
+stretched to 306px tall instead of moving. My earlier `grep` had printed the rule
+as `.save{…}` because the pattern started at `.save{`, hiding the descendant
+prefix. Reading the whole selector, not the part that matched, would have caught
+it immediately.
+
+**A first measurement lied.** The probe compared only horizontal extents, so it
+reported "45px overlap" both before and after — two boxes at opposite ends of the
+same column overlap on the x-axis and touch nowhere. Rectangles need both axes.
+
+Also checked and *not* changed: the product page's sticky order bar looked like
+it was showing text through itself in a screenshot. Measured — 96% opaque at
+z-index 90, and nothing is trapped beneath it at the end of the page. No defect;
+left alone.
+
+`verify.mjs` now checks, on eight pages at 390px, that nothing is painted outside
+an `overflow: hidden` ancestor and that no two absolutely-positioned siblings
+intersect on both axes.
+
+**That check found two more faults on its first run**, one of them in a
+screenshot already reviewed and missed:
+
+- `Product (mobile): span.badge-run overlaps span.badge-bp by 98x31px` — the same
+  corner-pinned pattern as the bundle badges, and the run count sat unreadable
+  behind the blueprint code. Half pre-existing, half this build's: the layout had
+  no narrow-screen rule, but the badge read "BP-EC-0417 · v2" at ~130px until the
+  engine here started appending the live grade, taking it to 251px. The layout
+  was fragile; this build is what broke it. Stacked on mobile.
+- `Homepage (mobile): svg clipped 29px by a.terr` — **a false positive.** The
+  territory cards deliberately bleed a decorative wreath outline off the card
+  edge; the clipped part carries no text and every word on the card is visible.
+  The check now only reports clipping of elements that actually contain text,
+  because losing a *word* is the failure it exists to catch.
+
+Worth noting the shape of that: a new check earns its keep by finding something,
+and it earns trust by being narrowed until what it reports is real. One run
+produced one of each.
+
+The badge fix then took two attempts, which is the more useful detail. Moving
+`.badge-bp` to `top: 50px` cleared `.badge-run` and landed it on the "seasonal"
+orbit tag — the check caught that too. Mapping every absolutely-positioned child
+of the 326x340 hero showed the real constraint:
+
+```
+badge-run    y  15- 46   x  15-146
+orbit ot2    y  62- 94   x 187-312
+orbit ot1    y 211-243   x  20-152
+orbit ot3    y 273-305   x 168-280
+```
+
+The only free zone is bottom-left, and anything placed there has to stay under
+about 168px wide to clear `ot3` — so the badge wraps instead of stretching. Five
+floating labels in a 326px box is a layout with no slack; guessing at a position
+was always going to take two tries, and measuring the whole set first would have
+taken one.
+
 ## 7. Open items
 
 The extrapolated formula angles are no longer open — see 6d. What remains is

@@ -485,6 +485,86 @@ for (const file of STOREFRONT) {
 }
 
 /* ------------------------------------------------------------------ *
+ * 3c. the bundle cards had no mobile treatment at all
+ *
+ * `.trio`, `.b-price` and `.save` are matched by no media query in the page —
+ * they carry desktop sizes at every width. Measured at 390px:
+ *
+ *   .b-price and .save overlap by 45px  (both absolute, top-left / top-right,
+ *                                        in a 326px box holding ~330px of pills)
+ *   .trio is 444px wide in a 326px box  (3 x 148px cards; .b-visual clips, so
+ *                                        the outer two designs lose their names)
+ *
+ * Pre-existing: the trio is three fixed-width cards and the badges are pinned to
+ * opposite corners, neither of which was ever given a narrow-screen size.
+ *
+ * The trio is scaled rather than re-laid-out, because the fan — the rotation and
+ * overlap of the three cards — *is* the design. Scaling keeps it exactly and
+ * just makes it fit. The badges move to opposite corners vertically instead of
+ * horizontally, which is the same information in the space available.
+ * ------------------------------------------------------------------ */
+
+const BUNDLE_MOBILE_CSS = `<style id="moodoor-bundle-mobile">
+/* See tools/patch-pages.mjs — the bundle card carried desktop-only sizes. */
+@media (max-width: 560px) {
+  /* Selectors match the page's own \`.b-visual .save\` specificity (0,2,0) —
+     a bare \`.save\` loses to it however late it appears. */
+  .b-visual .b-price { left: 12px; top: 12px; right: auto; font-size: 11px; padding: 5px 11px; }
+  .b-visual .save { top: auto; bottom: 12px; right: 12px; left: auto; font-size: 10px; padding: 5px 11px; }
+  .b-visual .trio { transform: scale(0.7); transform-origin: center center; }
+}
+</style>`;
+
+edit('collection-bundles.html', (html) => {
+  if (html.includes('id="moodoor-bundle-mobile"')) return html;
+  if (!html.includes('.trio{display:flex')) return html;
+  note('collection-bundles.html', 'bundle cards fit a phone (badges overlapped by 45px, trio clipped by 118px)');
+  return html.replace('</head>', `${BUNDLE_MOBILE_CSS}\n</head>`);
+});
+
+/* ------------------------------------------------------------------ *
+ * 3d. the product hero's two badges collided on a phone
+ *
+ * `.badge-run` and `.badge-bp` are both absolute at `top: 20px`, pinned to
+ * opposite corners, with no media query anywhere. At 390px the container is
+ * 326px and the two pills need 382px, so they overlapped by 98x31px — the run
+ * count sat behind the blueprint code and could not be read.
+ *
+ * Half pre-existing, half mine, and worth being exact about which. The
+ * corner-pinned layout with no narrow-screen rule is the archive's. But the
+ * badge used to read "BP-EC-0417 · v2" at roughly 130px, which fit; the engine
+ * built here appends the live grade ("· grade A · 110/120"), taking it to
+ * 251px. The layout was fragile, and this build is what broke it.
+ *
+ * Stacked on mobile: the run count stays top-left, the blueprint code sits
+ * directly beneath it.
+ * ------------------------------------------------------------------ */
+
+const PRODUCT_BADGE_CSS = `<style id="moodoor-product-badges">
+/* See tools/patch-pages.mjs — both badges are pinned to opposite top corners
+   with no mobile rule, and the engine's live grade made the right one wider. */
+@media (max-width: 560px) {
+  /* The hero at 390px is 326x340 with five floating labels. Mapping them, the
+     only free zone is bottom-left, and the badge has to stay under ~168px wide
+     to clear the "warmth" tag — so it wraps rather than stretching across.
+     Moving it to top-left at y=50 instead lands it on the "seasonal" tag. */
+  .badge-run { top: 14px; left: 14px; right: auto; }
+  .badge-bp  {
+    top: auto; bottom: 14px; left: 14px; right: auto;
+    max-width: 150px; white-space: normal; line-height: 1.45;
+    border-radius: 10px; text-align: left;
+  }
+}
+</style>`;
+
+edit('moodoor-product-page.html', (html) => {
+  if (html.includes('id="moodoor-product-badges"')) return html;
+  if (!html.includes('.badge-run{position:absolute')) return html;
+  note('moodoor-product-page.html', 'hero badges stack on a phone (they overlapped by 98px)');
+  return html.replace('</head>', `${PRODUCT_BADGE_CSS}\n</head>`);
+});
+
+/* ------------------------------------------------------------------ *
  * 4d. footer links that went nowhere, and the new pages
  * ------------------------------------------------------------------ */
 

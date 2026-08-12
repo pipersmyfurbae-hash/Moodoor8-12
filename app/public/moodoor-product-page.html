@@ -233,6 +233,22 @@ footer{background:var(--ec-white);border-top:1px solid var(--ec-border);padding:
   .nav-links .nav-cta { padding: 7px 13px; }
 }
 </style>
+<style id="moodoor-product-badges">
+/* See tools/patch-pages.mjs — both badges are pinned to opposite top corners
+   with no mobile rule, and the engine's live grade made the right one wider. */
+@media (max-width: 560px) {
+  /* The hero at 390px is 326x340 with five floating labels. Mapping them, the
+     only free zone is bottom-left, and the badge has to stay under ~168px wide
+     to clear the "warmth" tag — so it wraps rather than stretching across.
+     Moving it to top-left at y=50 instead lands it on the "seasonal" tag. */
+  .badge-run { top: 14px; left: 14px; right: auto; }
+  .badge-bp  {
+    top: auto; bottom: 14px; left: 14px; right: auto;
+    max-width: 150px; white-space: normal; line-height: 1.45;
+    border-radius: 10px; text-align: left;
+  }
+}
+</style>
 </head>
 <body>
 
